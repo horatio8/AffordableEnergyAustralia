@@ -66,14 +66,17 @@ const Header = ({ route }) => {
   );
 };
 
-const Footer = () => (
+const Footer = () => {
+  const content = useContent();
+  const site = content?.site || {};
+  return (
   <footer className="site-footer" data-screen-label="Footer">
     <div className="container-wide">
       <div className="footer-grid">
         <div>
           <Logo light />
           <p style={{ marginTop: 20, opacity: 0.75, fontSize: 15, lineHeight: 1.6, maxWidth: '40ch' }}>
-            A people-powered, single-issue campaign building a public mandate for affordable and reliable energy for every Australian household.
+            {site.tagline || 'A people-powered, single-issue campaign building a public mandate for affordable and reliable energy for every Australian household.'}
           </p>
           <div className="social-row">
             {['X','f','in','ig'].map(s => (
@@ -111,12 +114,13 @@ const Footer = () => (
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 Affordable Energy Australia · ABN 93 676 364 855</span>
-        <span>Authorised by D. Mitchell, Affordable Energy Australia, Sydney NSW</span>
+        <span>{site.copyright || '© 2026 Affordable Energy Australia'} · ABN {site.abn || '93 676 364 855'}</span>
+        <span>{site.authorisation || 'Authorised by D. Mitchell, Affordable Energy Australia, Sydney NSW'}</span>
       </div>
     </div>
   </footer>
-);
+  );
+};
 
 const useCountUp = (end, duration = 1800, start = false) => {
   const [val, setVal] = React.useState(0);
@@ -150,39 +154,45 @@ const useInView = (threshold = 0.2) => {
   return [ref, seen];
 };
 
+const formatStat = (n, format) => {
+  switch (format) {
+    case '1-in-X': return <><span>1</span><small> in </small>{n}</>;
+    case '$X': return <>${(+n).toLocaleString()}</>;
+    case 'X%': return <>{n}<small>%</small></>;
+    case 'Xk': return <>{n}<small>k</small></>;
+    default: return <>{(+n).toLocaleString()}</>;
+  }
+};
+
 const StatBand = () => {
+  const content = useContent();
+  const stats = (content && content.stats) || [];
   const [ref, seen] = useInView(0.3);
-  const s1 = useCountUp(20, 1400, seen);
-  const s2 = useCountUp(1367, 1800, seen);
-  const s3 = useCountUp(19, 1400, seen);
-  const s4 = useCountUp(340, 1800, seen);
+  const counts = [
+    useCountUp(+(stats[0]?.num || 0), 1400, seen),
+    useCountUp(+(stats[1]?.num || 0), 1800, seen),
+    useCountUp(+(stats[2]?.num || 0), 1400, seen),
+    useCountUp(+(stats[3]?.num || 0), 1800, seen),
+  ];
   return (
     <section className="stats-band" ref={ref}>
       <div className="container-wide stats-grid">
-        <div className="stat">
-          <span className="num">1<small> in </small>{s1}</span>
-          <span className="label">Australian households in energy hardship today</span>
-        </div>
-        <div className="stat">
-          <span className="num">${s2.toLocaleString()}</span>
-          <span className="label">Average household energy debt across the country</span>
-        </div>
-        <div className="stat">
-          <span className="num">{s3}<small>%</small></span>
-          <span className="label">Electricity price rise in just three years</span>
-        </div>
-        <div className="stat">
-          <span className="num">{s4}<small>k</small></span>
-          <span className="label">Households now in long-term energy debt</span>
-        </div>
+        {stats.slice(0, 4).map((s, i) => (
+          <div className="stat" key={i}>
+            <span className="num">{formatStat(counts[i], s.format)}</span>
+            <span className="label">{s.label}</span>
+          </div>
+        ))}
       </div>
     </section>
   );
 };
 
 const PetitionCounter = ({ baseClass = "hero-counter" }) => {
+  const content = useContent();
+  const target = +(content?.hero?.petitionCount || 47832);
   const [ref, seen] = useInView(0.5);
-  const n = useCountUp(47832, 2200, seen);
+  const n = useCountUp(target, 2200, seen);
   return (
     <div className={baseClass} ref={ref}>
       <span className="num">{n.toLocaleString()}</span>
@@ -215,6 +225,8 @@ const SocialTicker = () => {
 };
 
 const StickyMobileBar = () => {
+  const content = useContent();
+  const target = +(content?.hero?.petitionCount || 47832);
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 600 && window.innerWidth < 1024);
@@ -226,7 +238,7 @@ const StickyMobileBar = () => {
   return (
     <div className={`sticky-bar ${visible ? 'visible' : ''}`}>
       <div>
-        <div className="num">47,832</div>
+        <div className="num">{target.toLocaleString()}</div>
         <div className="lbl">have signed</div>
       </div>
       <a href="#/petition" className="btn btn-teal">Sign the Petition</a>

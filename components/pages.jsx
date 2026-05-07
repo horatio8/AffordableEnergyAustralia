@@ -271,14 +271,8 @@ const TakeAction = () => {
 };
 
 const News = () => {
-  const items = [
-    { src: 'The Australian', date: '12 April 2026', head: 'Grid stability fears mount as wholesale prices spike across NEM', summary: 'AEMO data reveals wholesale spot prices in NSW and Victoria reached new peaks during the Easter cold snap.', tag: 'Coverage' },
-    { src: 'AFR', date: '03 April 2026', head: '340,000 households now in energy debt — peak body sounds alarm', summary: 'Energy and Water Ombudsman figures show debt levels at a decade high, with average debt up $200 in twelve months.', tag: 'Coverage' },
-    { src: 'Sky News', date: '28 March 2026', head: 'Manufacturers warn of further closures without affordability reset', summary: 'AI Group survey of 600 manufacturers identifies energy as the leading risk to operations through 2027.', tag: 'Coverage' },
-    { src: 'AEA Press Release', date: '20 March 2026', head: 'AEA petition surpasses 40,000 signatures in cross-electorate movement', summary: 'Affordable Energy Australia confirms supporter base has grown 240% quarter-on-quarter.', tag: 'Press Release' },
-    { src: 'The Daily Telegraph', date: '15 March 2026', head: 'Pensioners rationing heating as winter bills bite early', summary: 'COTA reports a sharp rise in members reducing heating use, with health concerns mounting.', tag: 'Coverage' },
-    { src: 'AEA Press Release', date: '01 March 2026', head: 'AEA names cross-bench advisory panel ahead of 2028 election cycle', summary: 'Five former MPs from across the political spectrum join the campaign in advisory roles.', tag: 'Press Release' },
-  ];
+  const content = useContent();
+  const items = content?.news || [];
   return (
     <main data-screen-label="News">
       <section className="page-hero">
@@ -411,12 +405,7 @@ const About = () => (
           <p className="lede">A small core team of campaign veterans, organisers, and policy researchers — backed by a cross-bench advisory panel and thousands of volunteer supporters.</p>
         </div>
         <div className="team-grid">
-          {[
-            { name: 'Daniel Mitchell', role: 'Campaign Director', bio: 'Former federal political organiser. 15 years across NSW and federal campaigns.' },
-            { name: 'Hannah Reid', role: 'Communications', bio: 'Ex-press gallery journalist. Built the comms function for two state-level coalitions.' },
-            { name: 'Dr. Aroha Ngata', role: 'Policy & Research', bio: 'Energy economist; AEMC alumna. Author of the campaign’s benchmark dataset.' },
-            { name: 'Marcus Chen', role: 'Field Operations', bio: 'Doorknock veteran. Designs the electorate-by-electorate playbook.' },
-          ].map(m => (
+          {((useContent()?.team) || []).map(m => (
             <div className="team-member" key={m.name}>
               <div className="team-portrait">{HERO_ICONS.user}</div>
               <h4>{m.name}</h4>
@@ -435,16 +424,10 @@ const About = () => (
           <h2>Milestones, set publicly. Tracked in the open.</h2>
         </div>
         <div className="milestone-list">
-          {[
-            ['Q4 2025', 'Launched', 'Founding', 'AEA incorporated. Founding board appointed. First 1,000 supporters from a standing start.'],
-            ['Q2 2026', 'Live', 'Petition crosses 50,000', 'Surpass 50,000 signatures across all 151 electorates. Public petition handover scheduled.'],
-            ['Q4 2026', 'Planned', 'MP scorecard published', 'Every federal MP scored on their public record. Updated quarterly through 2028.'],
-            ['Q2 2027', 'Planned', '200,000 supporters', 'Half-target supporter list reached. Field organising scaled in 30 priority electorates.'],
-            ['2028', 'Target', 'Election cycle', 'Cross-electorate field campaign live in 60 marginal seats. Full transparency of funding and impact.'],
-          ].map(([when, status, h, p]) => (
-            <div className="milestone" key={when}>
-              <div className="when">{when}<small>{status}</small></div>
-              <div><h4>{h}</h4><p>{p}</p></div>
+          {((useContent()?.milestones) || []).map(m => (
+            <div className="milestone" key={m.when}>
+              <div className="when">{m.when}<small>{m.status}</small></div>
+              <div><h4>{m.title}</h4><p>{m.desc}</p></div>
             </div>
           ))}
         </div>

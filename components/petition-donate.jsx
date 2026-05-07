@@ -78,13 +78,9 @@ const Petition = () => {
             <p className="lede">A small sample of the thousands of stories left when supporters add their name. Names changed where requested.</p>
           </div>
           <div className="voices-grid">
-            {[
-              { initials: 'JM', name: 'Janelle, 62', loc: 'Pensioner · Wagga Wagga NSW', q: "I had to choose between heating and my heart medication this winter. I never thought I'd see that day in Australia." },
-              { initials: 'TR', name: 'Tom, 47', loc: 'Café owner · Geelong VIC', q: "Our power bill tripled. We cut staff hours, then we cut staff. Nobody in Canberra seems to notice the small shops closing." },
-              { initials: 'PD', name: 'Priya, 34', loc: 'Mother of two · Western Sydney', q: "Two kids, two jobs, and we still get the disconnection notices. I signed because someone has to say enough." },
-            ].map(v => (
+            {((useContent()?.voices) || []).map(v => (
               <div className="voice-card" key={v.name}>
-                <p className="quote">{v.q}</p>
+                <p className="quote">{v.quote}</p>
                 <div className="who">
                   <span className="voice-avatar">{v.initials}</span>
                   <div>

@@ -59,11 +59,8 @@ const BillCalculator = () => {
 };
 
 const HomeNews = () => {
-  const items = [
-    { src: 'The Australian', date: '12 April 2026', head: 'Grid stability fears mount as wholesale prices spike across NEM' },
-    { src: 'Australian Financial Review', date: '03 April 2026', head: '340,000 households now in energy debt — peak body sounds alarm' },
-    { src: 'Sky News', date: '28 March 2026', head: 'Manufacturers warn of further closures without affordability reset' },
-  ];
+  const content = useContent();
+  const items = (content?.news || []).slice(0, 3);
   return (
     <section className="section-pad section-paper">
       <div className="container-wide">
@@ -112,7 +109,10 @@ const HomeDonate = () => {
   );
 };
 
-const Home = () => (
+const Home = () => {
+  const content = useContent();
+  const hero = content?.hero || {};
+  return (
   <main data-screen-label="Home">
     {/* Hero */}
     <section className="hero">
@@ -121,9 +121,9 @@ const Home = () => (
         <div className="hero-overlay" />
       </div>
       <div className="container-wide hero-content">
-        <span className="hero-eyebrow"><span className="pulse" />Federal Election 2028 · Cross-Party Campaign</span>
-        <h1>1 in 5 Australians can't afford <span className="accent">the power bill.</span></h1>
-        <p className="hero-sub">Sign the petition. Tell Australia's leaders to put families first — before ideology, before politics, before experiments.</p>
+        <span className="hero-eyebrow"><span className="pulse" />{hero.eyebrow || 'Federal Election 2028 · Cross-Party Campaign'}</span>
+        <h1>{hero.headlineMain || "1 in 5 Australians can't afford"} <span className="accent">{hero.headlineAccent || 'the power bill.'}</span></h1>
+        <p className="hero-sub">{hero.sub || "Sign the petition. Tell Australia's leaders to put families first — before ideology, before politics, before experiments."}</p>
         <div className="hero-ctas">
           <a href="#/petition" className="btn btn-teal">Sign the Petition →</a>
           <a href="#/donate" className="btn btn-outline-amber">Chip in</a>
@@ -191,6 +191,7 @@ const Home = () => (
     <HomeNews />
     <HomeDonate />
   </main>
-);
+  );
+};
 
 Object.assign(window, { Home });

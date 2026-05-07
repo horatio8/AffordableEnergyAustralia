@@ -1,4 +1,4 @@
-/* === App: router + tweaks === */
+/* === App: router + tweaks + content === */
 
 const useRoute = () => {
   const [route, setRoute] = React.useState(window.location.hash.replace('#','') || '/');
@@ -12,6 +12,32 @@ const useRoute = () => {
   }, []);
   return route;
 };
+
+const ContentContext = React.createContext(null);
+const useContent = () => React.useContext(ContentContext) || {};
+
+const useContentLoader = () => {
+  const [content, setContent] = React.useState(null);
+  React.useEffect(() => {
+    let cancelled = false;
+    fetch('/content.json', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : {})
+      .then(remote => {
+        if (cancelled) return;
+        let next = remote;
+        try {
+          const local = localStorage.getItem('aea_content_draft');
+          if (local) next = JSON.parse(local);
+        } catch (_) {}
+        setContent(next);
+      })
+      .catch(() => setContent({}));
+    return () => { cancelled = true; };
+  }, []);
+  return [content, setContent];
+};
+
+window.useContent = useContent;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "primary": "#3DBDA8",
@@ -30,6 +56,7 @@ const HEADLINES = {
 const App = () => {
   const route = useRoute();
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [content, setContent] = useContentLoader();
 
   React.useEffect(() => {
     document.documentElement.style.setProperty('--teal', tweaks.primary);
@@ -38,13 +65,24 @@ const App = () => {
     document.documentElement.style.setProperty('--red', tweaks.alert);
   }, [tweaks]);
 
-  // Override homepage headline based on tweak
   React.useEffect(() => {
     const h = document.querySelector('.hero h1');
     if (!h) return;
     const choice = HEADLINES[tweaks.headlineMode] || HEADLINES.hardship;
-    h.innerHTML = `${choice.main} <span class="accent">${choice.accent}</span>`;
-  }, [tweaks.headlineMode, route]);
+    const main = (content && content.hero && content.hero.headlineMain) || choice.main;
+    const accent = (content && content.hero && content.hero.headlineAccent) || choice.accent;
+    h.innerHTML = `${main} <span class="accent">${accent}</span>`;
+  }, [tweaks.headlineMode, route, content]);
+
+  if (!content) return null;
+
+  if (route === '/admin') {
+    return (
+      <ContentContext.Provider value={content}>
+        <Admin content={content} setContent={setContent} />
+      </ContentContext.Provider>
+    );
+  }
 
   let page;
   switch (route) {
@@ -60,7 +98,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <ContentContext.Provider value={content}>
       <Header route={route} />
       {page}
       <Footer />
@@ -80,7 +118,7 @@ const App = () => {
           ]} />
         </TweakSection>
       </TweaksPanel>
-    </>
+    </ContentContext.Provider>
   );
 };
 

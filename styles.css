@@ -534,3 +534,64 @@ section { position: relative; }
   .donate-strip-inner h2 { font-size: 36px; }
   .about-hero { padding: 56px 0 32px; }
 }
+
+/* === Admin / CMS === */
+.adm-shell { min-height: 100vh; background: var(--paper); padding: 24px 24px 64px; font-family: 'Barlow', system-ui, sans-serif; }
+.adm-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; background: var(--ink); color: var(--white); border-radius: 4px; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
+.adm-header h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 28px; line-height: 1; margin-top: 4px; }
+.adm-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.adm-header-actions .btn { color: var(--white); border-color: var(--white); }
+.adm-header-actions .btn:hover { background: var(--white); color: var(--ink); }
+
+.adm-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 16px 20px; background: var(--white); border: 1px solid rgba(13,31,28,.08); margin-bottom: 16px; }
+.adm-toolbar .btn { padding: 10px 16px; font-size: 13px; }
+.adm-status { font-size: 14px; color: var(--grey); padding: 0 8px; }
+.adm-status.adm-ok { color: var(--teal-deep); font-weight: 700; }
+.adm-status.adm-err { color: var(--red); font-weight: 700; }
+
+.adm-tabs { display: flex; gap: 2px; border-bottom: 2px solid rgba(13,31,28,.08); margin-bottom: 24px; flex-wrap: wrap; }
+.adm-tabs button { padding: 14px 22px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: 0.06em; color: var(--grey); background: transparent; border-bottom: 4px solid transparent; margin-bottom: -2px; transition: all .2s; }
+.adm-tabs button.active { color: var(--ink); border-bottom-color: var(--teal); }
+
+.adm-section { background: var(--white); padding: 28px; border: 1px solid rgba(13,31,28,.08); }
+.adm-help { font-size: 14px; color: var(--grey); margin-bottom: 20px; }
+.adm-help code { background: var(--paper); padding: 2px 6px; font-family: ui-monospace, monospace; font-size: 13px; }
+
+.adm-field { display: block; margin-bottom: 18px; }
+.adm-field label { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; color: var(--ink); margin-bottom: 6px; }
+.adm-field input, .adm-field textarea { width: 100%; padding: 11px 13px; border: 2px solid rgba(13,31,28,.1); font-size: 15px; font-family: inherit; background: var(--paper); resize: vertical; }
+.adm-field input:focus, .adm-field textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
+.adm-field small { display: block; margin-top: 6px; font-size: 12px; color: var(--grey); }
+
+.adm-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+.adm-card { padding: 20px; border: 1px solid rgba(13,31,28,.08); margin-bottom: 14px; background: var(--paper); }
+.adm-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.adm-card-head strong { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 13px; color: var(--teal-deep); }
+.adm-card-actions { display: flex; gap: 6px; }
+.adm-card-actions button { padding: 6px 12px; font-size: 12px; background: var(--white); border: 1px solid rgba(13,31,28,.1); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink); }
+.adm-card-actions button:hover:not(:disabled) { background: var(--ink); color: var(--white); }
+.adm-card-actions button:disabled { opacity: 0.3; cursor: not-allowed; }
+.adm-card-actions .adm-danger:hover { background: var(--red); border-color: var(--red); color: var(--white); }
+
+.adm-add { padding: 14px 20px; background: var(--teal-light); border: 2px dashed var(--teal); color: var(--teal-deep); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 13px; width: 100%; cursor: pointer; transition: all .2s; }
+.adm-add:hover { background: var(--teal); color: var(--white); }
+
+.adm-login { min-height: 100vh; background: var(--teal-deep); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.adm-login-card { background: var(--white); padding: 40px; max-width: 420px; width: 100%; box-shadow: 0 16px 48px rgba(0,0,0,.2); }
+.adm-login-card h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 32px; line-height: 1; margin-bottom: 12px; }
+.adm-login-card p { font-size: 14px; color: var(--grey); margin-bottom: 24px; line-height: 1.5; }
+.adm-login-card form { display: grid; gap: 12px; }
+.adm-login-card input { padding: 14px 16px; border: 2px solid rgba(13,31,28,.1); font-size: 16px; font-family: inherit; background: var(--paper); }
+.adm-login-card input:focus { outline: none; border-color: var(--teal); }
+.adm-login-card .btn { padding: 14px; font-size: 15px; }
+.adm-error { margin-top: 16px; padding: 12px; background: rgba(217,64,64,.1); color: var(--red); font-size: 14px; border-left: 3px solid var(--red); }
+.adm-back { display: block; margin-top: 20px; font-size: 13px; color: var(--grey); text-decoration: none; }
+.adm-back:hover { color: var(--teal-deep); }
+
+@media (max-width: 768px) {
+  .adm-row { grid-template-columns: 1fr; }
+  .adm-tabs button { padding: 12px 14px; font-size: 13px; }
+  .adm-shell { padding: 16px; }
+  .adm-section { padding: 18px; }
+}
