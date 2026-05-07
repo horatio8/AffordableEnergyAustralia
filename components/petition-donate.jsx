@@ -5,12 +5,14 @@ const Petition = () => {
   const submit = (e) => { e.preventDefault(); window.location.hash = '#/thank-you-petition'; };
   return (
     <main data-screen-label="Petition">
-      <section className="petition-hero">
-        <div className="container-wide">
-          <span className="eyebrow" style={{ color: 'var(--amber)' }}>The Petition</span>
-          <h1 style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(40px, 5.5vw, 84px)', lineHeight: 0.9, marginTop: 14, maxWidth: '20ch' }}>
-            Sign it. Send a message no politician can ignore.
-          </h1>
+      <section className="page-hero">
+        <div className="container-wide page-hero-grid">
+          <div>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>The Petition</span>
+            <h1>Sign it. Send a message no politician can ignore.</h1>
+            <p className="lede">Your name joins tens of thousands of Australians from every state, every electorate, and every walk of life — demanding leadership that puts affordability first.</p>
+          </div>
+          <HeroPlaceholder icon="petition" tag="Hero · Petition" />
         </div>
       </section>
       <div className="container-wide">
@@ -67,6 +69,34 @@ const Petition = () => {
           </form>
         </div>
       </div>
+
+      <section className="section-pad section-paper">
+        <div className="container-wide">
+          <div className="section-head">
+            <span className="eyebrow">Voices from Australia</span>
+            <h2>Why they signed.</h2>
+            <p className="lede">A small sample of the thousands of stories left when supporters add their name. Names changed where requested.</p>
+          </div>
+          <div className="voices-grid">
+            {[
+              { initials: 'JM', name: 'Janelle, 62', loc: 'Pensioner · Wagga Wagga NSW', q: "I had to choose between heating and my heart medication this winter. I never thought I'd see that day in Australia." },
+              { initials: 'TR', name: 'Tom, 47', loc: 'Café owner · Geelong VIC', q: "Our power bill tripled. We cut staff hours, then we cut staff. Nobody in Canberra seems to notice the small shops closing." },
+              { initials: 'PD', name: 'Priya, 34', loc: 'Mother of two · Western Sydney', q: "Two kids, two jobs, and we still get the disconnection notices. I signed because someone has to say enough." },
+            ].map(v => (
+              <div className="voice-card" key={v.name}>
+                <p className="quote">{v.q}</p>
+                <div className="who">
+                  <span className="voice-avatar">{v.initials}</span>
+                  <div>
+                    <strong>{v.name}</strong>
+                    <span>{v.loc}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   );
 };
@@ -84,12 +114,14 @@ const Donate = () => {
   };
   return (
     <main data-screen-label="Donate">
-      <section className="petition-hero">
-        <div className="container-wide">
-          <span className="eyebrow" style={{ color: 'var(--amber)' }}>Donate</span>
-          <h1 style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(40px, 5.5vw, 84px)', lineHeight: 0.9, marginTop: 14, maxWidth: '20ch' }}>
-            Power the campaign that puts families first.
-          </h1>
+      <section className="page-hero">
+        <div className="container-wide page-hero-grid">
+          <div>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Donate</span>
+            <h1>Power the campaign that puts families first.</h1>
+            <p className="lede">Every dollar comes from Australians like you — and goes directly into reaching households, contacting representatives, and building public pressure ahead of 2028.</p>
+          </div>
+          <HeroPlaceholder icon="donate" tag="Hero · Donate" />
         </div>
       </section>
       <div className="container-wide">
@@ -122,10 +154,38 @@ const Donate = () => {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 32 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 32, marginBottom: 32 }}>
               <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>47,832</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Signatures collected</div></div>
               <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>12,400</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Letters sent to MPs</div></div>
               <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>151</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Electorates with active supporters</div></div>
+            </div>
+
+            <div className="supporter-list">
+              <h4>Recent supporters</h4>
+              {[
+                ['Margaret K.', 'NSW · 2113', '$50/mo', '2 min ago'],
+                ['Aaron P.', 'VIC · 3220', '$250', '8 min ago'],
+                ['Sun-Mi L.', 'QLD · 4101', '$15/mo', '14 min ago'],
+                ['Daniel R.', 'WA · 6018', '$100', '22 min ago'],
+                ['Emma B.', 'SA · 5067', '$25/mo', '31 min ago'],
+              ].map(([name, loc, amt, when]) => (
+                <div className="row" key={name + when}>
+                  <div><strong>{name}</strong><div style={{ fontSize: 12, color: 'var(--grey)' }}>{loc}</div></div>
+                  <span className="amount">{amt}</span>
+                  <span className="when">{when}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="trust-grid">
+              {[
+                ['Stripe-secured', 'Bank-grade encryption', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="s"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>],
+                ['Tax-receipted', 'Auto-emailed receipt', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="r"><path d="M5 3v18l3-2 3 2 3-2 3 2 3-2V3z M9 8h6 M9 12h6 M9 16h4"/></svg>],
+                ['No middlemen', '100% to campaign', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="n"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>],
+                ['ABN registered', '93 676 364 855', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
+              ].map(([t, sub, ic]) => (
+                <div className="trust-badge" key={t}>{ic}<strong>{t}</strong>{sub}</div>
+              ))}
             </div>
           </div>
 
@@ -165,6 +225,7 @@ const Donate = () => {
 const ThankYouPetition = () => (
   <main data-screen-label="Thank You — Petition" className="container">
     <div className="thanks-screen">
+      <div className="thanks-illustration">{HERO_ICONS.check}</div>
       <span className="thanks-num">#47,833</span>
       <h1>You signed. Now make it count.</h1>
       <p>Your name is on the record. We'll be in touch with what's next — but the single most powerful thing you can do right now is share this with three Australians who feel the same.</p>
@@ -172,6 +233,23 @@ const ThankYouPetition = () => (
         {['Facebook','X','WhatsApp','Email','Copy link'].map(s => (
           <button key={s} className="btn btn-outline-teal">{s}</button>
         ))}
+      </div>
+      <div className="next-steps">
+        <div className="next-step">
+          <span className="num">01 · Refer</span>
+          <h4>Tell five friends</h4>
+          <p>Trusted networks grow petitions fastest. Personal intros convert at 3× the rate of cold shares.</p>
+        </div>
+        <div className="next-step">
+          <span className="num">02 · Pressure</span>
+          <h4>Write to your MP</h4>
+          <p>Pre-written letter, personalised in 30 seconds, sent direct to your federal representative.</p>
+        </div>
+        <div className="next-step">
+          <span className="num">03 · Show up</span>
+          <h4>Find an event</h4>
+          <p>Town halls, doorknocks, community meetings. In-person presence is the strongest signal.</p>
+        </div>
       </div>
       <div className="upsell-card">
         <span className="eyebrow" style={{ color: 'var(--amber)' }}>One more thing</span>
@@ -186,13 +264,32 @@ const ThankYouPetition = () => (
 const ThankYouDonation = () => (
   <main data-screen-label="Thank You — Donation" className="container">
     <div className="thanks-screen">
-      <span className="thanks-num" style={{ color: 'var(--amber)' }}>♥</span>
+      <div className="thanks-illustration" style={{ background: 'rgba(245,166,35,.18)' }}>
+        <span style={{ color: 'var(--amber-dark)', display: 'flex' }}>{HERO_ICONS.heart}</span>
+      </div>
       <h1>Thank you. You just powered the campaign.</h1>
       <p>Your contribution funds the petition drive, the MP outreach, and the public pressure that puts affordability back at the centre of energy policy. A receipt is on its way to your inbox.</p>
       <div className="share-mega">
         {['Share on Facebook','Share on X','Tell a friend'].map(s => (
           <button key={s} className="btn btn-outline-teal">{s}</button>
         ))}
+      </div>
+      <div className="next-steps">
+        <div className="next-step">
+          <span className="num">01 · Sign</span>
+          <h4>Add your name</h4>
+          <p>If you haven't already, your signature is the public record we use to demonstrate scale.</p>
+        </div>
+        <div className="next-step">
+          <span className="num">02 · Multiply</span>
+          <h4>Match your donation</h4>
+          <p>Ask your employer about workplace giving — many double charitable contributions automatically.</p>
+        </div>
+        <div className="next-step">
+          <span className="num">03 · Track</span>
+          <h4>Watch the impact</h4>
+          <p>You'll receive a quarterly report showing exactly where your contribution went.</p>
+        </div>
       </div>
       <div className="upsell-card">
         <span className="eyebrow" style={{ color: 'var(--amber)' }}>Make it monthly</span>

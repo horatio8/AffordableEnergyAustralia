@@ -170,14 +170,27 @@ const TakeAction = () => {
   const sample = "Dear MP,\n\nI am writing as a constituent in your electorate to ask you to publicly commit to prioritising affordable and reliable energy for Australian households.\n\nWith 1 in 5 Australians now in energy hardship and average household debt at $1,367, this is no longer a fringe issue — it is the defining cost-of-living crisis of our time.\n\nI ask you to put affordability before ideology, and to communicate publicly where you stand.\n\nSincerely,\n[Your name]";
   return (
     <main data-screen-label="Take Action">
-      <section className="petition-hero">
-        <div className="container-wide">
-          <span className="eyebrow" style={{ color: 'var(--amber)' }}>Take Action</span>
-          <h1 style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(40px, 5.5vw, 84px)', lineHeight: 0.9, marginTop: 14, maxWidth: '20ch' }}>
-            Signing is the start. Here are four ways to amplify it.
-          </h1>
+      <section className="page-hero">
+        <div className="container-wide page-hero-grid">
+          <div>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Take Action</span>
+            <h1>Signing is the start. Here are four ways to amplify it.</h1>
+            <p className="lede">Two minutes of your time, repeated by ten thousand Australians, becomes a movement no government can ignore. Pick one — or pick all four.</p>
+          </div>
+          <HeroPlaceholder icon="megaphone" tag="Hero · Take Action" />
         </div>
       </section>
+
+      <div className="container-wide" style={{ paddingTop: 56 }}>
+        <div className="feed-strip">
+          <div className="feed-pulse"><span className="dot" />Live activity</div>
+          <ul>
+            <li><strong>4,128 actions today</strong>across all four channels combined</li>
+            <li><strong>312 letters sent</strong>to MPs in the last hour</li>
+            <li><strong>87 community events</strong>scheduled this fortnight</li>
+          </ul>
+        </div>
+      </div>
 
       <section className="section-pad section-paper">
         <div className="container-wide">
@@ -268,16 +281,38 @@ const News = () => {
   ];
   return (
     <main data-screen-label="News">
-      <section className="news-hero">
-        <div className="container-wide">
-          <span className="eyebrow" style={{ color: 'var(--amber)' }}>Newsroom</span>
-          <h1>In the News.</h1>
-          <p className="lede">Coverage from Australia's leading mastheads and our own press releases. Working journalists — please use the contact details below.</p>
+      <section className="page-hero">
+        <div className="container-wide page-hero-grid">
+          <div>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Newsroom</span>
+            <h1>In the News.</h1>
+            <p className="lede">Coverage from Australia's leading mastheads and our own press releases. Working journalists — please use the contact details below for same-day comment.</p>
+          </div>
+          <HeroPlaceholder icon="newspaper" tag="Hero · News" />
         </div>
       </section>
 
       <section className="section-pad section-paper">
         <div className="container-wide">
+          <div className="featured-news">
+            <div className="placeholder-image">
+              <span className="ph-tag">Featured</span>
+              {HERO_ICONS.newspaper}
+            </div>
+            <div>
+              <span className="eyebrow" style={{ color: 'var(--teal-dark)', marginBottom: 12, display: 'block' }}>Editorial · 12 April 2026</span>
+              <h3>Grid stability fears mount as wholesale prices spike across the NEM</h3>
+              <p>AEMO data reveals wholesale spot prices in NSW and Victoria reached new peaks during the Easter cold snap. AEA's analysis links the spikes directly to the rapid retirement of dispatchable generation without equivalent firming capacity.</p>
+              <a href="#" className="btn btn-outline-teal">Read full story →</a>
+            </div>
+          </div>
+
+          <div className="topic-pills">
+            {['All stories','Coverage','Press releases','Households','Industry','Policy','Pensioners'].map((t, i) => (
+              <button key={t} className={`topic-pill ${i === 0 ? 'active' : ''}`}>{t}</button>
+            ))}
+          </div>
+
           <div className="news-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {items.map((it, i) => (
               <a href="#" key={i} className="news-card" style={{ padding: 36 }}>
@@ -318,10 +353,16 @@ const News = () => {
 const About = () => (
   <main data-screen-label="About">
     <section className="about-hero">
-      <div className="container-wide">
-        <span className="eyebrow" style={{ color: 'var(--teal-dark)' }}>About AEA</span>
-        <h1>A people-powered campaign with one job: <span style={{ color: 'var(--teal-dark)' }}>win.</span></h1>
-        <p className="lede">Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who feel the country lacks a well-planned approach to managing the energy transition.</p>
+      <div className="container-wide" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 56, alignItems: 'center' }}>
+        <div>
+          <span className="eyebrow" style={{ color: 'var(--teal-dark)' }}>About AEA</span>
+          <h1>A people-powered campaign with one job: <span style={{ color: 'var(--teal-dark)' }}>win.</span></h1>
+          <p className="lede">Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who feel the country lacks a well-planned approach to managing the energy transition.</p>
+        </div>
+        <div className="hero-placeholder hero-placeholder-light">
+          <span className="ph-tag" style={{ background: 'var(--teal-deep)', color: 'var(--white)' }}>Hero · About</span>
+          {HERO_ICONS.community}
+        </div>
       </div>
     </section>
 
@@ -358,6 +399,54 @@ const About = () => (
             <h3>Hold to Account</h3>
             <p>Track every MP's stated position. Publish it. Make it impossible to be ambiguous about whether you stand with affordable power, or against it.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="section-pad section-paper">
+      <div className="container-wide">
+        <div className="section-head">
+          <span className="eyebrow">The team</span>
+          <h2>People who have run campaigns that win.</h2>
+          <p className="lede">A small core team of campaign veterans, organisers, and policy researchers — backed by a cross-bench advisory panel and thousands of volunteer supporters.</p>
+        </div>
+        <div className="team-grid">
+          {[
+            { name: 'Daniel Mitchell', role: 'Campaign Director', bio: 'Former federal political organiser. 15 years across NSW and federal campaigns.' },
+            { name: 'Hannah Reid', role: 'Communications', bio: 'Ex-press gallery journalist. Built the comms function for two state-level coalitions.' },
+            { name: 'Dr. Aroha Ngata', role: 'Policy & Research', bio: 'Energy economist; AEMC alumna. Author of the campaign’s benchmark dataset.' },
+            { name: 'Marcus Chen', role: 'Field Operations', bio: 'Doorknock veteran. Designs the electorate-by-electorate playbook.' },
+          ].map(m => (
+            <div className="team-member" key={m.name}>
+              <div className="team-portrait">{HERO_ICONS.user}</div>
+              <h4>{m.name}</h4>
+              <div className="role">{m.role}</div>
+              <p>{m.bio}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section className="section-pad section-teal-light">
+      <div className="container-wide">
+        <div className="section-head">
+          <span className="eyebrow">The road to 2028</span>
+          <h2>Milestones, set publicly. Tracked in the open.</h2>
+        </div>
+        <div className="milestone-list">
+          {[
+            ['Q4 2025', 'Launched', 'Founding', 'AEA incorporated. Founding board appointed. First 1,000 supporters from a standing start.'],
+            ['Q2 2026', 'Live', 'Petition crosses 50,000', 'Surpass 50,000 signatures across all 151 electorates. Public petition handover scheduled.'],
+            ['Q4 2026', 'Planned', 'MP scorecard published', 'Every federal MP scored on their public record. Updated quarterly through 2028.'],
+            ['Q2 2027', 'Planned', '200,000 supporters', 'Half-target supporter list reached. Field organising scaled in 30 priority electorates.'],
+            ['2028', 'Target', 'Election cycle', 'Cross-electorate field campaign live in 60 marginal seats. Full transparency of funding and impact.'],
+          ].map(([when, status, h, p]) => (
+            <div className="milestone" key={when}>
+              <div className="when">{when}<small>{status}</small></div>
+              <div><h4>{h}</h4><p>{p}</p></div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

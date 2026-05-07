@@ -234,4 +234,68 @@ const StickyMobileBar = () => {
   );
 };
 
-Object.assign(window, { Logo, LogoMark, Header, Footer, StatBand, PetitionCounter, SocialTicker, StickyMobileBar, useCountUp, useInView, NAV });
+/* Hero placeholder illustrations */
+const HERO_ICONS = {
+  petition: (
+    <svg viewBox="0 0 200 160" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="40" y="20" width="100" height="130" rx="4" fill="rgba(255,255,255,.04)" />
+      <path d="M55 50h70M55 70h70M55 90h50M55 110h60" />
+      <path d="M150 95l16 16 30-32" stroke="#F5A623" strokeWidth="5" />
+    </svg>
+  ),
+  megaphone: (
+    <svg viewBox="0 0 200 160" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M30 70v20a10 10 0 0010 10h10v-40H40a10 10 0 00-10 10z" fill="rgba(255,255,255,.04)" />
+      <path d="M50 60l90-30v100l-90-30z" fill="rgba(245,166,35,.18)" />
+      <path d="M70 100c0 10 5 20 15 20s10-15 5-25" />
+      <path d="M155 60l20-8M160 80h25M155 100l20 8" stroke="#F5A623" strokeWidth="4" />
+    </svg>
+  ),
+  newspaper: (
+    <svg viewBox="0 0 200 160" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="30" y="30" width="140" height="100" rx="3" fill="rgba(255,255,255,.04)" />
+      <rect x="44" y="44" width="56" height="36" fill="rgba(245,166,35,.25)" />
+      <path d="M110 44h50M110 56h50M110 68h36M44 92h120M44 104h120M44 116h80" />
+    </svg>
+  ),
+  community: (
+    <svg viewBox="0 0 200 160" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="60" cy="60" r="18" fill="rgba(245,166,35,.2)" />
+      <circle cx="100" cy="50" r="20" fill="rgba(255,255,255,.06)" />
+      <circle cx="140" cy="60" r="18" fill="rgba(245,166,35,.2)" />
+      <path d="M30 130c0-18 14-30 30-30s30 12 30 30M70 130c0-22 14-36 30-36s30 14 30 36M110 130c0-18 14-30 30-30s30 12 30 30" />
+    </svg>
+  ),
+  donate: (
+    <svg viewBox="0 0 200 160" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M100 130l-32-30c-12-12-12-30 0-40 10-10 26-8 32 4 6-12 22-14 32-4 12 10 12 28 0 40z" fill="rgba(245,166,35,.22)" stroke="#F5A623" />
+      <path d="M70 60h-26M156 60h-26M58 40l-16-12M142 40l16-12" />
+    </svg>
+  ),
+  check: (
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="50" cy="50" r="42" fill="rgba(61,189,168,.12)" />
+      <path d="M30 52l14 14 28-32" />
+    </svg>
+  ),
+  heart: (
+    <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+      <path d="M50 86 L20 56c-8-8-8-22 0-30 8-8 21-6 24 4 3-10 16-12 24-4 8 8 8 22 0 30z" />
+    </svg>
+  ),
+  user: (
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="32" cy="22" r="10" />
+      <path d="M14 54c0-10 8-16 18-16s18 6 18 16" />
+    </svg>
+  ),
+};
+
+const HeroPlaceholder = ({ icon = 'petition', tag = 'Image' }) => (
+  <div className="hero-placeholder" role="img" aria-label={`${tag} placeholder`}>
+    <span className="ph-tag">{tag}</span>
+    {HERO_ICONS[icon]}
+  </div>
+);
+
+Object.assign(window, { Logo, LogoMark, Header, Footer, StatBand, PetitionCounter, SocialTicker, StickyMobileBar, useCountUp, useInView, NAV, HeroPlaceholder, HERO_ICONS });
