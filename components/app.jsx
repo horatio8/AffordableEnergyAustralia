@@ -1,0 +1,87 @@
+/* === App: router + tweaks === */
+
+const useRoute = () => {
+  const [route, setRoute] = React.useState(window.location.hash.replace('#','') || '/');
+  React.useEffect(() => {
+    const onHash = () => {
+      setRoute(window.location.hash.replace('#','') || '/');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  return route;
+};
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "primary": "#3DBDA8",
+  "primaryDeep": "#1A6B5E",
+  "accent": "#F5A623",
+  "alert": "#D94040",
+  "headlineMode": "hardship"
+}/*EDITMODE-END*/;
+
+const HEADLINES = {
+  hardship: { main: "1 in 5 Australians can't afford", accent: "the power bill." },
+  experiment: { main: "Australians are paying for an", accent: "energy experiment." },
+  jobs: { main: "Power bills shouldn't cost you your", accent: "job, your home, your future." },
+};
+
+const App = () => {
+  const route = useRoute();
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--teal', tweaks.primary);
+    document.documentElement.style.setProperty('--teal-deep', tweaks.primaryDeep);
+    document.documentElement.style.setProperty('--amber', tweaks.accent);
+    document.documentElement.style.setProperty('--red', tweaks.alert);
+  }, [tweaks]);
+
+  // Override homepage headline based on tweak
+  React.useEffect(() => {
+    const h = document.querySelector('.hero h1');
+    if (!h) return;
+    const choice = HEADLINES[tweaks.headlineMode] || HEADLINES.hardship;
+    h.innerHTML = `${choice.main} <span class="accent">${choice.accent}</span>`;
+  }, [tweaks.headlineMode, route]);
+
+  let page;
+  switch (route) {
+    case '/petition': page = <Petition />; break;
+    case '/the-problem': page = <TheProblem />; break;
+    case '/take-action': page = <TakeAction />; break;
+    case '/news': page = <News />; break;
+    case '/about-us': page = <About />; break;
+    case '/donate': page = <Donate />; break;
+    case '/thank-you-petition': page = <ThankYouPetition />; break;
+    case '/thank-you-donation': page = <ThankYouDonation />; break;
+    default: page = <Home />;
+  }
+
+  return (
+    <>
+      <Header route={route} />
+      {page}
+      <Footer />
+      <StickyMobileBar />
+      <TweaksPanel title="Campaign Tweaks">
+        <TweakSection title="Brand Colours">
+          <TweakColor label="Primary teal" value={tweaks.primary} onChange={v => setTweak('primary', v)} options={['#3DBDA8','#2E86AB','#0F6E5F','#175C7C']} />
+          <TweakColor label="Deep section bg" value={tweaks.primaryDeep} onChange={v => setTweak('primaryDeep', v)} options={['#1A6B5E','#0D1F1C','#1B3A52','#262626']} />
+          <TweakColor label="Donate accent" value={tweaks.accent} onChange={v => setTweak('accent', v)} options={['#F5A623','#E85D2C','#C9A227','#F2C94C']} />
+          <TweakColor label="Alert red" value={tweaks.alert} onChange={v => setTweak('alert', v)} options={['#D94040','#B22222','#E25822','#A22C29']} />
+        </TweakSection>
+        <TweakSection title="Hero Headline">
+          <TweakRadio label="Message" value={tweaks.headlineMode} onChange={v => setTweak('headlineMode', v)} options={[
+            {value: 'hardship', label: 'Hardship'},
+            {value: 'experiment', label: 'Experiment'},
+            {value: 'jobs', label: 'Jobs'},
+          ]} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
