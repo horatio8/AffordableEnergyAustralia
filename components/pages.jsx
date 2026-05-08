@@ -440,10 +440,9 @@ const About = () => (
           <span className="eyebrow">Governance</span>
           <h2>Built to be trusted.</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32 }}>
           {[
             ['Independent', 'Not aligned with any political organisation. We endorse policy positions, not candidates.'],
-            ['Transparent', 'Audited annual financials published in full. Donor list aggregated by amount band.'],
             ['Australian-funded', 'No money accepted from foreign donors, fossil fuel companies, or renewable industrial complex.'],
           ].map(([h, p]) => (
             <div key={h} style={{ padding: 32, background: 'var(--white)', borderLeft: '4px solid var(--teal)' }}>
