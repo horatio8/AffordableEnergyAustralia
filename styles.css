@@ -402,20 +402,29 @@ section { position: relative; }
 .process-step h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; font-size: 24px; margin-bottom: 12px; }
 .process-step p { font-size: 17px; color: var(--ink); opacity: 0.8; line-height: 1.6; }
 
-/* Donate page — horizontal form (primary) */
-.donate-form-wide { background: var(--white); padding: 40px; margin: 48px 0 56px; box-shadow: 0 16px 48px rgba(13,31,28,.08); border: 1px solid rgba(13,31,28,.06); border-top: 4px solid var(--amber); }
-.donate-form-wide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-.donate-amount-side, .donate-payment-side { display: flex; flex-direction: column; }
-.donate-side-label { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 13px; color: var(--grey); margin: 18px 0 10px; }
-.donate-amount-side .donate-side-label:first-of-type { margin-top: 0; }
-.donate-amount-side .toggle-row { margin-bottom: 4px; }
-.donate-amount-side .amount-grid { grid-template-columns: repeat(3, 1fr); }
-.donate-amount-side .amount-grid button { padding: 26px 8px; font-size: 24px; }
-.donate-amount-side .impact-line { margin-top: 18px; margin-bottom: 0; padding: 18px 22px; font-size: 17px; }
-.donate-payment-side .field-row { margin-bottom: 0; }
-.donate-payment-side .field { margin-bottom: 14px; }
-.donate-submit-btn { width: 100%; padding: 20px; font-size: 19px; margin-top: 8px; }
-.donate-payment-side .trust-row { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(13,31,28,.08); font-size: 13px; }
+/* Donate page — direct-to-Stripe tiles (primary) */
+.donate-tiles-card { background: var(--white); padding: 40px; margin: 48px 0 56px; box-shadow: 0 16px 48px rgba(13,31,28,.08); border: 1px solid rgba(13,31,28,.06); border-top: 4px solid var(--amber); }
+.donate-tiles-toggle { max-width: 360px; margin-bottom: 28px; }
+.donate-tiles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+.donate-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 28px 14px; background: var(--white); border: 2px solid var(--amber); transition: all .2s; cursor: pointer; min-height: 124px; }
+.donate-tile:hover:not(:disabled) { background: var(--amber); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(216,142,15,.25); }
+.donate-tile:disabled { opacity: 0.6; cursor: progress; }
+.donate-tile-amount { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; color: var(--ink); line-height: 1; }
+.donate-tile-cta { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; color: var(--amber-dark); }
+.donate-tile:hover:not(:disabled) .donate-tile-cta { color: var(--ink); }
+.donate-tile-other { background: var(--paper); border-color: rgba(13,31,28,.15); }
+.donate-tile-other:hover { background: var(--ink); border-color: var(--ink); }
+.donate-tile-other:hover .donate-tile-amount, .donate-tile-other:hover .donate-tile-cta { color: var(--white); }
+
+.donate-other-row { padding: 24px; background: var(--paper); border-left: 4px solid var(--teal); margin-top: 14px; }
+.donate-other-row label { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 13px; color: var(--grey); margin-bottom: 8px; }
+.donate-other-input { display: flex; gap: 8px; align-items: stretch; }
+.donate-other-input span { display: flex; align-items: center; padding: 0 18px; background: var(--white); border: 2px solid rgba(13,31,28,.1); border-right: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: var(--ink); }
+.donate-other-input input { flex: 1; padding: 14px 16px; border: 2px solid rgba(13,31,28,.1); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; }
+.donate-other-input input:focus { outline: none; border-color: var(--teal); }
+.donate-other-input .btn { padding: 14px 22px; font-size: 14px; }
+
+.donate-tiles-trust { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(13,31,28,.08); }
 
 .donate-supporting { padding: 0 0 96px; }
 .donate-supporting-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; margin-bottom: 32px; }
@@ -481,7 +490,7 @@ section { position: relative; }
   .news-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
   .petition-split, .donate-page-grid { grid-template-columns: 1fr; }
-  .donate-form-wide-grid { grid-template-columns: 1fr; gap: 28px; }
+  .donate-tiles-grid { grid-template-columns: repeat(2, 1fr); }
   .donate-supporting-grid { grid-template-columns: 1fr; gap: 32px; }
   .petition-form, .donate-form-card { position: static; }
   .action-grid { grid-template-columns: 1fr; }
@@ -524,8 +533,10 @@ section { position: relative; }
   .calc-card { padding: 24px; }
   .calc-result .out { font-size: 42px; }
   .petition-form, .donate-form-card { padding: 24px; }
-  .donate-form-wide { padding: 24px; margin: 28px 0 36px; }
-  .donate-amount-side .amount-grid button { padding: 18px 4px; font-size: 20px; }
+  .donate-tiles-card { padding: 24px; margin: 28px 0 36px; }
+  .donate-tiles-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .donate-tile { padding: 22px 10px; min-height: 100px; }
+  .donate-tile-amount { font-size: 30px; }
   .petition-form-counter { margin: -24px -24px 20px; padding: 14px 18px; }
   .petition-form-counter .num { font-size: 26px; }
   .petition-declaration { font-size: 22px; padding: 20px 22px; }

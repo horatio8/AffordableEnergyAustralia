@@ -85,7 +85,13 @@ const HomeNews = () => {
 };
 
 const HomeDonate = () => {
-  const [amt, setAmt] = React.useState(50);
+  const [busy, setBusy] = React.useState(0);
+  const go = async (v) => {
+    if (busy) return;
+    setBusy(v);
+    await window.startCheckout(v, false);
+    setBusy(0);
+  };
   return (
     <section className="donate-strip" data-screen-label="Home / Donate">
       <div className="donate-strip-bg">
@@ -95,14 +101,13 @@ const HomeDonate = () => {
         <div className="donate-strip-inner">
           <span className="eyebrow" style={{ color: 'var(--amber)' }}>Power the Campaign</span>
           <h2 style={{ marginTop: 14 }}>This fight is funded <span className="accent">by Australians</span> — not corporations.</h2>
-          <p>Every dollar reaches more Australians, contacts more MPs, and builds the public mandate to put affordability first. We are purpose-built to win — but we cannot do it without you.</p>
+          <p>Every dollar reaches more Australians, contacts more MPs, and builds the public mandate to put affordability first. Click an amount to donate via Stripe.</p>
           <div className="donate-amounts">
             {[15, 25, 50, 100].map(v => (
-              <button key={v} className={`amount-btn ${amt===v?'active':''}`} onClick={() => setAmt(v)}>${v}</button>
+              <button key={v} className="amount-btn" disabled={busy===v} onClick={() => go(v)}>{busy===v ? '…' : `$${v}`}</button>
             ))}
-            <button className={`amount-btn ${amt===0?'active':''}`} onClick={() => setAmt(0)}>Other</button>
+            <a className="amount-btn" href="#/donate">Other</a>
           </div>
-          <a href="#/donate" className="btn btn-amber" style={{ marginTop: 12 }}>Donate ${amt || '...'} now →</a>
         </div>
       </div>
     </section>
@@ -121,7 +126,7 @@ const Home = () => {
         <div className="hero-overlay" />
       </div>
       <div className="container-wide hero-content">
-        <span className="hero-eyebrow"><span className="pulse" />{hero.eyebrow || 'Federal Election 2028 · Independent Campaign'}</span>
+        {hero.eyebrow && <span className="hero-eyebrow"><span className="pulse" />{hero.eyebrow}</span>}
         <h1>{hero.headlineMain || "1 in 5 Australians can't afford"} <span className="accent">{hero.headlineAccent || 'the power bill.'}</span></h1>
         <p className="hero-sub">{hero.sub || "Sign the petition. Tell Australia's leaders to put families first — before ideology, before politics, before experiments."}</p>
         <div className="hero-ctas">

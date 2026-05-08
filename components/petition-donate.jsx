@@ -97,17 +97,55 @@ const Petition = () => {
   );
 };
 
+// Posts to the checkout API and redirects to the Stripe-hosted donation page.
+// Used by the donate page tiles AND the homepage donate strip.
+const startCheckout = async (amount, recurring) => {
+  try {
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount, recurring }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.url) {
+      const reason = data.error || `Could not start donation (${res.status}).`;
+      window.alert(`${reason}\n\nIf you are the site administrator, set STRIPE_SECRET_KEY in Vercel environment variables.`);
+      return;
+    }
+    window.location.assign(data.url);
+  } catch (e) {
+    window.alert('Network error starting donation. Please try again.');
+  }
+};
+window.startCheckout = startCheckout;
+
+const DonateAmountTile = ({ amount, recurring, busy, onClick }) => (
+  <button type="button" disabled={busy} onClick={onClick} className="donate-tile">
+    <span className="donate-tile-amount">${amount}</span>
+    <span className="donate-tile-cta">Donate{recurring ? ' monthly' : ''} →</span>
+  </button>
+);
+
 const Donate = () => {
-  const [recurring, setRecurring] = React.useState(true);
-  const [amt, setAmt] = React.useState(50);
-  const impact = {
-    15: 'reaches 300 more Australians on social media',
-    25: 'reaches 500 more Australians on social media',
-    50: 'funds one full day of digital campaigning',
-    100: 'sponsors a targeted campaign in one electorate',
-    250: 'powers a full week of constituent outreach',
-    500: 'funds a campaign in one marginal seat',
+  const [recurring, setRecurring] = React.useState(false);
+  const [busy, setBusy] = React.useState(0);
+  const [other, setOther] = React.useState('');
+  const [showOther, setShowOther] = React.useState(false);
+
+  const go = async (amount) => {
+    if (busy) return;
+    setBusy(amount);
+    await startCheckout(amount, recurring);
+    setBusy(0);
   };
+
+  const submitOther = (e) => {
+    e.preventDefault();
+    const v = parseInt(other, 10);
+    if (!Number.isFinite(v) || v < 1) { window.alert('Please enter a whole-dollar amount of $1 or more.'); return; }
+    go(v);
+  };
+
   return (
     <main data-screen-label="Donate">
       <section className="page-hero">
@@ -115,47 +153,43 @@ const Donate = () => {
           <div>
             <span className="eyebrow" style={{ color: 'var(--amber)' }}>Donate</span>
             <h1>Power the campaign that puts families first.</h1>
-            <p className="lede">Every dollar comes from Australians like you — and goes directly into reaching households, contacting representatives, and building public pressure ahead of 2028.</p>
+            <p className="lede">Pick an amount. We'll send you straight to our secure Stripe donation page — no card details ever touch this site.</p>
           </div>
           <HeroPlaceholder icon="donate" tag="Hero · Donate" />
         </div>
       </section>
       <div className="container-wide">
-        <form className="donate-form-wide" onSubmit={(e) => { e.preventDefault(); window.location.hash = '#/thank-you-donation'; }}>
-          <div className="donate-form-wide-grid">
-            <div className="donate-amount-side">
-              <div className="toggle-row">
-                <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
-                <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
-              </div>
-              <label className="donate-side-label">Choose your {recurring ? 'monthly ' : ''}contribution</label>
-              <div className="amount-grid">
-                {[15, 25, 50, 100, 250, 500].map(v => (
-                  <button key={v} type="button" className={amt===v?'active':''} onClick={() => setAmt(v)}>${v}</button>
-                ))}
-              </div>
-              <div className="impact-line"><strong>${amt}{recurring ? '/mo' : ''}</strong> {impact[amt] || 'powers our work'}.</div>
-            </div>
-
-            <div className="donate-payment-side">
-              <label className="donate-side-label">Your details</label>
-              <div className="field-row">
-                <div className="field"><label>Full name</label><input required /></div>
-                <div className="field"><label>Email</label><input type="email" required /></div>
-              </div>
-              <div className="field"><label>Card number</label><input placeholder="4242 4242 4242 4242" /></div>
-              <div className="field-row">
-                <div className="field"><label>Expiry</label><input placeholder="MM/YY" /></div>
-                <div className="field"><label>CVC</label><input placeholder="123" /></div>
-              </div>
-              <button type="submit" className="btn btn-amber donate-submit-btn">Donate ${amt}{recurring ? ' /month' : ''} →</button>
-              <div className="trust-row">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
-                <span>Secure payments via Stripe · ABN 93 676 364 855 · Receipt emailed</span>
-              </div>
-            </div>
+        <section className="donate-tiles-card">
+          <div className="toggle-row donate-tiles-toggle">
+            <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
+            <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
           </div>
-        </form>
+          <div className="donate-tiles-grid">
+            {[15, 25, 50, 100, 250, 500].map(v => (
+              <DonateAmountTile key={v} amount={v} recurring={recurring} busy={busy === v} onClick={() => go(v)} />
+            ))}
+            {!showOther && (
+              <button type="button" className="donate-tile donate-tile-other" onClick={() => setShowOther(true)}>
+                <span className="donate-tile-amount">Other</span>
+                <span className="donate-tile-cta">Choose amount</span>
+              </button>
+            )}
+          </div>
+          {showOther && (
+            <form className="donate-other-row" onSubmit={submitOther}>
+              <label>Amount in AUD</label>
+              <div className="donate-other-input">
+                <span>$</span>
+                <input type="number" min="1" step="1" value={other} onChange={e => setOther(e.target.value)} autoFocus placeholder="100" />
+                <button type="submit" className="btn btn-amber">Donate{recurring ? ' monthly' : ''} →</button>
+              </div>
+            </form>
+          )}
+          <div className="trust-row donate-tiles-trust">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
+            <span>Secure payments via Stripe · ABN 93 676 364 855 · Receipt emailed</span>
+          </div>
+        </section>
 
         <section className="donate-supporting">
           <p style={{ fontSize: 22, lineHeight: 1.5, color: 'var(--ink)', marginBottom: 32, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>
@@ -164,7 +198,7 @@ const Donate = () => {
           <div className="donate-supporting-grid">
             <div>
               <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 18 }}>
-                Affordable Energy Australia takes no money from political organisations or the renewable industrial complex. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
+                Affordable Energy Australia takes no money from political organisations. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
               </p>
               <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 28 }}>
                 A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.

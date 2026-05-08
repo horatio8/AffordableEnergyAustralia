@@ -1,0 +1,9 @@
+{
+  "name": "affordable-energy-australia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Affordable Energy Australia campaign site — static React via UMD with Vercel serverless functions for the CMS and Stripe donations.",
+  "dependencies": {
+    "stripe": "^17.5.0"
+  }
+}
