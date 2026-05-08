@@ -164,7 +164,7 @@ const Donate = () => {
           <div className="donate-supporting-grid">
             <div>
               <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 18 }}>
-                Affordable Energy Australia takes no money from political organisations, fossil fuel lobbyists, or the renewable industrial complex. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
+                Affordable Energy Australia takes no money from political organisations or the renewable industrial complex. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
               </p>
               <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 28 }}>
                 A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.

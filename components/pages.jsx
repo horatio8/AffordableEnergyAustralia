@@ -443,7 +443,7 @@ const About = () => (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32 }}>
           {[
             ['Independent', 'Not aligned with any political organisation. We endorse policy positions, not candidates.'],
-            ['Australian-funded', 'No money accepted from foreign donors, fossil fuel companies, or renewable industrial complex.'],
+            ['Australian-funded', 'No money accepted from foreign donors or the renewable industrial complex.'],
           ].map(([h, p]) => (
             <div key={h} style={{ padding: 32, background: 'var(--white)', borderLeft: '4px solid var(--teal)' }}>
               <h4 style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 26, marginBottom: 12 }}>{h}</h4>
