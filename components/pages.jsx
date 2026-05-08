@@ -165,7 +165,7 @@ const TakeAction = () => {
   const [mp, setMp] = React.useState(null);
   const lookup = (e) => {
     e.preventDefault();
-    if (postcode.length >= 4) setMp({ name: 'Hon. Sarah Tomlinson MP', electorate: 'Bennelong', party: 'Independent', email: 's.tomlinson.mp@aph.gov.au', phone: '(02) 9876 5432' });
+    if (postcode.length >= 4) setMp({ name: 'Hon. Sarah Tomlinson MP', electorate: 'Bennelong', email: 's.tomlinson.mp@aph.gov.au', phone: '(02) 9876 5432' });
   };
   const sample = "Dear MP,\n\nI am writing as a constituent in your electorate to ask you to publicly commit to prioritising affordable and reliable energy for Australian households.\n\nWith 1 in 5 Australians now in energy hardship and average household debt at $1,367, this is no longer a fringe issue — it is the defining cost-of-living crisis of our time.\n\nI ask you to put affordability before ideology, and to communicate publicly where you stand.\n\nSincerely,\n[Your name]";
   return (
@@ -223,7 +223,7 @@ const TakeAction = () => {
               {mp && (
                 <div className="mp-result">
                   <h4>{mp.name}</h4>
-                  <div className="meta">{mp.electorate} · {mp.party} · {mp.phone}</div>
+                  <div className="meta">{mp.electorate} · {mp.phone}</div>
                   <div className="mp-letter">{sample}</div>
                   <div style={{ display: 'flex', gap: 8 }}>
                     <button className="btn btn-teal" style={{ padding: '12px 18px', fontSize: 14 }}>Send via email →</button>
@@ -369,7 +369,7 @@ const About = () => (
         <div className="problem-prose" style={{ fontSize: 18 }}>
           <p>Australia's energy system is broken. For too long, a small alliance of activist groups, ideologues, lobbyists and well-meaning policymakers has dominated the conversation. The result has been billions of dollars spent embedding expensive and unreliable energy in our system — driving up prices while threatening grid stability.</p>
           <p>Families, small businesses, and critical industries have been brought to their knees by a transition that ignores the simple test of affordable power.</p>
-          <p>We exist to change that — by building a public mandate so large that no major party can ignore it, and so durable it outlasts the news cycle.</p>
+          <p>We exist to change that — by building a public mandate so large that no government can ignore it, and so durable it outlasts the news cycle.</p>
         </div>
       </div>
     </section>
@@ -402,7 +402,7 @@ const About = () => (
         <div className="section-head">
           <span className="eyebrow">The team</span>
           <h2>People who have run campaigns that win.</h2>
-          <p className="lede">A small core team of campaign veterans, organisers, and policy researchers — backed by a cross-bench advisory panel and thousands of volunteer supporters.</p>
+          <p className="lede">A small core team of campaign veterans, organisers, and policy researchers — backed by an independent advisory panel and thousands of volunteer supporters.</p>
         </div>
         <div className="team-grid">
           {((useContent()?.team) || []).map(m => (
@@ -442,7 +442,7 @@ const About = () => (
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
           {[
-            ['Independent', 'Not affiliated with any political party. We endorse policy positions, not candidates.'],
+            ['Independent', 'Not aligned with any political organisation. We endorse policy positions, not candidates.'],
             ['Transparent', 'Audited annual financials published in full. Donor list aggregated by amount band.'],
             ['Australian-funded', 'No money accepted from foreign donors, fossil fuel companies, or renewable industrial complex.'],
           ].map(([h, p]) => (

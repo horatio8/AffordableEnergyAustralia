@@ -6,7 +6,7 @@
     "copyright": "© 2026 Affordable Energy Australia"
   },
   "hero": {
-    "eyebrow": "Federal Election 2028 · Cross-Party Campaign",
+    "eyebrow": "Federal Election 2028 · Independent Campaign",
     "headlineMain": "1 in 5 Australians can't afford",
     "headlineAccent": "the power bill.",
     "sub": "Sign the petition. Tell Australia's leaders to put families first — before ideology, before politics, before experiments.",
@@ -29,7 +29,7 @@
     { "src": "Sky News", "date": "28 March 2026", "head": "Manufacturers warn of further closures without affordability reset", "summary": "AI Group survey of 600 manufacturers identifies energy as the leading risk to operations through 2027.", "tag": "Coverage" },
     { "src": "AEA Press Release", "date": "20 March 2026", "head": "AEA petition surpasses 40,000 signatures in cross-electorate movement", "summary": "Affordable Energy Australia confirms supporter base has grown 240% quarter-on-quarter.", "tag": "Press Release" },
     { "src": "The Daily Telegraph", "date": "15 March 2026", "head": "Pensioners rationing heating as winter bills bite early", "summary": "COTA reports a sharp rise in members reducing heating use, with health concerns mounting.", "tag": "Coverage" },
-    { "src": "AEA Press Release", "date": "01 March 2026", "head": "AEA names cross-bench advisory panel ahead of 2028 election cycle", "summary": "Five former MPs from across the political spectrum join the campaign in advisory roles.", "tag": "Press Release" }
+    { "src": "AEA Press Release", "date": "01 March 2026", "head": "AEA names independent advisory panel ahead of 2028 election cycle", "summary": "Five former MPs from a range of backgrounds join the campaign in advisory roles.", "tag": "Press Release" }
   ],
   "team": [
     { "name": "Daniel Mitchell", "role": "Campaign Director", "bio": "Former federal political organiser. 15 years across NSW and federal campaigns." },

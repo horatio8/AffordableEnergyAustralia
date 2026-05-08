@@ -121,7 +121,7 @@ const Home = () => {
         <div className="hero-overlay" />
       </div>
       <div className="container-wide hero-content">
-        <span className="hero-eyebrow"><span className="pulse" />{hero.eyebrow || 'Federal Election 2028 · Cross-Party Campaign'}</span>
+        <span className="hero-eyebrow"><span className="pulse" />{hero.eyebrow || 'Federal Election 2028 · Independent Campaign'}</span>
         <h1>{hero.headlineMain || "1 in 5 Australians can't afford"} <span className="accent">{hero.headlineAccent || 'the power bill.'}</span></h1>
         <p className="hero-sub">{hero.sub || "Sign the petition. Tell Australia's leaders to put families first — before ideology, before politics, before experiments."}</p>
         <div className="hero-ctas">
