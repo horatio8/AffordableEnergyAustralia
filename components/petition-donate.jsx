@@ -121,22 +121,59 @@ const Donate = () => {
         </div>
       </section>
       <div className="container-wide">
-        <div className="donate-page-grid">
-          <div>
-            <p style={{ fontSize: 22, lineHeight: 1.5, color: 'var(--ink)', marginBottom: 32, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>
-              Families and businesses are suffering. We are purpose-built to win this fight — but we cannot do it without you.
-            </p>
-            <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 18 }}>
-              Affordable Energy Australia takes no money from political organisations, fossil fuel lobbyists, or the renewable industrial complex. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
-            </p>
-            <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 36 }}>
-              A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.
-            </p>
+        <form className="donate-form-wide" onSubmit={(e) => { e.preventDefault(); window.location.hash = '#/thank-you-donation'; }}>
+          <div className="donate-form-wide-grid">
+            <div className="donate-amount-side">
+              <div className="toggle-row">
+                <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
+                <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
+              </div>
+              <label className="donate-side-label">Choose your {recurring ? 'monthly ' : ''}contribution</label>
+              <div className="amount-grid">
+                {[15, 25, 50, 100, 250, 500].map(v => (
+                  <button key={v} type="button" className={amt===v?'active':''} onClick={() => setAmt(v)}>${v}</button>
+                ))}
+              </div>
+              <div className="impact-line"><strong>${amt}{recurring ? '/mo' : ''}</strong> {impact[amt] || 'powers our work'}.</div>
+            </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 32, marginBottom: 32 }}>
-              <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>47,832</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Signatures collected</div></div>
-              <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>12,400</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Letters sent to MPs</div></div>
-              <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>151</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Electorates with active supporters</div></div>
+            <div className="donate-payment-side">
+              <label className="donate-side-label">Your details</label>
+              <div className="field-row">
+                <div className="field"><label>Full name</label><input required /></div>
+                <div className="field"><label>Email</label><input type="email" required /></div>
+              </div>
+              <div className="field"><label>Card number</label><input placeholder="4242 4242 4242 4242" /></div>
+              <div className="field-row">
+                <div className="field"><label>Expiry</label><input placeholder="MM/YY" /></div>
+                <div className="field"><label>CVC</label><input placeholder="123" /></div>
+              </div>
+              <button type="submit" className="btn btn-amber donate-submit-btn">Donate ${amt}{recurring ? ' /month' : ''} →</button>
+              <div className="trust-row">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
+                <span>Secure payments via Stripe · ABN 93 676 364 855 · Receipt emailed</span>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <section className="donate-supporting">
+          <p style={{ fontSize: 22, lineHeight: 1.5, color: 'var(--ink)', marginBottom: 32, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>
+            Families and businesses are suffering. We are purpose-built to win this fight — but we cannot do it without you.
+          </p>
+          <div className="donate-supporting-grid">
+            <div>
+              <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 18 }}>
+                Affordable Energy Australia takes no money from political organisations, fossil fuel lobbyists, or the renewable industrial complex. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
+              </p>
+              <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 28 }}>
+                A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+                <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 36, color: 'var(--teal-deep)', lineHeight: 1 }}>47,832</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Signatures collected</div></div>
+                <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 36, color: 'var(--teal-deep)', lineHeight: 1 }}>12,400</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Letters sent to MPs</div></div>
+                <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 36, color: 'var(--teal-deep)', lineHeight: 1 }}>151</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Electorates with active supporters</div></div>
+              </div>
             </div>
 
             <div className="supporter-list">
@@ -155,47 +192,19 @@ const Donate = () => {
                 </div>
               ))}
             </div>
-
-            <div className="trust-grid">
-              {[
-                ['Stripe-secured', 'Bank-grade encryption', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="s"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>],
-                ['Tax-receipted', 'Auto-emailed receipt', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="r"><path d="M5 3v18l3-2 3 2 3-2 3 2 3-2V3z M9 8h6 M9 12h6 M9 16h4"/></svg>],
-                ['No middlemen', '100% to campaign', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="n"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>],
-                ['ABN registered', '93 676 364 855', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
-              ].map(([t, sub, ic]) => (
-                <div className="trust-badge" key={t}>{ic}<strong>{t}</strong>{sub}</div>
-              ))}
-            </div>
           </div>
 
-          <form className="donate-form-card" onSubmit={(e) => { e.preventDefault(); window.location.hash = '#/thank-you-donation'; }}>
-            <div className="toggle-row">
-              <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
-              <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
-            </div>
-            <label style={{ display: 'block', fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 13, color: 'var(--grey)', marginBottom: 10 }}>
-              Choose your {recurring ? 'monthly ' : ''}contribution
-            </label>
-            <div className="amount-grid">
-              {[15, 25, 50, 100, 250, 500].map(v => (
-                <button key={v} type="button" className={amt===v?'active':''} onClick={() => setAmt(v)}>${v}</button>
-              ))}
-            </div>
-            <div className="impact-line"><strong>${amt}{recurring ? '/mo' : ''}</strong> {impact[amt] || 'powers our work'}.</div>
-            <div className="field"><label>Full name</label><input required /></div>
-            <div className="field"><label>Email</label><input type="email" required /></div>
-            <div className="field"><label>Card number</label><input placeholder="4242 4242 4242 4242" /></div>
-            <div className="field-row">
-              <div className="field"><label>Expiry</label><input placeholder="MM/YY" /></div>
-              <div className="field"><label>CVC</label><input placeholder="123" /></div>
-            </div>
-            <button type="submit" className="btn btn-amber" style={{ width: '100%', padding: 18, fontSize: 18 }}>Donate ${amt}{recurring ? ' /month' : ''} →</button>
-            <div className="trust-row">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
-              <span>Secure payments via Stripe · ABN 93 676 364 855 · Receipt emailed</span>
-            </div>
-          </form>
-        </div>
+          <div className="trust-grid">
+            {[
+              ['Stripe-secured', 'Bank-grade encryption', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="s"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>],
+              ['Tax-receipted', 'Auto-emailed receipt', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="r"><path d="M5 3v18l3-2 3 2 3-2 3 2 3-2V3z M9 8h6 M9 12h6 M9 16h4"/></svg>],
+              ['No middlemen', '100% to campaign', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="n"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>],
+              ['ABN registered', '93 676 364 855', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
+            ].map(([t, sub, ic]) => (
+              <div className="trust-badge" key={t}>{ic}<strong>{t}</strong>{sub}</div>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );
