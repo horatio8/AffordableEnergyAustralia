@@ -64,7 +64,7 @@ const Petition = () => {
             </div>
             <button type="submit" className="btn btn-teal">Sign the Petition →</button>
             <p style={{ fontSize: 12, color: 'var(--grey)', marginTop: 14, textAlign: 'center' }}>
-              Authorised by D. Mitchell, AEA, Sydney NSW. Privacy Act compliant.
+              Authorised by Z. Hilton, AEA, Sydney NSW. Privacy Act compliant.
             </p>
           </form>
         </div>
@@ -132,23 +132,6 @@ const Donate = () => {
             <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 36 }}>
               A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.
             </p>
-
-            <div style={{ background: 'var(--teal-light)', padding: 32, borderLeft: '4px solid var(--teal)', marginBottom: 24 }}>
-              <h4 style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase', fontSize: 22, marginBottom: 16, color: 'var(--teal-deep)' }}>Where your money goes</h4>
-              <div style={{ display: 'grid', gap: 14 }}>
-                {[
-                  ['Digital campaigning & ads', '52%'],
-                  ['Field organising & MP outreach', '24%'],
-                  ['Research & policy analysis', '14%'],
-                  ['Operations & compliance', '10%'],
-                ].map(([k,v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, paddingBottom: 8, borderBottom: '1px solid rgba(13,31,28,.08)' }}>
-                    <span>{k}</span>
-                    <strong style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, color: 'var(--teal-deep)' }}>{v}</strong>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginTop: 32, marginBottom: 32 }}>
               <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 40, color: 'var(--teal-deep)', lineHeight: 1 }}>47,832</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Signatures collected</div></div>

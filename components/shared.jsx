@@ -115,7 +115,7 @@ const Footer = () => {
       </div>
       <div className="footer-bottom">
         <span>{site.copyright || '© 2026 Affordable Energy Australia'} · ABN {site.abn || '93 676 364 855'}</span>
-        <span>{site.authorisation || 'Authorised by D. Mitchell, Affordable Energy Australia, Sydney NSW'}</span>
+        <span>{site.authorisation || 'Authorised by Z. Hilton, Affordable Energy Australia, Sydney NSW'}</span>
       </div>
     </div>
   </footer>

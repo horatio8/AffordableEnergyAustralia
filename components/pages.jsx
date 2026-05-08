@@ -454,7 +454,7 @@ const About = () => (
         <div style={{ marginTop: 48, padding: 32, background: 'var(--ink)', color: 'var(--white)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
           <div>
             <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22, color: 'var(--amber)' }}>ABN 93 676 364 855</div>
-            <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Affordable Energy Australia · Sydney NSW · Authorised by D. Mitchell</div>
+            <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Affordable Energy Australia · Sydney NSW · Authorised by Z. Hilton</div>
           </div>
           <a href="#" className="btn btn-outline-amber">Download 2025 financial report ↓</a>
         </div>
