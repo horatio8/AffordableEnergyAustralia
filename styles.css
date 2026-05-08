@@ -30,7 +30,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; font-size: 13px; }
 .serif-italic { font-family: Georgia, 'Times New Roman', serif; font-style: italic; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; font-size: 17px; border-radius: 2px; transition: transform .15s ease, background .2s ease, color .2s ease, box-shadow .2s ease; cursor: pointer; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; font-size: 17px; border-radius: 2px; transition: transform .15s ease, background .2s ease, color .2s ease, box-shadow .2s ease; cursor: pointer; white-space: nowrap; }
 .btn:hover { transform: translateY(-1px); }
 .btn-teal { background: var(--teal); color: var(--white); }
 .btn-teal:hover { background: var(--teal-dark); box-shadow: 0 8px 24px rgba(42,154,135,.3); }
@@ -65,7 +65,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .site-header.scrolled { box-shadow: 0 4px 20px rgba(13,31,28,.12); }
 .site-header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 24px; }
 .site-nav { display: flex; align-items: center; gap: 26px; }
-.site-nav a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 16px; color: var(--white); transition: color .2s, opacity .2s; position: relative; padding: 6px 0; opacity: 0.95; }
+.site-nav a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 16px; color: var(--white); transition: color .2s, opacity .2s; position: relative; padding: 6px 0; opacity: 0.95; white-space: nowrap; }
 .site-nav a:hover { opacity: 1; color: var(--white); }
 .site-nav a.active { opacity: 1; color: var(--white); }
 .site-nav a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -20px; height: 3px; background: var(--amber); }
@@ -447,8 +447,15 @@ section { position: relative; }
 .affected-content p { font-size: 19px; color: var(--ink); opacity: 0.85; line-height: 1.65; margin-bottom: 16px; }
 .timeline-chart { background: var(--white); padding: 48px; border: 1px solid rgba(13,31,28,.08); }
 
+/* Tight nav at narrow desktop — before mobile menu kicks in */
+@media (max-width: 1340px) and (min-width: 1181px) {
+  .site-nav { gap: 18px; }
+  .site-nav a { font-size: 15px; }
+  .header-ctas .btn { padding: 11px 16px; font-size: 14px; }
+}
+
 /* Mobile responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
   .two-col { grid-template-columns: 1fr; gap: 48px; }
   .pillars { grid-template-columns: 1fr; }
