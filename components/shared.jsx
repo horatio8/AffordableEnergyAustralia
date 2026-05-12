@@ -48,7 +48,7 @@ const Header = ({ route }) => {
           ))}
         </nav>
         <div className="header-ctas">
-          <a href="#/petition" className="btn btn-teal">Sign <span className="full-label">the Petition</span></a>
+          <a href="#/petition" className="btn btn-teal"><span className="full-label">Sign the Petition</span><span className="short-label">Sign</span></a>
           <a href="#/donate" className="btn btn-amber">Donate</a>
           <button className={`menu-toggle ${open ? 'open' : ''}`} onClick={() => setOpen(!open)} aria-label="Menu"><span /></button>
         </div>
@@ -115,7 +115,7 @@ const Footer = () => {
       </div>
       <div className="footer-bottom">
         <span>{site.copyright || '© 2026 Affordable Energy Australia'} · ABN {site.abn || '93 676 364 855'}</span>
-        <span>{site.authorisation || 'Authorised by Z. Hilton, Affordable Energy Australia, Sydney NSW'}</span>
+        <span>{site.authorisation || 'Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW'}</span>
       </div>
     </div>
   </footer>
@@ -181,6 +181,11 @@ const StatBand = () => {
           <div className="stat" key={i}>
             <span className="num">{formatStat(counts[i], s.format)}</span>
             <span className="label">{s.label}</span>
+            {s.source && (
+              <span className="source">
+                Source: {s.sourceUrl ? <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer">{s.source}</a> : s.source}
+              </span>
+            )}
           </div>
         ))}
       </div>

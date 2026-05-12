@@ -1,7 +1,18 @@
 /* === Petition, Donate, Thank You === */
 
+const formatPetitionStat = (n, format) => {
+  switch (format) {
+    case '$X': return `$${(+n).toLocaleString()}`;
+    case 'X%': return `${n}%`;
+    case 'Xk': return `${n}k`;
+    case '1-in-X': return `1 in ${n}`;
+    default: return (+n).toLocaleString();
+  }
+};
+
 const Petition = () => {
-  const [submitted, setSubmitted] = React.useState(false);
+  const content = useContent();
+  const petitionStats = (content && content.petitionStats) || [];
   const submit = (e) => { e.preventDefault(); window.location.hash = '#/thank-you-petition'; };
   return (
     <main data-screen-label="Petition">
@@ -10,7 +21,7 @@ const Petition = () => {
           <div>
             <span className="eyebrow" style={{ color: 'var(--amber)' }}>The Petition</span>
             <h1>Sign it. Send a message no politician can ignore.</h1>
-            <p className="lede">Your name joins tens of thousands of Australians from every state, every electorate, and every walk of life — demanding leadership that puts affordability first.</p>
+            <p className="lede">Your name joins everyday Australians from every state, every electorate, and every walk of life, demanding leadership that puts affordability first.</p>
           </div>
           <HeroPlaceholder icon="petition" tag="Hero · Petition" />
         </div>
@@ -20,16 +31,19 @@ const Petition = () => {
           <div className="petition-left">
             <p className="petition-declaration">"We call on Australia's leaders to prioritise affordable & reliable energy."</p>
             <p style={{ fontSize: 18, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85, marginBottom: 20 }}>
-              For too long, energy policy has been written for ideology rather than for the families and businesses paying the bills. The cost is being borne by households who can least afford it.
+              For too long, energy policy has been written for ideology and vested interests rather than for the families and businesses paying the bills. The cost is being borne by households who can least afford it.
             </p>
             <p style={{ fontSize: 18, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85 }}>
-              Adding your name puts you on the record. It joins your voice with tens of thousands of Australians from every state, every electorate, and every walk of life — demanding leadership that puts affordability first.
+              Adding your name puts you on the record. It joins your voice with everyday Australians from every state, every electorate, and every walk of life, demanding leadership that puts affordability first.
             </p>
             <div className="petition-stats-mini">
-              <div className="mini-stat"><span className="num">$1,367</span><span className="label">Average household energy debt</span></div>
-              <div className="mini-stat"><span className="num">19%</span><span className="label">Price rise in 3 years</span></div>
-              <div className="mini-stat"><span className="num">340k</span><span className="label">Households in energy debt</span></div>
-              <div className="mini-stat"><span className="num">15%</span><span className="label">Sacrificing food or housing</span></div>
+              {petitionStats.slice(0, 4).map((s, i) => (
+                <div className="mini-stat" key={i}>
+                  <span className="num">{formatPetitionStat(s.num, s.format)}</span>
+                  <span className="label">{s.label}</span>
+                  {s.source && <span className="mini-source">Source: {s.source}</span>}
+                </div>
+              ))}
             </div>
           </div>
           <form className="petition-form" onSubmit={submit}>
@@ -49,12 +63,7 @@ const Petition = () => {
               <div className="field"><label>Last name</label><input required defaultValue="" /></div>
             </div>
             <div className="field"><label>Email</label><input type="email" required placeholder="you@email.com" /></div>
-            <div className="field-row">
-              <div className="field"><label>Postcode</label><input required maxLength="4" placeholder="2000" /></div>
-              <div className="field"><label>State</label>
-                <select><option>NSW</option><option>VIC</option><option>QLD</option><option>SA</option><option>WA</option><option>TAS</option><option>ACT</option><option>NT</option></select>
-              </div>
-            </div>
+            <div className="field"><label>Postcode</label><input required maxLength="4" placeholder="2000" /></div>
             <div className="field"><label>Phone (optional)</label><input type="tel" placeholder="For SMS campaign updates" /></div>
             <div className="checkbox-row">
               <input type="checkbox" defaultChecked id="optin" />
@@ -64,7 +73,7 @@ const Petition = () => {
             </div>
             <button type="submit" className="btn btn-teal">Sign the Petition →</button>
             <p style={{ fontSize: 12, color: 'var(--grey)', marginTop: 14, textAlign: 'center' }}>
-              Authorised by Z. Hilton, AEA, Sydney NSW. Privacy Act compliant.
+              Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW. Privacy Act compliant.
             </p>
           </form>
         </div>

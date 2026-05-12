@@ -14,8 +14,9 @@ const TheProblem = () => {
       <section className="problem-hero">
         <div className="container problem-hero-inner">
           <span className="eyebrow" style={{ color: 'var(--amber)' }}>The Problem</span>
-          <span className="big-num">19%</span>
-          <h1>Electricity prices have risen nineteen per cent in just three years — with another 24% projected by July 2026.</h1>
+          <span className="big-num">220%</span>
+          <h1>Electricity prices for households have risen 220 per cent since 2008.</h1>
+          <p style={{ marginTop: 18, fontSize: 14, fontStyle: 'italic', opacity: 0.7 }}>Source: Australian Bureau of Statistics.</p>
         </div>
       </section>
 
@@ -454,7 +455,7 @@ const About = () => (
         <div style={{ marginTop: 48, padding: 32, background: 'var(--ink)', color: 'var(--white)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
           <div>
             <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22, color: 'var(--amber)' }}>ABN 93 676 364 855</div>
-            <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Affordable Energy Australia · Sydney NSW · Authorised by Z. Hilton</div>
+            <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Coalition for Conservation · Sydney NSW · Authorised by Z. Hilton</div>
           </div>
           <a href="#" className="btn btn-outline-amber">Download 2025 financial report ↓</a>
         </div>

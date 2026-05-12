@@ -1,5 +1,28 @@
 # Statistics on this site — sources & verification
 
+**Client-approved sources (May 2026 edits):** The four headline stats on the home stat band and the four petition mini-stats are now powered by `content.json` (`stats[]` and `petitionStats[]`) and cite the sources listed below per the client's review. Source attribution renders as an italic line under each stat label. The audit below is preserved for historical reference and for stats not yet locked.
+
+| Where | Figure | Source per client | Verification status |
+| --- | --- | --- | --- |
+| Stat band #1 | 1 in 5 households experiencing energy hardship or on the brink | Energy Consumers Australia | Need direct ECA citation URL — `energyconsumersaustralia.com.au` placeholder used in content.json; please update with the exact survey/report page when you have it. |
+| Stat band #2 | $1,367 average household energy debt | Australian Energy Regulator (Annual Retail Markets Report 2024-25) | ✅ Exact match to AER end-Jun-2025 figure. |
+| Stat band #3 | 220% electricity price rise for households since 2008 | Australian Bureau of Statistics | Most likely the ABS CPI electricity sub-index (series A2325847A) — confirm with the client which exact series + date range underpins the 220% figure. |
+| Stat band #4 | 84% of households with serious concerns about cost of power | Choice National Survey | Need the specific Choice survey citation URL (which year / wave). |
+| Petition stat | 7,669 Victorian families disconnected from power in 2023–24 | Essential Services Commission (Victoria) | ESC publishes annual energy disconnection figures. Confirm exact ESC report title + URL before media use. |
+| Problem-page big number | 220% since 2008 | ABS | Same as stat band #3. |
+
+**Open items for the client to confirm:**
+1. ECA citation URL (which ECA publication / dashboard reports the 1-in-5 hardship figure).
+2. Choice survey citation URL (year and wave).
+3. ABS series ID confirming 220% since 2008.
+4. ESC report title + year confirming 7,669 Victorian disconnections in 2023–24.
+
+Update `content.json` `stats[].sourceUrl` and `petitionStats[].sourceUrl` once these are confirmed — they render as live hyperlinks.
+
+---
+
+## Original audit (pre-client review)
+
 Every empirical claim should be defensible to a working journalist. This is an audit of every statistic that appears on the site, with the best authoritative source we could find. Claims are marked:
 
 - ✅ **Verified** — figure matches a primary source within a small margin.

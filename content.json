@@ -2,23 +2,56 @@
   "site": {
     "tagline": "A people-powered, single-issue campaign building a public mandate for affordable and reliable energy for every Australian household.",
     "abn": "93 676 364 855",
-    "authorisation": "Authorised by Z. Hilton, Affordable Energy Australia, Sydney NSW",
+    "authorisation": "Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW",
     "copyright": "© 2026 Affordable Energy Australia"
   },
   "hero": {
     "eyebrow": "",
     "headlineMain": "1 in 5 Australians can't afford",
-    "headlineAccent": "the power bill.",
+    "headlineAccent": "their power bill.",
     "sub": "Sign the petition. Tell Australia's leaders to put families first — before ideology, before politics, before experiments.",
     "petitionCount": 47832
   },
   "stats": [
-    { "num": 20, "format": "1-in-X", "label": "Australian households in energy hardship today" },
-    { "num": 1367, "format": "$X", "label": "Average household energy debt across the country" },
-    { "num": 19, "format": "X%", "label": "Electricity price rise in just three years" },
-    { "num": 340, "format": "Xk", "label": "Households now in long-term energy debt" }
+    { "num": 5, "format": "1-in-X", "label": "Australian households experiencing energy hardship or on the brink", "source": "Energy Consumers Australia", "sourceUrl": "https://energyconsumersaustralia.com.au/" },
+    { "num": 1367, "format": "$X", "label": "Average household energy debt across the country", "source": "Australian Energy Regulator", "sourceUrl": "https://www.aer.gov.au/news/articles/news-releases/debt-and-hardship-persist-vulnerable-customers" },
+    { "num": 220, "format": "X%", "label": "Electricity price rise for households since 2008", "source": "Australian Bureau of Statistics", "sourceUrl": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release" },
+    { "num": 84, "format": "X%", "label": "Households with serious concerns about the cost of power", "source": "Choice National Survey", "sourceUrl": "https://www.choice.com.au/" }
+  ],
+  "petitionStats": [
+    { "num": 1367, "format": "$X", "label": "Average household energy debt", "source": "Australian Energy Regulator" },
+    { "num": 220, "format": "X%", "label": "Electricity price rise for households since 2008", "source": "ABS" },
+    { "num": 7669, "format": "X", "label": "Victorian families disconnected from power in 2023–24", "source": "Essential Services Commission" },
+    { "num": 84, "format": "X%", "label": "Households with serious concerns about the cost of power", "source": "Choice National Survey" }
   ],
   "voices": [
+    { "initials": "JM", "name": "Janelle, 62", "loc": "Pensioner · Wagga Wagga NSW", "quote": "I had to choose between heating and my heart medication this winter. I never thought I'd see that day in Australia." },
+    { "initials": "TR", "name": "Tom, 47", "loc": "Café owner · Geelong VIC", "quote": "Our power bill tripled. We cut staff hours, then we cut staff. Nobody in Canberra seems to notice the small shops closing." },
+    { "initials": "PD", "name": "Priya, 34", "loc": "Mother of two · Western Sydney", "quote": "Two kids, two jobs, and we still get the disconnection notices. I signed because someone has to say enough." }
+  ],
+  "news": [
+    { "src": "The Australian", "date": "12 April 2026", "head": "Grid stability fears mount as wholesale prices spike across NEM", "summary": "AEMO data reveals wholesale spot prices in NSW and Victoria reached new peaks during the Easter cold snap.", "tag": "Coverage" },
+    { "src": "Australian Financial Review", "date": "03 April 2026", "head": "340,000 households now in energy debt — peak body sounds alarm", "summary": "Energy and Water Ombudsman figures show debt levels at a decade high, with average debt up $200 in twelve months.", "tag": "Coverage" },
+    { "src": "Sky News", "date": "28 March 2026", "head": "Manufacturers warn of further closures without affordability reset", "summary": "AI Group survey of 600 manufacturers identifies energy as the leading risk to operations through 2027.", "tag": "Coverage" },
+    { "src": "AEA Press Release", "date": "20 March 2026", "head": "AEA petition surpasses 40,000 signatures in cross-electorate movement", "summary": "Affordable Energy Australia confirms supporter base has grown 240% quarter-on-quarter.", "tag": "Press Release" },
+    { "src": "The Daily Telegraph", "date": "15 March 2026", "head": "Pensioners rationing heating as winter bills bite early", "summary": "COTA reports a sharp rise in members reducing heating use, with health concerns mounting.", "tag": "Coverage" },
+    { "src": "AEA Press Release", "date": "01 March 2026", "head": "AEA names independent advisory panel ahead of 2028 election cycle", "summary": "Five former MPs from a range of backgrounds join the campaign in advisory roles.", "tag": "Press Release" }
+  ],
+  "team": [
+    { "name": "Daniel Mitchell", "role": "Campaign Director", "bio": "Former federal political organiser. 15 years across NSW and federal campaigns." },
+    { "name": "Hannah Reid", "role": "Communications", "bio": "Ex-press gallery journalist. Built the comms function for two state-level coalitions." },
+    { "name": "Dr. Aroha Ngata", "role": "Policy & Research", "bio": "Energy economist; AEMC alumna. Author of the campaign's benchmark dataset." },
+    { "name": "Marcus Chen", "role": "Field Operations", "bio": "Doorknock veteran. Designs the electorate-by-electorate playbook." }
+  ],
+  "milestones": [
+    { "when": "Q4 2025", "status": "Launched", "title": "Founding", "desc": "AEA incorporated. Founding board appointed. First 1,000 supporters from a standing start." },
+    { "when": "Q2 2026", "status": "Live", "title": "Petition crosses 50,000", "desc": "Surpass 50,000 signatures across all 151 electorates. Public petition handover scheduled." },
+    { "when": "Q4 2026", "status": "Planned", "title": "MP scorecard published", "desc": "Every federal MP scored on their public record. Updated quarterly through 2028." },
+    { "when": "Q2 2027", "status": "Planned", "title": "200,000 supporters", "desc": "Half-target supporter list reached. Field organising scaled in 30 priority electorates." },
+    { "when": "2028", "status": "Target", "title": "Election cycle", "desc": "Cross-electorate field campaign live in 60 marginal seats. Full transparency of funding and impact." }
+  ]
+}
+
     { "initials": "JM", "name": "Janelle, 62", "loc": "Pensioner · Wagga Wagga NSW", "quote": "I had to choose between heating and my heart medication this winter. I never thought I'd see that day in Australia." },
     { "initials": "TR", "name": "Tom, 47", "loc": "Café owner · Geelong VIC", "quote": "Our power bill tripled. We cut staff hours, then we cut staff. Nobody in Canberra seems to notice the small shops closing." },
     { "initials": "PD", "name": "Priya, 34", "loc": "Mother of two · Western Sydney", "quote": "Two kids, two jobs, and we still get the disconnection notices. I signed because someone has to say enough." }
