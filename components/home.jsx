@@ -142,7 +142,7 @@ const Home = () => {
     {/* Hero */}
     <section className="hero">
       <div className="hero-bg">
-        <img src="assets/hero-image.png" alt="An Australian mother reads an overdue electricity bill at her kitchen table." />
+        <img src="assets/hero-image.jpg" alt="A worried couple read a power bill at their kitchen table." />
         <div className="hero-overlay" />
       </div>
       <div className="container-wide hero-content">
@@ -173,7 +173,7 @@ const Home = () => {
           <a href="#/the-problem" className="btn btn-outline-teal" style={{ marginTop: 32 }}>Read the full story →</a>
         </div>
         <div className="problem-img">
-          <img src="assets/family-candlelight.png" alt="A family sits by candlelight after a power disconnection." />
+          <img src="assets/family-candlelight.jpg" alt="Three children play by lantern light after their power was disconnected." />
           <figcaption className="problem-img-caption">
             <strong>7,669 Victorian families</strong> were disconnected from power in 2023–24 because the money simply wasn't there.
             <span className="problem-img-source">Source: Essential Services Commission</span>

@@ -473,7 +473,7 @@ section { position: relative; }
 
 /* The problem page */
 .problem-hero { background: var(--ink); color: var(--white); padding: 120px 0; text-align: center; position: relative; overflow: hidden; }
-.problem-hero::before { content: ''; position: absolute; inset: 0; background: url('assets/family-candlelight.png') center/cover; opacity: 0.25; }
+.problem-hero::before { content: ''; position: absolute; inset: 0; background: url('assets/family-candlelight.jpg') center/cover; opacity: 0.25; }
 .problem-hero-inner { position: relative; }
 .problem-hero .big-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(140px, 18vw, 280px); line-height: 0.85; color: var(--red); display: block; margin-bottom: 16px; }
 .problem-hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(36px, 4.5vw, 64px); line-height: 0.95; max-width: 22ch; margin: 0 auto; }
