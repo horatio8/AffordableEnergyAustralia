@@ -268,7 +268,7 @@ const ThankYouPetition = () => (
       <div className="next-steps">
         <div className="next-step">
           <span className="num">01 · Refer</span>
-          <h4>Tell five friends</h4>
+          <h4>Tell three friends</h4>
           <p>Trusted networks grow petitions fastest. Personal intros convert at 3× the rate of cold shares.</p>
         </div>
         <div className="next-step">

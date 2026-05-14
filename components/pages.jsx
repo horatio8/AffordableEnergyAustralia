@@ -3,10 +3,10 @@
 const TheProblem = () => {
   const [tab, setTab] = React.useState('households');
   const tabs = {
-    households: { title: 'Households', body: 'One in five Australian households is now in energy hardship. Average debt has climbed past $1,367 — and 15% of families report sacrificing food, healthcare or housing payments to keep the power on. Pensioners and renters on fixed incomes are bearing the heaviest load.', stat: '1 in 5', statLabel: 'households in hardship' },
-    business: { title: 'Small Business', body: 'Cafés, butchers, panel beaters, dry cleaners — small businesses are absorbing wholesale price spikes they cannot pass on to customers. Hundreds are quietly closing every quarter. Energy is now in the top three operating costs for 78% of small employers.', stat: '78%', statLabel: 'of SMEs naming energy a top-3 cost' },
-    industry: { title: 'Heavy Industry', body: 'Smelters, refineries, fertiliser plants and food processors operate on margins that cannot survive volatile wholesale markets. When industry leaves Australia, it does not come back. We have already lost capacity that took fifty years to build.', stat: '4,200', statLabel: 'manufacturing jobs lost in 2025' },
-    pensioners: { title: 'Pensioners', body: 'Fixed-income Australians have no ability to absorb 19% bill increases. Many are rationing heating in winter and cooling in summer — a documented and accelerating public health risk in a country where heat exposure already kills more Australians than bushfires.', stat: '$200+', statLabel: 'avg debt rise in a single year' },
+    households: { title: 'Households', body: 'One in five Australian households are now in energy hardship or on the brink. Average energy debt has climbed to $1,367, with 20% of families skipping meals or going days without eating due to financial strain. Renters, parents and pensioners are bearing the heaviest load.', stat: '1 in 5', statLabel: 'households in hardship or on the brink', source: 'Energy Consumers Australia' },
+    business: { title: 'Small Business', body: 'Rising energy costs are now the #1 factor impacting the finances of small businesses. Cafés, butchers, panel beaters, dry cleaners — small businesses across the country are being forced to choose between passing on price increases to customers or not being able to pay the bills. In 2024, 1 in 5 small businesses were unable to pay their energy bills on time or in full.', stat: '1 in 5', statLabel: 'small businesses reporting difficulty paying energy bills', source: 'Council of Small Business Organisations Australia' },
+    industry: { title: 'Heavy Industry', body: 'Smelters, refineries, fertiliser plants and food processors operate on margins that cannot survive high energy prices. When industry leaves Australia, it does not come back easily. We have already lost manufacturing capacity that took decades to build, with 39,400 manufacturing jobs lost in the last two years alone.', stat: '39,400', statLabel: 'manufacturing jobs lost from Feb 2024 to Feb 2026', source: 'Australian Bureau of Statistics' },
+    pensioners: { title: 'Pensioners', body: 'Australians on fixed incomes cannot continue absorbing energy bill increases. 41% of older Australians are rationing heating in winter and cooling in summer, with many more forced to make daily sacrifices to make ends meet.', stat: '41%', statLabel: 'Australian seniors rationing heating and cooling', source: 'Australian Seniors' },
   };
   const t = tabs[tab];
   return (
@@ -26,22 +26,23 @@ const TheProblem = () => {
           <div className="section-head">
             <span className="eyebrow">The crisis in numbers</span>
             <h2>Eight figures every Australian should know.</h2>
-            <p className="lede">Cleared statistics from regulators, peak bodies, and the AEA campaign team. Sources available on request to working journalists.</p>
+            <p className="lede">Key statistics from regulators, peak bodies and charities.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
             {[
-              ['1 in 5', 'Households in hardship'],
-              ['$1,367', 'Average household energy debt'],
-              ['340k', 'Households in long-term debt'],
-              ['19%', 'Price rise in 3 years'],
-              ['24%', 'Further rise by July 2026'],
-              ['15%', 'Families sacrificing food or housing'],
-              ['200+', 'NSW spot price spikes >$10k/MWh in 2024'],
-              ['$200+', 'Average debt increase in 12 months'],
-            ].map(([n,l], i) => (
+              { n: '1 in 5', l: 'Households in hardship or on the brink', s: 'Energy Consumers Australia' },
+              { n: '$1,367', l: 'Average household energy debt', s: 'Australian Energy Regulator' },
+              { n: '340k', l: 'Households in long-term debt', s: 'Australian Energy Regulator' },
+              { n: '220%', l: 'Electricity price rise for households since 2008', s: 'Australian Bureau of Statistics' },
+              { n: '24%', l: 'Projected further price rise Nov 2025 to July 2026', s: 'Australian Bureau of Statistics, Westpac' },
+              { n: '200+', l: 'NSW spot price spikes >$10k/MWh in 2024', s: 'Australian Energy Market Operator' },
+              { n: '20%', l: 'Households skipping meals due to financial strain', s: 'Foodbank Hunger Report' },
+              { n: '84%', l: 'Households seriously concerned about power costs', s: 'Choice National Survey' },
+            ].map(({ n, l, s }, i) => (
               <div key={i} style={{ padding: 28, background: 'var(--white)', borderTop: '4px solid var(--red)' }}>
                 <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 56, color: 'var(--red)', lineHeight: 0.95 }}>{n}</div>
                 <div style={{ fontSize: 14, color: 'var(--grey)', marginTop: 8 }}>{l}</div>
+                <div style={{ fontSize: 12, color: 'var(--grey-soft)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.4 }}>Source: {s}</div>
               </div>
             ))}
           </div>
@@ -68,6 +69,7 @@ const TheProblem = () => {
             <div style={{ background: 'var(--white)', padding: 48, borderLeft: '6px solid var(--red)' }}>
               <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 100, color: 'var(--red)', lineHeight: 0.9 }}>{t.stat}</div>
               <div style={{ fontSize: 17, color: 'var(--grey)', marginTop: 12, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>{t.statLabel}</div>
+              {t.source && <div style={{ fontSize: 13, color: 'var(--grey-soft)', marginTop: 14, fontStyle: 'italic' }}>Source: {t.source}</div>}
             </div>
           </div>
         </div>
@@ -78,8 +80,8 @@ const TheProblem = () => {
         <div className="container-wide">
           <div className="section-head">
             <span className="eyebrow">The trajectory</span>
-            <h2>Average residential electricity bill, 2010–2026.</h2>
-            <p className="lede">Indexed to a representative 5,500 kWh/year household. Projection from current AEMC tariff trends.</p>
+            <h2>Australian Energy Prices Keep on Climbing</h2>
+            <p className="lede">Electricity and gas prices have risen to record highs in recent years.</p>
           </div>
           <div className="timeline-chart">
             <div style={{ position: 'relative', height: 320, padding: '0 0 40px 50px' }}>
@@ -236,8 +238,8 @@ const TakeAction = () => {
 
             <div className="action-card">
               <span className="num">03 · Recruit</span>
-              <h3>Tell five friends</h3>
-              <p>The petition grows fastest through trusted networks. Send a personal introduction to up to five people in one email.</p>
+              <h3>Tell three friends</h3>
+              <p>The petition grows fastest through trusted networks. Send a personal introduction to three people in one email.</p>
               {[1,2,3].map(i => (
                 <div className="field" key={i} style={{ marginBottom: 8 }}>
                   <input type="email" placeholder={`Friend ${i} email`} style={{ width: '100%', padding: '13px 14px', border: '2px solid rgba(13,31,28,.1)', fontSize: 16 }} />
@@ -352,7 +354,7 @@ const About = () => (
         <div>
           <span className="eyebrow" style={{ color: 'var(--teal-dark)' }}>About AEA</span>
           <h1>A people-powered campaign with one job: <span style={{ color: 'var(--teal-dark)' }}>win.</span></h1>
-          <p className="lede">Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who feel the country lacks a well-planned approach to managing the energy transition.</p>
+          <p className="lede">Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who are concerned about increased energy prices arising from Australia's current plans for the energy transition.</p>
         </div>
         <div className="hero-placeholder hero-placeholder-light">
           <span className="ph-tag" style={{ background: 'var(--teal-deep)', color: 'var(--white)' }}>Hero · About</span>
@@ -388,7 +390,7 @@ const About = () => (
           </div>
           <div className="process-step">
             <h3>Pressure</h3>
-            <p>Take the supporter base and convert it into direct, sustained constituent pressure on every elected representative. Letters, calls, town halls, surgeries.</p>
+            <p>Take the supporter base and convert it into direct, sustained constituent pressure on every elected representative. Letters, calls, town halls, community meetings.</p>
           </div>
           <div className="process-step">
             <h3>Hold to Account</h3>
@@ -402,8 +404,8 @@ const About = () => (
       <div className="container-wide">
         <div className="section-head">
           <span className="eyebrow">The team</span>
-          <h2>People who have run campaigns that win.</h2>
-          <p className="lede">A small core team of campaign veterans, organisers, and policy researchers — backed by an independent advisory panel and thousands of volunteer supporters.</p>
+          <h2>Our Affordable Energy Advocates</h2>
+          <p className="lede">We are passionate about ensuring every Australian has access to affordable, reliable energy.</p>
         </div>
         <div className="team-grid">
           {((useContent()?.team) || []).map(m => (
