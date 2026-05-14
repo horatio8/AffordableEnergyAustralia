@@ -51,7 +51,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* Logo */
 .logo { display: inline-flex; align-items: center; line-height: 0; }
-.logo-img { display: block; height: 64px; width: auto; max-width: 300px; }
+.logo-img { display: block; height: 84px; width: auto; max-width: 390px; }
 .logo-dark .logo-img { filter: invert(33%) sepia(64%) saturate(429%) hue-rotate(122deg) brightness(96%) contrast(91%); }
 
 /* Header */
@@ -78,7 +78,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .menu-toggle.open span { background: transparent; }
 .menu-toggle.open span::before { top: 0; transform: rotate(45deg); }
 .menu-toggle.open span::after { top: 0; transform: rotate(-45deg); }
-.mobile-drawer { position: fixed; top: 64px; left: 0; right: 0; background: var(--teal-deep); color: var(--white); padding: 24px; transform: translateY(-120%); transition: transform .3s ease; z-index: 99; box-shadow: 0 16px 32px rgba(0,0,0,.2); max-height: calc(100vh - 64px); overflow-y: auto; }
+.mobile-drawer { position: fixed; top: 80px; left: 0; right: 0; background: var(--teal-deep); color: var(--white); padding: 24px; transform: translateY(-120%); transition: transform .3s ease; z-index: 99; box-shadow: 0 16px 32px rgba(0,0,0,.2); max-height: calc(100vh - 80px); overflow-y: auto; }
 .mobile-drawer.open { transform: translateY(0); }
 .mobile-drawer a { display: block; padding: 16px 4px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 18px; color: var(--white); border-bottom: 1px solid rgba(255,255,255,.1); }
 .mobile-drawer a.active { color: var(--amber); }
@@ -554,7 +554,7 @@ section { position: relative; }
   .header-ctas .short-label { display: inline; }
   .header-ctas .btn { padding: 10px 14px; font-size: 13px; }
   .header-ctas { gap: 8px; }
-  .logo-img { height: 44px; max-width: 200px; }
+  .logo-img { height: 58px; max-width: 260px; }
   .donate-amounts { gap: 8px; }
   .amount-btn { padding: 14px 18px; font-size: 16px; flex: 1; min-width: 70px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
