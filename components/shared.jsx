@@ -1,19 +1,8 @@
 /* === Shared components === */
 
-const LogoMark = () => (
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M32 6 L60 58 L40 58 L32 42 L24 58 L4 58 Z M32 22 L38 36 L26 36 Z" />
-  </svg>
-);
-
 const Logo = ({ light = false }) => (
-  <a href="#/" className={`logo ${light ? 'logo-light' : 'logo-dark'}`}>
-    <span className="logo-mark"><LogoMark /></span>
-    <span className="logo-text">
-      Affordable
-      <small>Energy</small>
-      <small>Australia</small>
-    </span>
+  <a href="#/" className={`logo ${light ? 'logo-light' : 'logo-dark'}`} aria-label="Affordable Energy Australia — home">
+    <img src="assets/logo.png" alt="Affordable Energy Australia" className="logo-img" />
   </a>
 );
 
@@ -315,4 +304,4 @@ const HeroPlaceholder = ({ icon = 'petition', tag = 'Image' }) => (
   </div>
 );
 
-Object.assign(window, { Logo, LogoMark, Header, Footer, StatBand, PetitionCounter, SocialTicker, StickyMobileBar, useCountUp, useInView, NAV, HeroPlaceholder, HERO_ICONS });
+Object.assign(window, { Logo, Header, Footer, StatBand, PetitionCounter, SocialTicker, StickyMobileBar, useCountUp, useInView, NAV, HeroPlaceholder, HERO_ICONS });

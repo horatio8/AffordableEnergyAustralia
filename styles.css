@@ -49,16 +49,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .container-wide { width: min(1440px, 100% - 64px); margin: 0 auto; }
 .container-narrow { width: min(960px, 100% - 64px); margin: 0 auto; }
 
-/* Logo lockup */
-.logo { display: inline-flex; align-items: center; gap: 12px; }
-.logo-mark { width: 38px; height: 38px; flex-shrink: 0; }
-.logo-mark svg { width: 100%; height: 100%; display: block; }
-.logo-text { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase; line-height: 0.85; font-size: 14px; letter-spacing: 0.02em; }
-.logo-text small { display: block; font-weight: 800; opacity: 0.85; }
-.logo-light { color: var(--white); }
-.logo-light .logo-mark path { fill: var(--white); }
-.logo-dark { color: var(--teal-deep); }
-.logo-dark .logo-mark path { fill: var(--teal-deep); }
+/* Logo */
+.logo { display: inline-flex; align-items: center; line-height: 0; }
+.logo-img { display: block; height: 44px; width: auto; max-width: 220px; }
+.logo-dark .logo-img { filter: invert(33%) sepia(64%) saturate(429%) hue-rotate(122deg) brightness(96%) contrast(91%); }
 
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 100; background: var(--teal); color: var(--white); border-bottom: 1px solid rgba(0,0,0,.08); }
@@ -560,8 +554,7 @@ section { position: relative; }
   .header-ctas .short-label { display: inline; }
   .header-ctas .btn { padding: 10px 14px; font-size: 13px; }
   .header-ctas { gap: 8px; }
-  .logo-text { font-size: 11px; }
-  .logo-mark { width: 30px; height: 30px; }
+  .logo-img { height: 32px; max-width: 160px; }
   .donate-amounts { gap: 8px; }
   .amount-btn { padding: 14px 18px; font-size: 16px; flex: 1; min-width: 70px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
