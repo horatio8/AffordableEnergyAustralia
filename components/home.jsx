@@ -91,7 +91,7 @@ const HomeNews = () => {
         </div>
         <div className="news-grid">
           {items.map((it, i) => (
-            <a href="#/news" key={i} className="news-card">
+            <a href={`#/news/${it.slug || i}`} key={i} className="news-card">
               <div className="news-source">{it.src}</div>
               <div className="news-date">{it.date}</div>
               <h4>{it.head}</h4>
@@ -123,7 +123,7 @@ const HomeDonate = () => {
           <h2 style={{ marginTop: 14 }}>This fight is funded <span className="accent">by Australians</span> — not corporations.</h2>
           <p>Every dollar reaches more Australians, contacts more MPs, and builds the public mandate to put affordability first. Click an amount to donate via Stripe.</p>
           <div className="donate-amounts">
-            {[15, 25, 50, 100].map(v => (
+            {[35, 65, 135, 265].map(v => (
               <button key={v} className="amount-btn" disabled={busy===v} onClick={() => go(v)}>{busy===v ? '…' : `$${v}`}</button>
             ))}
             <a className="amount-btn" href="#/donate">Other</a>

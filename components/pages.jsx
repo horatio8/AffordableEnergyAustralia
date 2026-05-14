@@ -315,7 +315,7 @@ const TakeActionNewsStrip = () => {
         </div>
         <div className="news-grid">
           {items.map((it, i) => (
-            <a href="#/news" key={i} className="news-card">
+            <a href={`#/news/${it.slug || i}`} key={i} className="news-card">
               <div className="news-source">{it.src}</div>
               <div className="news-date">{it.date}</div>
               <h4>{it.head}</h4>
@@ -370,7 +370,7 @@ const News = () => {
 
           <div className="news-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {items.map((it, i) => (
-              <a href="#" key={i} className="news-card" style={{ padding: 36 }}>
+              <a href={`#/news/${it.slug || i}`} key={i} className="news-card" style={{ padding: 36 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                   <span className="news-source">{it.src}</span>
                   <span style={{ fontSize: 11, padding: '3px 8px', background: it.tag === 'Press Release' ? 'var(--amber)' : 'var(--teal-light)', color: it.tag === 'Press Release' ? 'var(--ink)' : 'var(--teal-deep)', fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{it.tag}</span>
@@ -378,7 +378,7 @@ const News = () => {
                 <div className="news-date">{it.date}</div>
                 <h4 style={{ fontSize: 26, marginBottom: 12 }}>{it.head}</h4>
                 <p style={{ fontSize: 15, color: 'var(--grey)', lineHeight: 1.55, marginBottom: 18 }}>{it.summary}</p>
-                <span className="more">Read more →</span>
+                <span className="more">Read full story →</span>
               </a>
             ))}
           </div>
@@ -404,6 +404,102 @@ const News = () => {
     </main>
   );
 };
+
+const NewsStory = ({ slug }) => {
+  const content = useContent();
+  const items = content?.news || [];
+  const idx = items.findIndex((it, i) => (it.slug || String(i)) === slug);
+  const item = idx >= 0 ? items[idx] : null;
+  const related = items.filter((_, i) => i !== idx).slice(0, 2);
+
+  if (!item) {
+    return (
+      <main data-screen-label="News story (not found)">
+        <section className="page-hero">
+          <div className="container-wide page-hero-grid">
+            <div>
+              <span className="eyebrow" style={{ color: 'var(--amber)' }}>Newsroom</span>
+              <h1>We couldn't find that story.</h1>
+              <p className="lede">The link may be out of date. Browse the full newsroom or sign the petition below.</p>
+            </div>
+            <HeroPlaceholder icon="newspaper" tag="Hero · 404" />
+          </div>
+        </section>
+        <section className="section-pad section-paper">
+          <div className="container-narrow" style={{ textAlign: 'center' }}>
+            <a href="#/news" className="btn btn-outline-teal" style={{ marginRight: 12 }}>Back to newsroom</a>
+            <a href="#/petition" className="btn btn-teal">Sign the petition →</a>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  const isPress = item.tag === 'Press Release';
+  const bodyParas = (item.body || item.summary || '').split(/\n+/).filter(Boolean);
+
+  return (
+    <main data-screen-label={`News · ${item.head}`}>
+      <section className="news-story-hero">
+        <div className="container-narrow">
+          <div className="news-story-meta">
+            <span className="news-story-tag" style={{ background: isPress ? 'var(--amber)' : 'var(--teal-light)', color: isPress ? 'var(--ink)' : 'var(--teal-deep)' }}>{item.tag}</span>
+            <span className="news-story-source">{item.src}</span>
+            <span className="news-story-dot">·</span>
+            <span className="news-story-date">{item.date}</span>
+          </div>
+          <h1 className="news-story-headline">{item.head}</h1>
+          <p className="news-story-lede">{item.summary}</p>
+        </div>
+      </section>
+
+      <section className="section-pad-sm section-paper">
+        <div className="container-narrow news-story-body">
+          {bodyParas.map((p, i) => <p key={i}>{p}</p>)}
+          <p className="news-story-byline">First published by <strong>{item.src}</strong>, {item.date}.</p>
+        </div>
+      </section>
+
+      <section className="news-story-cta">
+        <div className="container-narrow">
+          <span className="eyebrow" style={{ color: 'var(--amber)', display: 'block', marginBottom: 14 }}>Now do something about it</span>
+          <h2>Stories like this are why we exist. Sign the petition.</h2>
+          <p>The cost of inaction is on every Australian power bill. Adding your name puts you on the record alongside tens of thousands of Australians demanding leaders who put affordability first.</p>
+          <div className="news-story-cta-actions">
+            <a href="#/petition" className="btn btn-amber">Sign the petition →</a>
+            <a href="#/donate" className="btn btn-outline-amber">Chip in</a>
+          </div>
+        </div>
+      </section>
+
+      {related.length > 0 && (
+        <section className="section-pad-sm section-paper">
+          <div className="container-wide">
+            <div className="section-head" style={{ marginBottom: 32 }}>
+              <span className="eyebrow">Keep reading</span>
+              <h2 style={{ fontSize: 'clamp(28px, 3vw, 40px)' }}>More from the newsroom</h2>
+            </div>
+            <div className="news-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+              {related.map((it, i) => (
+                <a key={i} href={`#/news/${it.slug || items.indexOf(it)}`} className="news-card" style={{ padding: 32 }}>
+                  <div className="news-source">{it.src}</div>
+                  <div className="news-date">{it.date}</div>
+                  <h4 style={{ fontSize: 22, marginBottom: 12 }}>{it.head}</h4>
+                  <span className="more">Read full story →</span>
+                </a>
+              ))}
+            </div>
+            <div style={{ marginTop: 32 }}>
+              <a href="#/news" className="btn btn-outline-teal">All news →</a>
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
+  );
+};
+
+Object.assign(window, { NewsStory });
 
 const About = () => (
   <main data-screen-label="About">

@@ -240,10 +240,10 @@ const Admin = ({ content, setContent }) => {
 
         {tab === 'news' && (
           <div className="adm-section">
-            <p className="adm-help">First three items appear on the homepage. All items appear on the /news page.</p>
+            <p className="adm-help">First three items appear on the homepage and Take Action news strip. All items appear on the /news page. Each article also gets its own page at <code>/#/news/&lt;slug&gt;</code> with a petition CTA.</p>
             <ListEditor
               items={draft.news || []}
-              blank={{ src: '', date: '', head: '', summary: '', tag: 'Coverage' }}
+              blank={{ slug: '', src: '', date: '', head: '', summary: '', body: '', tag: 'Coverage' }}
               label="article"
               onChange={v => setSection('news', v)}
               render={(it, set) => (
@@ -253,8 +253,10 @@ const Admin = ({ content, setContent }) => {
                     <Field label="Date" value={it.date} onChange={v => set({ ...it, date: v })} placeholder="12 April 2026" />
                     <Field label="Tag" value={it.tag} onChange={v => set({ ...it, tag: v })} hint="Coverage · Press Release" />
                   </div>
+                  <Field label="Slug (URL)" value={it.slug} onChange={v => set({ ...it, slug: v })} placeholder="grid-stability-fears" hint="Used in the URL, e.g. /#/news/grid-stability-fears. Lowercase, hyphenated." />
                   <Field label="Headline" value={it.head} onChange={v => set({ ...it, head: v })} />
-                  <Field label="Summary" type="textarea" value={it.summary} onChange={v => set({ ...it, summary: v })} />
+                  <Field label="Summary (used on cards & page lede)" type="textarea" value={it.summary} onChange={v => set({ ...it, summary: v })} />
+                  <Field label="Body (full story page)" type="textarea" value={it.body} onChange={v => set({ ...it, body: v })} hint="Two newlines start a new paragraph." />
                 </>
               )}
             />

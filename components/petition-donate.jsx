@@ -174,7 +174,7 @@ const Donate = () => {
             <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
           </div>
           <div className="donate-tiles-grid">
-            {[15, 25, 50, 100, 250, 500].map(v => (
+            {[35, 65, 135, 265, 550, 1500].map(v => (
               <DonateAmountTile key={v} amount={v} recurring={recurring} busy={busy === v} onClick={() => go(v)} />
             ))}
             {!showOther && (

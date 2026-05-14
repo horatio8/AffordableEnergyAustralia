@@ -85,16 +85,21 @@ const App = () => {
   }
 
   let page;
-  switch (route) {
-    case '/petition': page = <Petition />; break;
-    case '/the-problem': page = <TheProblem />; break;
-    case '/take-action': page = <TakeAction />; break;
-    case '/news': page = <News />; break;
-    case '/about-us': page = <About />; break;
-    case '/donate': page = <Donate />; break;
-    case '/thank-you-petition': page = <ThankYouPetition />; break;
-    case '/thank-you-donation': page = <ThankYouDonation />; break;
-    default: page = <Home />;
+  if (route.startsWith('/news/')) {
+    const slug = decodeURIComponent(route.slice('/news/'.length));
+    page = <NewsStory slug={slug} />;
+  } else {
+    switch (route) {
+      case '/petition': page = <Petition />; break;
+      case '/the-problem': page = <TheProblem />; break;
+      case '/take-action': page = <TakeAction />; break;
+      case '/news': page = <News />; break;
+      case '/about-us': page = <About />; break;
+      case '/donate': page = <Donate />; break;
+      case '/thank-you-petition': page = <ThankYouPetition />; break;
+      case '/thank-you-donation': page = <ThankYouDonation />; break;
+      default: page = <Home />;
+    }
   }
 
   return (
