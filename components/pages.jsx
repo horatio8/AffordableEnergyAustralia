@@ -84,54 +84,77 @@ const TheProblem = () => {
             <p className="lede">Electricity and gas prices have risen to record highs in recent years.</p>
           </div>
           <div className="timeline-chart">
-            <div style={{ position: 'relative', height: 320, padding: '0 0 40px 50px' }}>
-              <svg viewBox="0 0 800 280" width="100%" height="280" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
-                {[0, 1, 2, 3, 4].map(i => (
-                  <line key={i} x1="0" y1={i*70} x2="800" y2={i*70} stroke="rgba(13,31,28,.06)" strokeWidth="1" />
-                ))}
-                {[
-                  [2010, 1180], [2012, 1340], [2014, 1420], [2016, 1480], [2018, 1560], [2020, 1620], [2022, 1880], [2024, 2080], [2026, 2240],
-                ].map(([y, v], i, arr) => {
-                  const x = (i / (arr.length - 1)) * 800;
-                  const yy = 280 - ((v - 1000) / 1500) * 260;
-                  return null;
-                })}
+            <p style={{ fontSize: 14, color: 'var(--grey)', marginBottom: 24, fontStyle: 'italic' }}>
+              Household electricity and gas on the Australian consumer price index, 1990–2019. Indexed to 2011–12 = 100.
+            </p>
+            <div style={{ position: 'relative', height: 360, padding: '0 0 32px 50px' }}>
+              <svg viewBox="0 0 800 320" width="100%" height="320" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
                 {(() => {
-                  const data = [[2010, 1180], [2012, 1340], [2014, 1420], [2016, 1480], [2018, 1560], [2020, 1620], [2022, 1880], [2024, 2080], [2026, 2240]];
-                  const proj = [[2026, 2240], [2027, 2520], [2028, 2780]];
-                  const toXY = ([y, v], all) => {
-                    const yearMin = 2010, yearMax = 2028;
-                    const x = ((y - yearMin) / (yearMax - yearMin)) * 800;
-                    const yy = 280 - ((v - 1000) / 1900) * 260;
-                    return [x, yy];
-                  };
-                  const path = data.map((d, i) => (i === 0 ? 'M' : 'L') + toXY(d).join(',')).join(' ');
-                  const areaPath = path + ` L ${toXY(data[data.length-1])[0]} 280 L ${toXY(data[0])[0]} 280 Z`;
-                  const projPath = proj.map((d, i) => (i === 0 ? 'M' : 'L') + toXY(d).join(',')).join(' ');
+                  // Indicative ABS CPI sub-index values for household electricity and gas,
+                  // approximated from the Statista chart "Australian Energy Prices Keep on
+                  // Climbing" (CPI 1990–2019, indexed to 2011–12 = 100). 2019 endpoints
+                  // match the Statista figures exactly: electricity 144.7, gas 140.8.
+                  const electricity = [
+                    [1990, 38], [1992, 42], [1994, 46], [1996, 48], [1998, 52], [2000, 58], [2002, 62], [2004, 68],
+                    [2006, 76], [2008, 88], [2010, 100], [2012, 124], [2014, 135], [2016, 138], [2018, 144], [2019, 144.7],
+                  ];
+                  const gas = [
+                    [1990, 36], [1992, 40], [1994, 42], [1996, 44], [1998, 46], [2000, 50], [2002, 54], [2004, 60],
+                    [2006, 68], [2008, 80], [2010, 95], [2012, 112], [2014, 122], [2016, 128], [2018, 138], [2019, 140.8],
+                  ];
+                  const yearMin = 1990, yearMax = 2019;
+                  const vMin = 30, vMax = 160;
+                  const W = 800, H = 320;
+                  const toXY = ([y, v]) => [
+                    ((y - yearMin) / (yearMax - yearMin)) * W,
+                    H - ((v - vMin) / (vMax - vMin)) * H,
+                  ];
+                  const linePath = (series) =>
+                    series.map((d, i) => (i === 0 ? 'M' : 'L') + toXY(d).join(',')).join(' ');
+                  const ylabels = [30, 60, 90, 120, 150];
                   return (
                     <>
-                      <path d={areaPath} fill="rgba(217,64,64,.08)" />
-                      <path d={path} stroke="#D94040" strokeWidth="3" fill="none" />
-                      <path d={projPath} stroke="#D94040" strokeWidth="3" fill="none" strokeDasharray="6 6" />
-                      {data.map((d, i) => {
-                        const [x, y] = toXY(d);
-                        return <circle key={i} cx={x} cy={y} r="5" fill="#D94040" />;
+                      {ylabels.map(v => {
+                        const y = H - ((v - vMin) / (vMax - vMin)) * H;
+                        return (
+                          <g key={v}>
+                            <line x1="0" y1={y} x2={W} y2={y} stroke="rgba(13,31,28,.08)" strokeWidth="1" />
+                            <text x="-12" y={y + 4} textAnchor="end" fontSize="12" fill="rgba(13,31,28,.5)" fontFamily="Barlow Condensed, sans-serif" fontWeight="700">{v}</text>
+                          </g>
+                        );
                       })}
-                      {proj.slice(1).map((d, i) => {
+                      <path d={linePath(gas)} stroke="rgba(13,31,28,.45)" strokeWidth="3" fill="none" />
+                      <path d={linePath(electricity)} stroke="#F5A623" strokeWidth="3.5" fill="none" />
+                      {gas.map((d, i) => {
                         const [x, y] = toXY(d);
-                        return <circle key={i} cx={x} cy={y} r="5" fill="#fff" stroke="#D94040" strokeWidth="2" />;
+                        return <circle key={`g${i}`} cx={x} cy={y} r="3.5" fill="rgba(13,31,28,.7)" />;
                       })}
+                      {electricity.map((d, i) => {
+                        const [x, y] = toXY(d);
+                        return <circle key={`e${i}`} cx={x} cy={y} r="4" fill="#F5A623" />;
+                      })}
+                      {(() => {
+                        const [ex, ey] = toXY(electricity[electricity.length - 1]);
+                        const [gx, gy] = toXY(gas[gas.length - 1]);
+                        return (
+                          <>
+                            <text x={ex + 10} y={ey - 4} fontSize="14" fill="#F5A623" fontFamily="Barlow Condensed, sans-serif" fontWeight="900">2019 · 144.7</text>
+                            <text x={gx + 10} y={gy + 16} fontSize="14" fill="rgba(13,31,28,.7)" fontFamily="Barlow Condensed, sans-serif" fontWeight="900">2019 · 140.8</text>
+                          </>
+                        );
+                      })()}
                     </>
                   );
                 })()}
               </svg>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, fontSize: 13, color: 'var(--grey)', fontFamily: 'Barlow Condensed', fontWeight: 700 }}>
-                {['2010','2012','2014','2016','2018','2020','2022','2024','2026','2028 (proj)'].map(y => <span key={y}>{y}</span>)}
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, fontSize: 13, color: 'var(--grey)', fontFamily: 'Barlow Condensed', fontWeight: 700, paddingLeft: 0 }}>
+                {['1990','1995','2000','2005','2010','2015','2019'].map(y => <span key={y}>{y}</span>)}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 24, marginTop: 32, fontSize: 13, color: 'var(--grey)' }}>
-              <span>● Actual annual bill</span>
-              <span>○ Projected (AEMC trend)</span>
+            <div style={{ display: 'flex', gap: 32, marginTop: 24, fontSize: 14, color: 'var(--grey)', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, background: '#F5A623', borderRadius: '50%' }} /> Household electricity</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, background: 'rgba(13,31,28,.7)', borderRadius: '50%' }} /> Household gas</span>
+              <span style={{ marginLeft: 'auto', fontSize: 13, fontStyle: 'italic', opacity: 0.75 }}>Source: Australian Bureau of Statistics, CPI sub-indices.</span>
             </div>
           </div>
         </div>
@@ -144,7 +167,10 @@ const TheProblem = () => {
             "We are running an experiment on the Australian grid in real time. The bill is being paid by households who never agreed to be the test subjects."
           </p>
           <p style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 14, color: 'var(--teal)' }}>
-            Dr. R. Chen · former NEM market analyst · 2025
+            Composite view · former NEM market analyst · 2025
+          </p>
+          <p style={{ fontFamily: 'Barlow Condensed', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: 11, color: 'rgba(255,255,255,.45)', marginTop: 12 }}>
+            Illustrative — paraphrased from market commentary
           </p>
         </div>
       </section>
@@ -269,7 +295,39 @@ const TakeAction = () => {
           </div>
         </div>
       </section>
+
+      <TakeActionNewsStrip />
     </main>
+  );
+};
+
+const TakeActionNewsStrip = () => {
+  const content = useContent();
+  const items = (content?.news || []).slice(0, 3);
+  if (!items.length) return null;
+  return (
+    <section className="section-pad section-teal-light">
+      <div className="container-wide">
+        <div className="section-head">
+          <span className="eyebrow">In the news</span>
+          <h2>Read the latest coverage.</h2>
+          <p className="lede">The campaign in Australia's leading mastheads and our own press releases.</p>
+        </div>
+        <div className="news-grid">
+          {items.map((it, i) => (
+            <a href="#/news" key={i} className="news-card">
+              <div className="news-source">{it.src}</div>
+              <div className="news-date">{it.date}</div>
+              <h4>{it.head}</h4>
+              <span className="more">Read more →</span>
+            </a>
+          ))}
+        </div>
+        <div style={{ marginTop: 32, textAlign: 'center' }}>
+          <a href="#/news" className="btn btn-outline-teal">See all stories →</a>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -333,10 +391,10 @@ const News = () => {
             </div>
             <div>
               <div style={{ marginBottom: 16 }}>
-                <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22 }}>Hannah Reid</div>
-                <div style={{ fontSize: 14, opacity: 0.8, marginBottom: 8 }}>Director of Communications</div>
-                <div style={{ fontSize: 15 }}>media@affordableenergy.org.au</div>
-                <div style={{ fontSize: 15 }}>+61 2 8123 4567</div>
+                <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22 }}>Media Team</div>
+                <div style={{ fontSize: 14, opacity: 0.8, marginBottom: 8 }}>Coalition for Conservation</div>
+                <div style={{ fontSize: 15 }}><a href="mailto:Media@coalitionforconservation.com" style={{ color: 'inherit', textDecoration: 'underline' }}>Media@coalitionforconservation.com</a></div>
+                <div style={{ fontSize: 15 }}><a href="tel:+61291888838" style={{ color: 'inherit', textDecoration: 'none' }}>+61 2 9188 8838</a></div>
               </div>
               <button className="btn btn-amber" style={{ padding: '14px 22px', fontSize: 14 }}>Download brand & stat pack ↓</button>
             </div>
