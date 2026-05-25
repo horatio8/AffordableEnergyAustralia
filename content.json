@@ -7,12 +7,12 @@
     "mediaEmail": "Media@coalitionforconservation.com.au",
     "mediaPhone": "+61 2 9188 8838",
     "social": {
-      "linkedin": "#",
-      "instagram": "#",
-      "youtube": "#",
-      "facebook": "#",
-      "tiktok": "#",
-      "x": "#"
+      "linkedin": "https://www.linkedin.com/company/affordable-energy-australia",
+      "instagram": "https://www.instagram.com/affordableenergy.au",
+      "youtube": "https://www.youtube.com/@affordableenergyaustralia",
+      "facebook": "https://www.facebook.com/affordableenergyaustralia",
+      "tiktok": "https://www.tiktok.com/@affordable.energy",
+      "x": "https://x.com/AusAffordEnergy"
     }
   },
   "hero": {
