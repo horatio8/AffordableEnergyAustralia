@@ -185,6 +185,14 @@ const Admin = ({ content, setContent }) => {
             <Field label="ABN" value={draft.site?.abn} onChange={v => setSection('site', { ...draft.site, abn: v })} />
             <Field label="Authorisation line" value={draft.site?.authorisation} onChange={v => setSection('site', { ...draft.site, authorisation: v })} />
             <Field label="Copyright" value={draft.site?.copyright} onChange={v => setSection('site', { ...draft.site, copyright: v })} />
+            <div className="adm-row">
+              <Field label="Media email" value={draft.site?.mediaEmail} onChange={v => setSection('site', { ...draft.site, mediaEmail: v })} />
+              <Field label="Media phone" value={draft.site?.mediaPhone} onChange={v => setSection('site', { ...draft.site, mediaPhone: v })} />
+            </div>
+            <p className="adm-help" style={{ marginTop: 8 }}>Social links (leave as <code>#</code> to hide-in-place until you have the URL).</p>
+            {['linkedin','instagram','youtube','facebook','tiktok','x'].map(k => (
+              <Field key={k} label={k} value={(draft.site?.social || {})[k]} onChange={v => setSection('site', { ...draft.site, social: { ...(draft.site?.social || {}), [k]: v } })} placeholder="https://…" />
+            ))}
           </div>
         )}
 
@@ -243,7 +251,7 @@ const Admin = ({ content, setContent }) => {
             <p className="adm-help">First three items appear on the homepage and Take Action news strip. All items appear on the /news page. Each article also gets its own page at <code>/#/news/&lt;slug&gt;</code> with a petition CTA.</p>
             <ListEditor
               items={draft.news || []}
-              blank={{ slug: '', src: '', date: '', head: '', summary: '', body: '', tag: 'Coverage' }}
+              blank={{ slug: '', src: '', topic: '', date: '', head: '', summary: '', body: '', tag: 'Coverage', url: '' }}
               label="article"
               onChange={v => setSection('news', v)}
               render={(it, set) => (
@@ -257,6 +265,7 @@ const Admin = ({ content, setContent }) => {
                   <Field label="Headline" value={it.head} onChange={v => set({ ...it, head: v })} />
                   <Field label="Summary (used on cards & page lede)" type="textarea" value={it.summary} onChange={v => set({ ...it, summary: v })} />
                   <Field label="Body (full story page)" type="textarea" value={it.body} onChange={v => set({ ...it, body: v })} hint="Two newlines start a new paragraph." />
+                  <Field label="Original article URL (external)" value={it.url} onChange={v => set({ ...it, url: v })} placeholder="https://…" hint="Shows a 'Read the original at {source}' button on the story page." />
                 </>
               )}
             />
@@ -267,7 +276,7 @@ const Admin = ({ content, setContent }) => {
           <div className="adm-section">
             <ListEditor
               items={draft.team || []}
-              blank={{ name: '', role: '', bio: '' }}
+              blank={{ name: '', role: '', bio: '', photo: '' }}
               label="team member"
               onChange={v => setSection('team', v)}
               render={(it, set) => (
@@ -276,6 +285,7 @@ const Admin = ({ content, setContent }) => {
                     <Field label="Name" value={it.name} onChange={v => set({ ...it, name: v })} />
                     <Field label="Role" value={it.role} onChange={v => set({ ...it, role: v })} />
                   </div>
+                  <Field label="Photo path" value={it.photo} onChange={v => set({ ...it, photo: v })} placeholder="assets/team-zoe.jpg" hint="Leave blank for a placeholder icon. Upload the image to assets/ in the repo first." />
                   <Field label="Bio" type="textarea" value={it.bio} onChange={v => set({ ...it, bio: v })} />
                 </>
               )}

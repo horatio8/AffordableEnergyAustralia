@@ -41,7 +41,7 @@ const Petition = () => {
                 <div className="mini-stat" key={i}>
                   <span className="num">{formatPetitionStat(s.num, s.format)}</span>
                   <span className="label">{s.label}</span>
-                  {s.source && <span className="mini-source">Source: {s.source}</span>}
+                  {s.source && <span className="mini-source">Source: {s.sourceUrl ? <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer">{s.source}</a> : s.source}</span>}
                 </div>
               ))}
             </div>
@@ -196,7 +196,7 @@ const Donate = () => {
           )}
           <div className="trust-row donate-tiles-trust">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
-            <span>Secure payments via Stripe · ABN 93 676 364 855 · Receipt emailed</span>
+            <span>Secure payments via Stripe · ABN 82 201 923 025 · Receipt emailed</span>
           </div>
         </section>
 
@@ -242,7 +242,7 @@ const Donate = () => {
               ['Stripe-secured', 'Bank-grade encryption', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="s"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>],
               ['Tax-receipted', 'Auto-emailed receipt', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="r"><path d="M5 3v18l3-2 3 2 3-2 3 2 3-2V3z M9 8h6 M9 12h6 M9 16h4"/></svg>],
               ['No middlemen', '100% to campaign', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="n"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>],
-              ['ABN registered', '93 676 364 855', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
+              ['ABN registered', '82 201 923 025', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
             ].map(([t, sub, ic]) => (
               <div className="trust-badge" key={t}>{ic}<strong>{t}</strong>{sub}</div>
             ))}

@@ -68,9 +68,16 @@ const Footer = () => {
             {site.tagline || 'A people-powered, single-issue campaign building a public mandate for affordable and reliable energy for every Australian household.'}
           </p>
           <div className="social-row">
-            {['X','f','in','ig'].map(s => (
-              <a key={s} href="#" aria-label={s}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg>
+            {[
+              ['linkedin', 'LinkedIn', 'M4.98 3.5a2 2 0 11-.02 4 2 2 0 01.02-4zM3 8.5h4V21H3zM10 8.5h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z'],
+              ['instagram', 'Instagram', 'M8 3h8a5 5 0 015 5v8a5 5 0 01-5 5H8a5 5 0 01-5-5V8a5 5 0 015-5zm0 2a3 3 0 00-3 3v8a3 3 0 003 3h8a3 3 0 003-3V8a3 3 0 00-3-3zm4 3.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm0 2a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM17 6a1 1 0 110 2 1 1 0 010-2z'],
+              ['youtube', 'YouTube', 'M22 8.3a3 3 0 00-2.1-2.1C18 5.6 12 5.6 12 5.6s-6 0-7.9.6A3 3 0 002 8.3 31 31 0 002 12a31 31 0 00.1 3.7 3 3 0 002.1 2.1c1.9.6 7.8.6 7.8.6s6 0 7.9-.6a3 3 0 002.1-2.1A31 31 0 0022 12a31 31 0 00-.1-3.7zM10 15V9l5.2 3z'],
+              ['facebook', 'Facebook', 'M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.47-4.05 4.16V9.9H7.5V13h2.75v8z'],
+              ['tiktok', 'TikTok', 'M16 3c.3 2.1 1.5 3.6 3.5 3.9v2.9c-1.3.1-2.5-.2-3.6-.9v5.6c0 3.1-2.3 5.5-5.3 5.5S5.3 17.6 5.3 14.6c0-2.8 2-5.1 4.8-5.4v3c-1.1.3-1.9 1.2-1.9 2.4 0 1.4 1.1 2.5 2.5 2.5s2.4-1.1 2.4-2.6V3z'],
+              ['x', 'X', 'M17.5 3h3l-6.6 7.5L21.8 21h-6.1l-4.3-5.6L6.4 21H3.4l7-8L2.6 3h6.2l3.9 5.2zm-1.1 16h1.7L7.4 4.8H5.6z'],
+            ].map(([key, label, d]) => (
+              <a key={key} href={(site.social && site.social[key]) || '#'} aria-label={label} target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d={d} /></svg>
               </a>
             ))}
           </div>
@@ -103,7 +110,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>{site.copyright || '© 2026 Affordable Energy Australia'} · ABN {site.abn || '93 676 364 855'}</span>
+        <span>{site.copyright || '© 2026 Affordable Energy Australia'} · ABN {site.abn || '82 201 923 025'}</span>
         <span>{site.authorisation || 'Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW'}</span>
       </div>
     </div>

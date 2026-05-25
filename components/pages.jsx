@@ -3,10 +3,10 @@
 const TheProblem = () => {
   const [tab, setTab] = React.useState('households');
   const tabs = {
-    households: { title: 'Households', body: 'One in five Australian households are now in energy hardship or on the brink. Average energy debt has climbed to $1,367, with 20% of families skipping meals or going days without eating due to financial strain. Renters, parents and pensioners are bearing the heaviest load.', stat: '1 in 5', statLabel: 'households in hardship or on the brink', source: 'Energy Consumers Australia' },
-    business: { title: 'Small Business', body: 'Rising energy costs are now the #1 factor impacting the finances of small businesses. Cafés, butchers, panel beaters, dry cleaners — small businesses across the country are being forced to choose between passing on price increases to customers or not being able to pay the bills. In 2024, 1 in 5 small businesses were unable to pay their energy bills on time or in full.', stat: '1 in 5', statLabel: 'small businesses reporting difficulty paying energy bills', source: 'Council of Small Business Organisations Australia' },
-    industry: { title: 'Heavy Industry', body: 'Smelters, refineries, fertiliser plants and food processors operate on margins that cannot survive high energy prices. When industry leaves Australia, it does not come back easily. We have already lost manufacturing capacity that took decades to build, with 39,400 manufacturing jobs lost in the last two years alone.', stat: '39,400', statLabel: 'manufacturing jobs lost from Feb 2024 to Feb 2026', source: 'Australian Bureau of Statistics' },
-    pensioners: { title: 'Pensioners', body: 'Australians on fixed incomes cannot continue absorbing energy bill increases. 41% of older Australians are rationing heating in winter and cooling in summer, with many more forced to make daily sacrifices to make ends meet.', stat: '41%', statLabel: 'Australian seniors rationing heating and cooling', source: 'Australian Seniors' },
+    households: { title: 'Households', body: 'One in five Australian households are now in energy hardship or on the brink. Average energy debt has climbed to $1,367, with 20% of families skipping meals or going days without eating due to financial strain. Renters, parents and pensioners are bearing the heaviest load.', stat: '1 in 5', statLabel: 'households in hardship or on the brink', source: 'Energy Consumers Australia', sourceUrl: 'https://energyconsumersaustralia.com.au/our-work/surveys/consumer-energy-report-card-understanding-measuring-energy-hardship-australia' },
+    business: { title: 'Small Business', body: 'Rising energy costs are now the #1 factor impacting the finances of small businesses. Cafés, butchers, panel beaters, dry cleaners — small businesses across the country are being forced to choose between passing on price increases to customers or not being able to pay the bills. In 2024, 1 in 5 small businesses were unable to pay their energy bills on time or in full.', stat: '1 in 5', statLabel: 'small businesses reporting difficulty paying energy bills', source: 'Council of Small Business Organisations Australia', sourceUrl: 'https://cosboa.org.au/wp-content/uploads/2025/07/Small-Business-Perspectives-Report-2024.pdf' },
+    industry: { title: 'Heavy Industry', body: 'Smelters, refineries, fertiliser plants and food processors operate on margins that cannot survive high energy prices. When industry leaves Australia, it does not come back easily. We have already lost manufacturing capacity that took decades to build, with 39,400 manufacturing jobs lost in the last two years alone.', stat: '39,400', statLabel: 'manufacturing jobs lost from Feb 2024 to Feb 2026', source: 'Jobs and Skills Australia', sourceUrl: 'https://www.jobsandskills.gov.au/data/occupation-and-industry-profiles/industries/manufacturing' },
+    pensioners: { title: 'Pensioners', body: 'Australians on fixed incomes cannot continue absorbing energy bill increases. 41% of older Australians are rationing heating in winter and cooling in summer, with many more forced to make daily sacrifices to make ends meet.', stat: '41%', statLabel: 'Australian seniors rationing heating and cooling', source: 'Australian Seniors', sourceUrl: 'https://www.seniors.com.au/documents/media-release-cost-of-living-longer-report-2024.pdf' },
   };
   const t = tabs[tab];
   return (
@@ -30,19 +30,19 @@ const TheProblem = () => {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
             {[
-              { n: '1 in 5', l: 'Households in hardship or on the brink', s: 'Energy Consumers Australia' },
-              { n: '$1,367', l: 'Average household energy debt', s: 'Australian Energy Regulator' },
-              { n: '340k', l: 'Households in long-term debt', s: 'Australian Energy Regulator' },
-              { n: '220%', l: 'Electricity price rise for households since 2008', s: 'Australian Bureau of Statistics' },
-              { n: '24%', l: 'Projected further price rise Nov 2025 to July 2026', s: 'Australian Bureau of Statistics, Westpac' },
-              { n: '200+', l: 'NSW spot price spikes >$10k/MWh in 2024', s: 'Australian Energy Market Operator' },
-              { n: '20%', l: 'Households skipping meals due to financial strain', s: 'Foodbank Hunger Report' },
-              { n: '84%', l: 'Households seriously concerned about power costs', s: 'Choice National Survey' },
-            ].map(({ n, l, s }, i) => (
+              { n: '1 in 5', l: 'Households in hardship or on the brink', s: 'Energy Consumers Australia', u: 'https://energyconsumersaustralia.com.au/our-work/surveys/consumer-energy-report-card-understanding-measuring-energy-hardship-australia' },
+              { n: '$1,367', l: 'Average household energy debt', s: 'Australian Energy Regulator', u: 'https://www.aer.gov.au/news/articles/news-releases/debt-and-hardship-persist-vulnerable-customers' },
+              { n: '340k', l: 'Households in long-term debt', s: 'Australian Energy Regulator', u: 'https://au.finance.yahoo.com/news/centrelink-recipient-reveals-6000-battle-as-more-aussies-struggle-with-growing-energy-debt-042242942.html' },
+              { n: '220%', l: 'Electricity price rise for households since 2008', s: 'Australian Bureau of Statistics', u: 'https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release' },
+              { n: '24%', l: 'Projected further price rise Nov 2025 to July 2026', s: 'Australian Bureau of Statistics, Westpac', u: 'https://www.afr.com/policy/economy/electricity-bills-could-jump-24pc-this-year-20260123-p5nwfn' },
+              { n: '200+', l: 'NSW spot price spikes >$10k/MWh in 2024', s: 'CIS, Australian Energy Market Operator', u: 'https://www.cis.org.au/publication/risky-business-how-the-energy-transition-introduces-risks-that-raise-retail-costs/' },
+              { n: '20%', l: 'Households skipping meals due to financial strain', s: 'Foodbank Hunger Report', u: 'https://reports.foodbank.org.au/foodbank-hunger-report-2025/' },
+              { n: '84%', l: 'Households seriously concerned about power costs', s: 'Choice National Survey', u: 'https://www.choice.com.au/shopping/shopping-for-services/utilities/articles/energy-disconnections-and-hardship-obligations' },
+            ].map(({ n, l, s, u }, i) => (
               <div key={i} style={{ padding: 28, background: 'var(--white)', borderTop: '4px solid var(--red)' }}>
                 <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 56, color: 'var(--red)', lineHeight: 0.95 }}>{n}</div>
                 <div style={{ fontSize: 14, color: 'var(--grey)', marginTop: 8 }}>{l}</div>
-                <div style={{ fontSize: 12, color: 'var(--grey-soft)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.4 }}>Source: {s}</div>
+                <div style={{ fontSize: 12, color: 'var(--grey-soft)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.4 }}>Source: {u ? <a href={u} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>{s}</a> : s}</div>
               </div>
             ))}
           </div>
@@ -69,7 +69,7 @@ const TheProblem = () => {
             <div style={{ background: 'var(--white)', padding: 48, borderLeft: '6px solid var(--red)' }}>
               <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 100, color: 'var(--red)', lineHeight: 0.9 }}>{t.stat}</div>
               <div style={{ fontSize: 17, color: 'var(--grey)', marginTop: 12, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>{t.statLabel}</div>
-              {t.source && <div style={{ fontSize: 13, color: 'var(--grey-soft)', marginTop: 14, fontStyle: 'italic' }}>Source: {t.source}</div>}
+              {t.source && <div style={{ fontSize: 13, color: 'var(--grey-soft)', marginTop: 14, fontStyle: 'italic' }}>Source: {t.sourceUrl ? <a href={t.sourceUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>{t.source}</a> : t.source}</div>}
             </div>
           </div>
         </div>
@@ -81,80 +81,60 @@ const TheProblem = () => {
           <div className="section-head">
             <span className="eyebrow">The trajectory</span>
             <h2>Australian Energy Prices Keep on Climbing</h2>
-            <p className="lede">Electricity and gas prices have risen to record highs in recent years.</p>
+            <p className="lede">Electricity and gas prices have risen to record highs in recent years and they show no signs of coming back down.</p>
           </div>
-          <div className="timeline-chart">
+          <div className="timeline-chart" style={{ maxWidth: '80%', margin: '0 auto' }}>
             <p style={{ fontSize: 14, color: 'var(--grey)', marginBottom: 24, fontStyle: 'italic' }}>
-              Household electricity and gas on the Australian consumer price index, 1990–2019. Indexed to 2011–12 = 100.
+              Australian household electricity and gas price indices, 1990–2026.
             </p>
-            <div style={{ position: 'relative', height: 360, padding: '0 0 32px 50px' }}>
-              <svg viewBox="0 0 800 320" width="100%" height="320" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+            <div style={{ position: 'relative', paddingLeft: 64 }}>
+              <div style={{ position: 'absolute', left: -2, top: '50%', transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'left center', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--grey)', letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Price Index</div>
+              <svg viewBox="0 0 820 360" width="100%" preserveAspectRatio="xMidYMid meet" style={{ overflow: 'visible' }}>
                 {(() => {
-                  // Indicative ABS CPI sub-index values for household electricity and gas,
-                  // approximated from the Statista chart "Australian Energy Prices Keep on
-                  // Climbing" (CPI 1990–2019, indexed to 2011–12 = 100). 2019 endpoints
-                  // match the Statista figures exactly: electricity 144.7, gas 140.8.
-                  const electricity = [
-                    [1990, 38], [1992, 42], [1994, 46], [1996, 48], [1998, 52], [2000, 58], [2002, 62], [2004, 68],
-                    [2006, 76], [2008, 88], [2010, 100], [2012, 124], [2014, 135], [2016, 138], [2018, 144], [2019, 144.7],
+                  // ABS CPI sub-indices: household electricity and gas, March quarter,
+                  // 1990–2026, indexed to 2011–12 = 100. ABS series 6401.0 table 18.
+                  const data = [
+                    [1990,24.14,17.41],[1991,25.37,18.64],[1992,26.55,19.24],[1993,27.88,20.57],[1994,28.26,20.62],
+                    [1995,28.26,21.24],[1996,28.34,21.54],[1997,28.75,22.04],[1998,28.94,22.36],[1999,28.28,22.00],
+                    [2000,28.49,21.71],[2001,31.58,24.13],[2002,33.00,25.50],[2003,35.10,27.09],[2004,35.53,28.99],
+                    [2005,36.62,30.24],[2006,37.57,31.64],[2007,38.85,32.84],[2008,42.74,34.60],[2009,46.01,38.36],
+                    [2010,54.41,41.64],[2011,60.78,43.74],[2012,66.79,46.65],[2013,78.21,54.45],[2014,82.29,58.22],
+                    [2015,79.03,59.94],[2016,77.32,60.68],[2017,83.19,62.34],[2018,92.90,68.57],[2019,92.36,67.38],
+                    [2020,90.79,67.95],[2021,80.62,67.03],[2022,83.45,71.96],[2023,96.40,90.83],[2024,98.26,88.73],
+                    [2025,87.02,94.23],[2026,114.44,99.54],
                   ];
-                  const gas = [
-                    [1990, 36], [1992, 40], [1994, 42], [1996, 44], [1998, 46], [2000, 50], [2002, 54], [2004, 60],
-                    [2006, 68], [2008, 80], [2010, 95], [2012, 112], [2014, 122], [2016, 128], [2018, 138], [2019, 140.8],
-                  ];
-                  const yearMin = 1990, yearMax = 2019;
-                  const vMin = 30, vMax = 160;
-                  const W = 800, H = 320;
-                  const toXY = ([y, v]) => [
-                    ((y - yearMin) / (yearMax - yearMin)) * W,
-                    H - ((v - vMin) / (vMax - vMin)) * H,
-                  ];
-                  const linePath = (series) =>
-                    series.map((d, i) => (i === 0 ? 'M' : 'L') + toXY(d).join(',')).join(' ');
-                  const ylabels = [30, 60, 90, 120, 150];
+                  const electricity = data.map(([y, e]) => [y, e]);
+                  const gas = data.map(([y, , g]) => [y, g]);
+                  const yearMin = 1990, yearMax = 2026;
+                  const vMin = 0, vMax = 120;
+                  const W = 820, H = 360;
+                  const toX = (y) => ((y - yearMin) / (yearMax - yearMin)) * W;
+                  const toY = (v) => H - ((v - vMin) / (vMax - vMin)) * H;
+                  const linePath = (series) => series.map((d, i) => (i === 0 ? 'M' : 'L') + [toX(d[0]), toY(d[1])].join(',')).join(' ');
+                  const ylabels = [0, 30, 60, 90, 120];
+                  const xlabels = [1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025];
                   return (
                     <>
-                      {ylabels.map(v => {
-                        const y = H - ((v - vMin) / (vMax - vMin)) * H;
-                        return (
-                          <g key={v}>
-                            <line x1="0" y1={y} x2={W} y2={y} stroke="rgba(13,31,28,.08)" strokeWidth="1" />
-                            <text x="-12" y={y + 4} textAnchor="end" fontSize="12" fill="rgba(13,31,28,.5)" fontFamily="Barlow Condensed, sans-serif" fontWeight="700">{v}</text>
-                          </g>
-                        );
-                      })}
-                      <path d={linePath(gas)} stroke="rgba(13,31,28,.45)" strokeWidth="3" fill="none" />
+                      {ylabels.map(v => (
+                        <g key={v}>
+                          <line x1="0" y1={toY(v)} x2={W} y2={toY(v)} stroke="rgba(13,31,28,.08)" strokeWidth="1" />
+                          <text x="-12" y={toY(v) + 4} textAnchor="end" fontSize="13" fill="rgba(13,31,28,.5)" fontFamily="Barlow Condensed, sans-serif" fontWeight="700">{v}</text>
+                        </g>
+                      ))}
+                      {xlabels.map(yr => (
+                        <text key={yr} x={toX(yr)} y={H + 26} textAnchor="middle" fontSize="13" fill="var(--grey)" fontFamily="Barlow Condensed, sans-serif" fontWeight="700">{yr}</text>
+                      ))}
+                      <path d={linePath(gas)} stroke="rgba(13,31,28,.5)" strokeWidth="3" fill="none" />
                       <path d={linePath(electricity)} stroke="#F5A623" strokeWidth="3.5" fill="none" />
-                      {gas.map((d, i) => {
-                        const [x, y] = toXY(d);
-                        return <circle key={`g${i}`} cx={x} cy={y} r="3.5" fill="rgba(13,31,28,.7)" />;
-                      })}
-                      {electricity.map((d, i) => {
-                        const [x, y] = toXY(d);
-                        return <circle key={`e${i}`} cx={x} cy={y} r="4" fill="#F5A623" />;
-                      })}
-                      {(() => {
-                        const [ex, ey] = toXY(electricity[electricity.length - 1]);
-                        const [gx, gy] = toXY(gas[gas.length - 1]);
-                        return (
-                          <>
-                            <text x={ex + 10} y={ey - 4} fontSize="14" fill="#F5A623" fontFamily="Barlow Condensed, sans-serif" fontWeight="900">2019 · 144.7</text>
-                            <text x={gx + 10} y={gy + 16} fontSize="14" fill="rgba(13,31,28,.7)" fontFamily="Barlow Condensed, sans-serif" fontWeight="900">2019 · 140.8</text>
-                          </>
-                        );
-                      })()}
                     </>
                   );
                 })()}
               </svg>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, fontSize: 13, color: 'var(--grey)', fontFamily: 'Barlow Condensed', fontWeight: 700, paddingLeft: 0 }}>
-                {['1990','1995','2000','2005','2010','2015','2019'].map(y => <span key={y}>{y}</span>)}
-              </div>
             </div>
-            <div style={{ display: 'flex', gap: 32, marginTop: 24, fontSize: 14, color: 'var(--grey)', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 32, marginTop: 36, fontSize: 14, color: 'var(--grey)', alignItems: 'center', flexWrap: 'wrap' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, background: '#F5A623', borderRadius: '50%' }} /> Household electricity</span>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, background: 'rgba(13,31,28,.7)', borderRadius: '50%' }} /> Household gas</span>
-              <span style={{ marginLeft: 'auto', fontSize: 13, fontStyle: 'italic', opacity: 0.75 }}>Source: Australian Bureau of Statistics, CPI sub-indices.</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}><span style={{ width: 14, height: 14, background: 'rgba(13,31,28,.5)', borderRadius: '50%' }} /> Household gas</span>
+              <span style={{ marginLeft: 'auto', fontSize: 13, fontStyle: 'italic', opacity: 0.75 }}>Source: <a href="https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/mar-2026/6401018.xlsx" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>Australian Bureau of Statistics</a>, CPI (indexed to 2011–12 = 100).</span>
             </div>
           </div>
         </div>
@@ -164,13 +144,10 @@ const TheProblem = () => {
       <section className="section-pad section-deep">
         <div className="container-narrow" style={{ textAlign: 'center' }}>
           <p style={{ fontFamily: 'Georgia', fontStyle: 'italic', fontSize: 'clamp(28px, 3.5vw, 44px)', lineHeight: 1.3, marginBottom: 32 }}>
-            "We are running an experiment on the Australian grid in real time. The bill is being paid by households who never agreed to be the test subjects."
+            "Australia's electricity system is being disrupted by a decade-long, uncontrolled experiment in high renewables integration."
           </p>
           <p style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 14, color: 'var(--teal)' }}>
-            Composite view · former NEM market analyst · 2025
-          </p>
-          <p style={{ fontFamily: 'Barlow Condensed', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: 11, color: 'rgba(255,255,255,.45)', marginTop: 12 }}>
-            Illustrative — paraphrased from market commentary
+            Sarah McNamara · CEO, Australian Energy Council · 2019
           </p>
         </div>
       </section>
@@ -341,7 +318,7 @@ const News = () => {
           <div>
             <span className="eyebrow" style={{ color: 'var(--amber)' }}>Newsroom</span>
             <h1>In the News.</h1>
-            <p className="lede">Coverage from Australia's leading mastheads and our own press releases. Working journalists — please use the contact details below for same-day comment.</p>
+            <p className="lede">Coverage from Australia's leading mastheads and our own press releases. Working journalists, please use the contact details below for same-day comment.</p>
           </div>
           <HeroPlaceholder icon="newspaper" tag="Hero · News" />
         </div>
@@ -349,21 +326,8 @@ const News = () => {
 
       <section className="section-pad section-paper">
         <div className="container-wide">
-          <div className="featured-news">
-            <div className="placeholder-image">
-              <span className="ph-tag">Featured</span>
-              {HERO_ICONS.newspaper}
-            </div>
-            <div>
-              <span className="eyebrow" style={{ color: 'var(--teal-dark)', marginBottom: 12, display: 'block' }}>Editorial · 12 April 2026</span>
-              <h3>Grid stability fears mount as wholesale prices spike across the NEM</h3>
-              <p>AEMO data reveals wholesale spot prices in NSW and Victoria reached new peaks during the Easter cold snap. AEA's analysis links the spikes directly to the rapid retirement of dispatchable generation without equivalent firming capacity.</p>
-              <a href="#" className="btn btn-outline-teal">Read full story →</a>
-            </div>
-          </div>
-
           <div className="topic-pills">
-            {['All stories','Coverage','Press releases','Households','Industry','Policy','Pensioners'].map((t, i) => (
+            {['All stories','Coverage','Press releases','Households','Industry','Policy'].map((t, i) => (
               <button key={t} className={`topic-pill ${i === 0 ? 'active' : ''}`}>{t}</button>
             ))}
           </div>
@@ -393,8 +357,8 @@ const News = () => {
               <div style={{ marginBottom: 16 }}>
                 <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22 }}>Media Team</div>
                 <div style={{ fontSize: 14, opacity: 0.8, marginBottom: 8 }}>Coalition for Conservation</div>
-                <div style={{ fontSize: 15 }}><a href="mailto:Media@coalitionforconservation.com" style={{ color: 'inherit', textDecoration: 'underline' }}>Media@coalitionforconservation.com</a></div>
-                <div style={{ fontSize: 15 }}><a href="tel:+61291888838" style={{ color: 'inherit', textDecoration: 'none' }}>+61 2 9188 8838</a></div>
+                <div style={{ fontSize: 15 }}><a href={`mailto:${(content?.site?.mediaEmail) || 'Media@coalitionforconservation.com.au'}`} style={{ color: 'inherit', textDecoration: 'underline' }}>{(content?.site?.mediaEmail) || 'Media@coalitionforconservation.com.au'}</a></div>
+                <div style={{ fontSize: 15 }}><a href="tel:+61291888838" style={{ color: 'inherit', textDecoration: 'none' }}>{(content?.site?.mediaPhone) || '+61 2 9188 8838'}</a></div>
               </div>
               <button className="btn btn-amber" style={{ padding: '14px 22px', fontSize: 14 }}>Download brand & stat pack ↓</button>
             </div>
@@ -456,6 +420,11 @@ const NewsStory = ({ slug }) => {
       <section className="section-pad-sm section-paper">
         <div className="container-narrow news-story-body">
           {bodyParas.map((p, i) => <p key={i}>{p}</p>)}
+          {item.url && (
+            <p style={{ marginTop: 8 }}>
+              <a href={item.url} target="_blank" rel="noopener noreferrer" className="btn btn-outline-teal">Read the original at {item.src} →</a>
+            </p>
+          )}
           <p className="news-story-byline">First published by <strong>{item.src}</strong>, {item.date}.</p>
         </div>
       </section>
@@ -561,30 +530,13 @@ const About = () => (
           <h2>Our Affordable Energy Advocates</h2>
           <p className="lede">We are passionate about ensuring every Australian has access to affordable, reliable energy.</p>
         </div>
-        <div className="team-grid">
+        <div className={`team-grid${(((useContent()?.team) || []).length < 3) ? ' team-grid-few' : ''}`}>
           {((useContent()?.team) || []).map(m => (
             <div className="team-member" key={m.name}>
-              <div className="team-portrait">{HERO_ICONS.user}</div>
+              <div className="team-portrait">{m.photo ? <img src={m.photo} alt={m.name} /> : HERO_ICONS.user}</div>
               <h4>{m.name}</h4>
               <div className="role">{m.role}</div>
               <p>{m.bio}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section className="section-pad section-teal-light">
-      <div className="container-wide">
-        <div className="section-head">
-          <span className="eyebrow">The road to 2028</span>
-          <h2>Milestones, set publicly. Tracked in the open.</h2>
-        </div>
-        <div className="milestone-list">
-          {((useContent()?.milestones) || []).map(m => (
-            <div className="milestone" key={m.when}>
-              <div className="when">{m.when}<small>{m.status}</small></div>
-              <div><h4>{m.title}</h4><p>{m.desc}</p></div>
             </div>
           ))}
         </div>
@@ -608,12 +560,9 @@ const About = () => (
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 48, padding: 32, background: 'var(--ink)', color: 'var(--white)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
-          <div>
-            <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22, color: 'var(--amber)' }}>ABN 93 676 364 855</div>
-            <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Coalition for Conservation · Sydney NSW · Authorised by Z. Hilton</div>
-          </div>
-          <a href="#" className="btn btn-outline-amber">Download 2025 financial report ↓</a>
+        <div style={{ marginTop: 48, padding: 32, background: 'var(--ink)', color: 'var(--white)' }}>
+          <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22, color: 'var(--amber)' }}>ABN 82 201 923 025</div>
+          <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Coalition for Conservation · Sydney NSW · Authorised by Z. Hilton</div>
         </div>
       </div>
     </section>
