@@ -248,6 +248,8 @@ section { position: relative; }
 .hero-placeholder svg { width: 56%; height: auto; opacity: 0.85; position: relative; }
 .hero-placeholder .ph-tag { position: absolute; top: 16px; left: 16px; padding: 6px 10px; background: rgba(245,166,35,.95); color: var(--ink); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px; }
 
+.hero-photo { aspect-ratio: 4/3; width: 100%; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,.18); display: block; }
+
 .hero-placeholder-light { background: linear-gradient(135deg, rgba(13,31,28,.04), rgba(13,31,28,.01)); border: 1px solid rgba(13,31,28,.1); }
 .hero-placeholder-light::before { background: repeating-linear-gradient(135deg, transparent 0 22px, rgba(13,31,28,.03) 22px 23px); }
 .hero-placeholder-light svg { color: var(--teal-deep); opacity: 0.85; }
