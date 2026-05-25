@@ -183,7 +183,7 @@ const TakeAction = () => {
             <h1>Signing is the start. Here are four ways to amplify it.</h1>
             <p className="lede">Two minutes of your time, repeated by ten thousand Australians, becomes a movement no government can ignore. Pick one — or pick all four.</p>
           </div>
-          <HeroPlaceholder icon="megaphone" tag="Hero · Take Action" />
+          <img className="hero-photo" src="assets/hero_take_action.png" alt="An older Australian woman writes a letter to her MP at her kitchen table." />
         </div>
       </section>
 
@@ -320,7 +320,7 @@ const News = () => {
             <h1>In the News.</h1>
             <p className="lede">Coverage from Australia's leading mastheads and our own press releases. Working journalists, please use the contact details below for same-day comment.</p>
           </div>
-          <HeroPlaceholder icon="newspaper" tag="Hero · News" />
+          <img className="hero-photo" src="assets/hero_news.png" alt="A newspaper, notebook and voice recorder on a journalist's desk." />
         </div>
       </section>
 

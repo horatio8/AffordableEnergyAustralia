@@ -23,7 +23,7 @@ const Petition = () => {
             <h1>Sign it. Send a message no politician can ignore.</h1>
             <p className="lede">Your name joins everyday Australians from every state, every electorate, and every walk of life, demanding leadership that puts affordability first.</p>
           </div>
-          <HeroPlaceholder icon="petition" tag="Hero · Petition" />
+          <img className="hero-photo" src="assets/hero_petition.png" alt="Three generations of an Australian farming family stand together in a paddock at sunset." />
         </div>
       </section>
       <div className="container-wide">
@@ -164,7 +164,7 @@ const Donate = () => {
             <h1>Power the campaign that puts families first.</h1>
             <p className="lede">Pick an amount. We'll send you straight to our secure Stripe donation page — no card details ever touch this site.</p>
           </div>
-          <HeroPlaceholder icon="donate" tag="Hero · Donate" />
+          <img className="hero-photo" src="assets/hero_donate.png" alt="Rolling green Australian farmland at sunset, with a fence line tracing the hills." />
         </div>
       </section>
       <div className="container-wide">
