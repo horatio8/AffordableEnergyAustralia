@@ -155,21 +155,14 @@ const TheProblem = () => {
 };
 
 const TakeAction = () => {
-  const [postcode, setPostcode] = React.useState('');
-  const [mp, setMp] = React.useState(null);
-  const lookup = (e) => {
-    e.preventDefault();
-    if (postcode.length >= 4) setMp({ name: 'Hon. Sarah Tomlinson MP', electorate: 'Bennelong', email: 's.tomlinson.mp@aph.gov.au', phone: '(02) 9876 5432' });
-  };
-  const sample = "Dear MP,\n\nI am writing as a constituent in your electorate to ask you to publicly commit to prioritising affordable and reliable energy for Australian households.\n\nWith 1 in 5 Australians now in energy hardship and average household debt at $1,367, this is no longer a fringe issue — it is the defining cost-of-living crisis of our time.\n\nI ask you to put affordability before ideology, and to communicate publicly where you stand.\n\nSincerely,\n[Your name]";
   return (
     <main data-screen-label="Take Action">
       <section className="page-hero">
         <div className="container-wide page-hero-grid">
           <div>
             <span className="eyebrow" style={{ color: 'var(--amber)' }}>Take Action</span>
-            <h1>Signing is the start. Here are four ways to amplify it.</h1>
-            <p className="lede">Two minutes of your time, repeated by ten thousand Australians, becomes a movement no government can ignore. Pick one — or pick all four.</p>
+            <h1>Signing is the start. Here are two ways to amplify it.</h1>
+            <p className="lede">Two minutes of your time, repeated by ten thousand Australians, becomes a movement no government can ignore. Pick one — or do both.</p>
           </div>
           <img className="hero-photo" src="assets/hero_take_action.png" alt="An older Australian woman writes a letter to her MP at her kitchen table." />
         </div>
@@ -179,9 +172,9 @@ const TakeAction = () => {
         <div className="feed-strip">
           <div className="feed-pulse"><span className="dot" />Live activity</div>
           <ul>
-            <li><strong>4,128 actions today</strong>across all four channels combined</li>
-            <li><strong>312 letters sent</strong>to MPs in the last hour</li>
-            <li><strong>87 community events</strong>scheduled this fortnight</li>
+            <li><strong>4,128 actions today</strong>from supporters across the country</li>
+            <li><strong>1,290 posts shared</strong>in the last hour</li>
+            <li><strong>640 friends invited</strong>this fortnight</li>
           </ul>
         </div>
       </div>
@@ -207,28 +200,7 @@ const TakeAction = () => {
             </div>
 
             <div className="action-card">
-              <span className="num">02 · Pressure</span>
-              <h3>Contact your MP</h3>
-              <p>Enter your postcode. We'll find your federal MP and give you a pre-written, editable letter you can send in under a minute.</p>
-              <form className="mp-form" onSubmit={lookup}>
-                <input placeholder="Postcode (e.g. 2113)" value={postcode} onChange={e => setPostcode(e.target.value)} maxLength="4" />
-                <button className="btn btn-teal" type="submit">Find MP</button>
-              </form>
-              {mp && (
-                <div className="mp-result">
-                  <h4>{mp.name}</h4>
-                  <div className="meta">{mp.electorate} · {mp.phone}</div>
-                  <div className="mp-letter">{sample}</div>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <button className="btn btn-teal" style={{ padding: '12px 18px', fontSize: 14 }}>Send via email →</button>
-                    <button className="btn btn-outline-teal" style={{ padding: '12px 18px', fontSize: 14 }}>Edit letter</button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="action-card">
-              <span className="num">03 · Recruit</span>
+              <span className="num">02 · Recruit</span>
               <h3>Tell three friends</h3>
               <p>The petition grows fastest through trusted networks. Send a personal introduction to three people in one email.</p>
               {[1,2,3].map(i => (
@@ -237,25 +209,6 @@ const TakeAction = () => {
                 </div>
               ))}
               <button className="btn btn-teal" style={{ marginTop: 12 }}>Send invites →</button>
-            </div>
-
-            <div className="action-card">
-              <span className="num">04 · Show up</span>
-              <h3>Find an event near you</h3>
-              <p>Town halls, community meetings, and AEA appearances. Showing up in person is the strongest signal a politician can receive.</p>
-              <div style={{ display: 'grid', gap: 12, marginTop: 16 }}>
-                {[
-                  ['Western Sydney Town Hall', 'Parramatta · 18 May 2026 · 7pm'],
-                  ['Industry Roundtable', 'Geelong · 02 June 2026 · 6pm'],
-                  ['Pensioner Forum', 'Brisbane · 14 June 2026 · 11am'],
-                ].map(([t, d]) => (
-                  <div key={t} style={{ padding: 16, background: 'var(--paper)', borderLeft: '3px solid var(--teal)' }}>
-                    <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 16 }}>{t}</div>
-                    <div style={{ fontSize: 13, color: 'var(--grey)' }}>{d}</div>
-                  </div>
-                ))}
-              </div>
-              <button className="btn btn-outline-teal" style={{ marginTop: 16 }}>See all events →</button>
             </div>
           </div>
         </div>
@@ -352,10 +305,9 @@ const News = () => {
               <div style={{ marginBottom: 16 }}>
                 <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22 }}>Media Team</div>
                 <div style={{ fontSize: 14, opacity: 0.8, marginBottom: 8 }}>Coalition for Conservation</div>
-                <div style={{ fontSize: 15 }}><a href={`mailto:${(content?.site?.mediaEmail) || 'Media@coalitionforconservation.com.au'}`} style={{ color: 'inherit', textDecoration: 'underline' }}>{(content?.site?.mediaEmail) || 'Media@coalitionforconservation.com.au'}</a></div>
+                <div style={{ fontSize: 15 }}><a href={`mailto:${(content?.site?.mediaEmail) || 'media@coalitionforconservation.com.au'}`} style={{ color: 'inherit', textDecoration: 'underline' }}>{(content?.site?.mediaEmail) || 'media@coalitionforconservation.com.au'}</a></div>
                 <div style={{ fontSize: 15 }}><a href="tel:+61291888838" style={{ color: 'inherit', textDecoration: 'none' }}>{(content?.site?.mediaPhone) || '+61 2 9188 8838'}</a></div>
               </div>
-              <button className="btn btn-amber" style={{ padding: '14px 22px', fontSize: 14 }}>Download brand & stat pack ↓</button>
             </div>
           </div>
         </div>

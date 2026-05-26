@@ -23,7 +23,7 @@ const Petition = () => {
             <h1>Sign it. Send a message no politician can ignore.</h1>
             <p className="lede">Your name joins everyday Australians from every state, every electorate, and every walk of life, demanding leadership that puts affordability first.</p>
           </div>
-          <img className="hero-photo" src="assets/hero_petition.png" alt="Three generations of an Australian farming family stand together in a paddock at sunset." />
+          <img className="hero-photo" src="assets/hero_petition.png" style={{ objectPosition: 'right center' }} alt="Three generations of an Australian farming family stand together in a paddock at sunset." />
         </div>
       </section>
       <div className="container-wide">
@@ -59,18 +59,12 @@ const Petition = () => {
             <h3>Add your name</h3>
             <p className="sub">Goal: 100,000 signatures. Less than a minute to sign.</p>
             <div className="field-row">
-              <div className="field"><label>First name</label><input required defaultValue="" /></div>
-              <div className="field"><label>Last name</label><input required defaultValue="" /></div>
+              <div className="field"><label>First name <span style={{ color: 'var(--red)' }}>*</span></label><input required defaultValue="" /></div>
+              <div className="field"><label>Last name <span style={{ color: 'var(--red)' }}>*</span></label><input required defaultValue="" /></div>
             </div>
-            <div className="field"><label>Email</label><input type="email" required placeholder="you@email.com" /></div>
+            <div className="field"><label>Email <span style={{ color: 'var(--red)' }}>*</span></label><input type="email" required placeholder="you@email.com" /></div>
             <div className="field"><label>Postcode</label><input required maxLength="4" placeholder="2000" /></div>
-            <div className="field"><label>Phone (optional)</label><input type="tel" placeholder="For SMS campaign updates" /></div>
-            <div className="checkbox-row">
-              <input type="checkbox" defaultChecked id="optin" />
-              <label htmlFor="optin" style={{ textTransform: 'none', letterSpacing: 0, fontSize: 13, fontWeight: 400, color: 'var(--grey)' }}>
-                I want to receive campaign updates by email and SMS. I can unsubscribe at any time.
-              </label>
-            </div>
+            <div className="field"><label>Phone</label><input type="tel" placeholder="For SMS campaign updates" /></div>
             <button type="submit" className="btn btn-teal">Sign the Petition →</button>
             <p style={{ fontSize: 12, color: 'var(--grey)', marginTop: 14, textAlign: 'center' }}>
               Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW. Privacy Act compliant.
