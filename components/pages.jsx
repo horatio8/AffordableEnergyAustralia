@@ -426,10 +426,7 @@ const About = () => (
           <h1>A people-powered campaign with one job: <span style={{ color: 'var(--teal-dark)' }}>win.</span></h1>
           <p className="lede">Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who are concerned about increased energy prices arising from Australia's current plans for the energy transition.</p>
         </div>
-        <div className="hero-placeholder hero-placeholder-light">
-          <span className="ph-tag" style={{ background: 'var(--teal-deep)', color: 'var(--white)' }}>Hero · About</span>
-          {HERO_ICONS.community}
-        </div>
+        <img className="hero-photo" src="assets/hero_about.png" style={{ border: '1px solid rgba(13,31,28,.1)' }} alt="A diverse group of everyday Australians — a tradie, parents, grandparents and young workers — standing together in a paddock at dusk." />
       </div>
     </section>
 
