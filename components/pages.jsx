@@ -28,7 +28,7 @@ const TheProblem = () => {
             <h2>Eight figures every Australian should know.</h2>
             <p className="lede">Key statistics from regulators, peak bodies and charities.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+          <div className="crisis-grid">
             {[
               { n: '1 in 5', l: 'Households in hardship or on the brink', s: 'Energy Consumers Australia', u: 'https://energyconsumersaustralia.com.au/our-work/surveys/consumer-energy-report-card-understanding-measuring-energy-hardship-australia' },
               { n: '$1,367', l: 'Average household energy debt', s: 'Australian Energy Regulator', u: 'https://www.aer.gov.au/news/articles/news-releases/debt-and-hardship-persist-vulnerable-customers' },
@@ -408,7 +408,7 @@ Object.assign(window, { NewsStory });
 const About = () => (
   <main data-screen-label="About">
     <section className="about-hero">
-      <div className="container-wide" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 56, alignItems: 'center' }}>
+      <div className="container-wide about-hero-grid">
         <div>
           <span className="eyebrow" style={{ color: 'var(--teal-dark)' }}>About AEA</span>
           <h1>A people-powered campaign with one job: <span style={{ color: 'var(--teal-dark)' }}>win.</span></h1>
@@ -481,7 +481,7 @@ const About = () => (
           <span className="eyebrow">Governance</span>
           <h2>Built to be trusted.</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32 }}>
+        <div className="gov-grid">
           {[
             ['Independent', 'Not aligned with any political organisation. We endorse policy positions, not candidates.'],
             ['Australian-funded', 'No money accepted from foreign donors or the renewable industrial complex.'],

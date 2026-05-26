@@ -508,6 +508,23 @@ section { position: relative; }
 .affected-content p { font-size: 19px; color: var(--ink); opacity: 0.85; line-height: 1.65; margin-bottom: 16px; }
 .timeline-chart { background: var(--white); padding: 48px; border: 1px solid rgba(13,31,28,.08); }
 
+/* Page grids (responsive) */
+.crisis-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.about-hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: center; }
+.gov-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+.donate-impact-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 1024px) {
+  .about-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 1180px) {
+  .crisis-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .crisis-grid { grid-template-columns: 1fr; }
+  .gov-grid { grid-template-columns: 1fr; }
+  .donate-impact-stats { gap: 12px; }
+}
+
 /* Tight nav at narrow desktop — before mobile menu kicks in */
 @media (max-width: 1340px) and (min-width: 1181px) {
   .site-nav { gap: 18px; }
