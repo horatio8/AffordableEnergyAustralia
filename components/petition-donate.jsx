@@ -65,6 +65,7 @@ const Petition = () => {
             <div className="field"><label>Email <span style={{ color: 'var(--red)' }}>*</span></label><input type="email" required placeholder="you@email.com" /></div>
             <div className="field"><label>Postcode</label><input required maxLength="4" placeholder="2000" /></div>
             <div className="field"><label>Phone</label><input type="tel" placeholder="For SMS campaign updates" /></div>
+            <div className="field"><label>Why I signed (optional)</label><textarea rows="3" placeholder="Share your story. We may feature it to show why this matters — anonymously if you prefer." /></div>
             <button type="submit" className="btn btn-teal">Sign the Petition →</button>
             <p style={{ fontSize: 12, color: 'var(--grey)', marginTop: 14, textAlign: 'center' }}>
               Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW. Privacy Act compliant.

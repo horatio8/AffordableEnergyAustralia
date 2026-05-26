@@ -378,8 +378,8 @@ section { position: relative; }
 .petition-form .sub { font-size: 15px; color: var(--grey); margin-bottom: 24px; }
 .field { margin-bottom: 16px; }
 .field label { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px; color: var(--ink); margin-bottom: 8px; }
-.field input, .field select { width: 100%; padding: 13px 14px; border: 2px solid rgba(13,31,28,.1); font-size: 16px; font-family: inherit; background: var(--paper); }
-.field input:focus, .field select:focus { outline: none; border-color: var(--teal); background: var(--white); }
+.field input, .field select, .field textarea { width: 100%; padding: 13px 14px; border: 2px solid rgba(13,31,28,.1); font-size: 16px; font-family: inherit; background: var(--paper); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .checkbox-row { display: flex; gap: 12px; align-items: flex-start; padding: 16px 0; font-size: 14px; color: var(--ink); line-height: 1.5; }
 .checkbox-row input { margin-top: 3px; }

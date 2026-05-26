@@ -168,17 +168,6 @@ const TakeAction = () => {
         </div>
       </section>
 
-      <div className="container-wide" style={{ paddingTop: 56 }}>
-        <div className="feed-strip">
-          <div className="feed-pulse"><span className="dot" />Live activity</div>
-          <ul>
-            <li><strong>4,128 actions today</strong>from supporters across the country</li>
-            <li><strong>1,290 posts shared</strong>in the last hour</li>
-            <li><strong>640 friends invited</strong>this fortnight</li>
-          </ul>
-        </div>
-      </div>
-
       <section className="section-pad section-paper">
         <div className="container-wide">
           <div className="action-grid">
