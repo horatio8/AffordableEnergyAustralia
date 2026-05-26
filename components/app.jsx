@@ -95,6 +95,7 @@ const App = () => {
       case '/take-action': page = <TakeAction />; break;
       case '/news': page = <News />; break;
       case '/about-us': page = <About />; break;
+      case '/privacy': page = <PrivacyPolicy />; break;
       case '/donate': page = <Donate />; break;
       case '/thank-you-petition': page = <ThankYouPetition />; break;
       case '/thank-you-donation': page = <ThankYouDonation />; break;

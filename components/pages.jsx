@@ -241,9 +241,9 @@ const TakeActionNewsStrip = () => {
 const News = () => {
   const content = useContent();
   const allItems = content?.news || [];
-  const categories = ['Interview', 'Comment', 'Press Release', 'Media'];
+  const categories = ['Households', 'Industry', 'Policy'];
   const [cat, setCat] = React.useState('All');
-  const items = cat === 'All' ? allItems : allItems.filter(it => it.tag === cat);
+  const items = cat === 'All' ? allItems : allItems.filter(it => it.topic === cat);
   return (
     <main data-screen-label="News">
       <section className="page-hero">
@@ -274,7 +274,7 @@ const News = () => {
               <a href={`#/news/${it.slug || i}`} key={i} className="news-card" style={{ padding: 36 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                   <span className="news-source">{it.src}</span>
-                  <span style={{ fontSize: 11, padding: '3px 8px', background: it.tag === 'Press Release' ? 'var(--amber)' : 'var(--teal-light)', color: it.tag === 'Press Release' ? 'var(--ink)' : 'var(--teal-deep)', fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{it.tag}</span>
+                  <span style={{ fontSize: 11, padding: '3px 8px', background: 'var(--teal-light)', color: 'var(--teal-deep)', fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{it.topic}</span>
                 </div>
                 <div className="news-date">{it.date}</div>
                 <h4 style={{ fontSize: 26, marginBottom: 12 }}>{it.head}</h4>
@@ -335,7 +335,6 @@ const NewsStory = ({ slug }) => {
     );
   }
 
-  const isPress = item.tag === 'Press Release';
   const bodyParas = (item.body || item.summary || '').split(/\n+/).filter(Boolean);
 
   return (
@@ -343,7 +342,7 @@ const NewsStory = ({ slug }) => {
       <section className="news-story-hero">
         <div className="container-narrow">
           <div className="news-story-meta">
-            <span className="news-story-tag" style={{ background: isPress ? 'var(--amber)' : 'var(--teal-light)', color: isPress ? 'var(--ink)' : 'var(--teal-deep)' }}>{item.tag}</span>
+            <span className="news-story-tag" style={{ background: 'var(--teal-light)', color: 'var(--teal-deep)' }}>{item.topic}</span>
             <span className="news-story-source">{item.src}</span>
             <span className="news-story-dot">·</span>
             <span className="news-story-date">{item.date}</span>
@@ -502,4 +501,49 @@ const About = () => (
   </main>
 );
 
-Object.assign(window, { TheProblem, TakeAction, News, About });
+const PrivacyPolicy = () => {
+  const content = useContent();
+  const email = content?.site?.mediaEmail || 'media@coalitionforconservation.com.au';
+  return (
+    <main data-screen-label="Privacy Policy">
+      <section className="page-hero">
+        <div className="container-wide page-hero-grid">
+          <div>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Legal</span>
+            <h1>Privacy Policy.</h1>
+            <p className="lede">How Affordable Energy Australia collects, uses and protects your personal information, in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-pad section-paper">
+        <div className="container-narrow news-story-body">
+          <h3>Who we are</h3>
+          <p>Affordable Energy Australia is a campaign of the Coalition for Conservation (ABN 82 201 923 025). In this policy, "we", "us" and "our" refer to that organisation.</p>
+
+          <h3>What we collect</h3>
+          <p>We only collect personal information that you choose to give us. Depending on how you engage with the site, this may include your name, email address, postcode, phone number, and any story or comment you submit when signing the petition. If you make a donation, your payment is processed by our payment provider — we do not collect or store your card details on this site.</p>
+
+          <h3>How we use it</h3>
+          <p>We use your information to record your support, keep you updated on the campaign by email and SMS, demonstrate the scale of public support to elected representatives, and process donations. We may publish supporter stories to show why this issue matters, anonymously or with only a first name and general location, and never in a way that identifies you without your consent.</p>
+
+          <h3>Who we share it with</h3>
+          <p>We do not sell your personal information. We share it only with service providers who help us run the campaign — such as our email, SMS and payment providers — and only so they can perform those services for us. We may disclose information where required by law.</p>
+
+          <h3>Storing and securing your information</h3>
+          <p>We take reasonable steps to protect your information from misuse, loss and unauthorised access, and we retain it only for as long as it is needed for the purposes above or as required by law.</p>
+
+          <h3>Accessing, correcting or removing your information</h3>
+          <p>You can ask us to access, correct or delete your personal information, and you can unsubscribe from our updates at any time using the link in any message or by contacting us. You can also ask us not to contact you again.</p>
+
+          <h3>Contact us</h3>
+          <p>For any privacy question or request, contact us at <a href={`mailto:${email}`} style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>{email}</a>. If you are not satisfied with our response, you can contact the Office of the Australian Information Commissioner.</p>
+
+          <p className="news-story-byline">This policy may be updated from time to time. Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW.</p>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+Object.assign(window, { TheProblem, TakeAction, News, About, PrivacyPolicy });

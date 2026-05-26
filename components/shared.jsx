@@ -96,16 +96,12 @@ const Footer = () => {
           <ul>
             <li><a href="#/about-us">Our Mission</a></li>
             <li><a href="#/news">In the News</a></li>
-            <li><a href="#/about-us">Contact</a></li>
-            <li><a href="#/about-us">Governance</a></li>
           </ul>
         </div>
         <div>
           <h5>Legal</h5>
           <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Authorisation</a></li>
+            <li><a href="#/privacy">Privacy Policy</a></li>
           </ul>
         </div>
       </div>
