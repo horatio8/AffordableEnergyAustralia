@@ -41,7 +41,7 @@ const Petition = () => {
                 <div className="mini-stat" key={i}>
                   <span className="num">{formatPetitionStat(s.num, s.format)}</span>
                   <span className="label">{s.label}</span>
-                  {s.source && <span className="mini-source">Source: {s.sourceUrl ? <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer">{s.source}</a> : s.source}</span>}
+                  {s.source && <span className="mini-source">Source: {s.source}</span>}
                 </div>
               ))}
             </div>

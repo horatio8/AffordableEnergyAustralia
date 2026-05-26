@@ -178,9 +178,7 @@ const StatBand = () => {
             <span className="num">{formatStat(counts[i], s.format)}</span>
             <span className="label">{s.label}</span>
             {s.source && (
-              <span className="source">
-                Source: {s.sourceUrl ? <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer">{s.source}</a> : s.source}
-              </span>
+              <span className="source">Source: {s.source}</span>
             )}
           </div>
         ))}

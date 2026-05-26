@@ -35,14 +35,14 @@ const TheProblem = () => {
               { n: '340k', l: 'Households in long-term debt', s: 'Australian Energy Regulator', u: 'https://au.finance.yahoo.com/news/centrelink-recipient-reveals-6000-battle-as-more-aussies-struggle-with-growing-energy-debt-042242942.html' },
               { n: '220%', l: 'Electricity price rise for households since 2008', s: 'Australian Bureau of Statistics', u: 'https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release' },
               { n: '24%', l: 'Projected further price rise Nov 2025 to July 2026', s: 'Australian Bureau of Statistics, Westpac', u: 'https://www.afr.com/policy/economy/electricity-bills-could-jump-24pc-this-year-20260123-p5nwfn' },
-              { n: '200+', l: 'NSW spot price spikes >$10k/MWh in 2024', s: 'CIS, Australian Energy Market Operator', u: 'https://www.cis.org.au/publication/risky-business-how-the-energy-transition-introduces-risks-that-raise-retail-costs/' },
+              { n: '200+', l: 'NSW spot price spikes >$10k/MWh in 2024', s: 'Australian Energy Market Operator' },
               { n: '20%', l: 'Households skipping meals due to financial strain', s: 'Foodbank Hunger Report', u: 'https://reports.foodbank.org.au/foodbank-hunger-report-2025/' },
               { n: '84%', l: 'Households seriously concerned about power costs', s: 'Choice National Survey', u: 'https://www.choice.com.au/shopping/shopping-for-services/utilities/articles/energy-disconnections-and-hardship-obligations' },
-            ].map(({ n, l, s, u }, i) => (
+            ].map(({ n, l, s }, i) => (
               <div key={i} style={{ padding: 28, background: 'var(--white)', borderTop: '4px solid var(--red)' }}>
                 <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 56, color: 'var(--red)', lineHeight: 0.95 }}>{n}</div>
                 <div style={{ fontSize: 14, color: 'var(--grey)', marginTop: 8 }}>{l}</div>
-                <div style={{ fontSize: 12, color: 'var(--grey-soft)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.4 }}>Source: {u ? <a href={u} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>{s}</a> : s}</div>
+                <div style={{ fontSize: 12, color: 'var(--grey-soft)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.4 }}>Source: {s}</div>
               </div>
             ))}
           </div>
@@ -69,7 +69,7 @@ const TheProblem = () => {
             <div style={{ background: 'var(--white)', padding: 48, borderLeft: '6px solid var(--red)' }}>
               <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 100, color: 'var(--red)', lineHeight: 0.9 }}>{t.stat}</div>
               <div style={{ fontSize: 17, color: 'var(--grey)', marginTop: 12, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>{t.statLabel}</div>
-              {t.source && <div style={{ fontSize: 13, color: 'var(--grey-soft)', marginTop: 14, fontStyle: 'italic' }}>Source: {t.sourceUrl ? <a href={t.sourceUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>{t.source}</a> : t.source}</div>}
+              {t.source && <div style={{ fontSize: 13, color: 'var(--grey-soft)', marginTop: 14, fontStyle: 'italic' }}>Source: {t.source}</div>}
             </div>
           </div>
         </div>
@@ -137,18 +137,6 @@ const TheProblem = () => {
               <span style={{ marginLeft: 'auto', fontSize: 13, fontStyle: 'italic', opacity: 0.75 }}>Source: <a href="https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/mar-2026/6401018.xlsx" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--teal-dark)', textDecoration: 'underline' }}>Australian Bureau of Statistics</a>, CPI (indexed to 2011–12 = 100).</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Quote */}
-      <section className="section-pad section-deep">
-        <div className="container-narrow" style={{ textAlign: 'center' }}>
-          <p style={{ fontFamily: 'Georgia', fontStyle: 'italic', fontSize: 'clamp(28px, 3.5vw, 44px)', lineHeight: 1.3, marginBottom: 32 }}>
-            "Australia's electricity system is being disrupted by a decade-long, uncontrolled experiment in high renewables integration."
-          </p>
-          <p style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 14, color: 'var(--teal)' }}>
-            Sarah McNamara · CEO, Australian Energy Council · 2019
-          </p>
         </div>
       </section>
 
@@ -310,7 +298,10 @@ const TakeActionNewsStrip = () => {
 
 const News = () => {
   const content = useContent();
-  const items = content?.news || [];
+  const allItems = content?.news || [];
+  const categories = ['Interview', 'Comment', 'Press Release', 'Media'];
+  const [cat, setCat] = React.useState('All');
+  const items = cat === 'All' ? allItems : allItems.filter(it => it.tag === cat);
   return (
     <main data-screen-label="News">
       <section className="page-hero">
@@ -327,11 +318,15 @@ const News = () => {
       <section className="section-pad section-paper">
         <div className="container-wide">
           <div className="topic-pills">
-            {['All stories','Coverage','Press releases','Households','Industry','Policy'].map((t, i) => (
-              <button key={t} className={`topic-pill ${i === 0 ? 'active' : ''}`}>{t}</button>
+            <button className={`topic-pill ${cat === 'All' ? 'active' : ''}`} onClick={() => setCat('All')}>All stories</button>
+            {categories.map(t => (
+              <button key={t} className={`topic-pill ${cat === t ? 'active' : ''}`} onClick={() => setCat(t)}>{t}</button>
             ))}
           </div>
 
+          {items.length === 0 && (
+            <p style={{ fontStyle: 'italic', color: 'var(--grey)', padding: '24px 0' }}>No stories in this category yet.</p>
+          )}
           <div className="news-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {items.map((it, i) => (
               <a href={`#/news/${it.slug || i}`} key={i} className="news-card" style={{ padding: 36 }}>
