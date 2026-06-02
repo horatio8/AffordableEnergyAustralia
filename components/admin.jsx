@@ -229,13 +229,12 @@ const Admin = ({ content, setContent }) => {
           <div className="adm-section">
             <ListEditor
               items={draft.voices || []}
-              blank={{ initials: '', name: '', loc: '', quote: '' }}
+              blank={{ name: '', loc: '', quote: '' }}
               label="voice"
               onChange={v => setSection('voices', v)}
               render={(it, set) => (
                 <>
                   <div className="adm-row">
-                    <Field label="Initials" value={it.initials} onChange={v => set({ ...it, initials: v })} />
                     <Field label="Name" value={it.name} onChange={v => set({ ...it, name: v })} />
                     <Field label="Location" value={it.loc} onChange={v => set({ ...it, loc: v })} />
                   </div>

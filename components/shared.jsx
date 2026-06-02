@@ -198,11 +198,11 @@ const PetitionCounter = ({ baseClass = "hero-counter" }) => {
 
 const SocialTicker = () => {
   const items = [
-    { name: 'Jane', state: 'NSW' }, { name: 'Michael', state: 'QLD' },
-    { name: 'Sarah', state: 'VIC' }, { name: 'David', state: 'WA' },
-    { name: 'Emma', state: 'SA' }, { name: 'Tom', state: 'TAS' },
-    { name: 'Priya', state: 'NSW' }, { name: 'Liam', state: 'VIC' },
-    { name: 'Hannah', state: 'NSW' }, { name: 'Marcus', state: 'QLD' },
+    { name: 'Kevin', state: 'NSW' },
+    { name: 'Mark', state: 'VIC' },
+    { name: 'Nathalia', state: 'NSW' },
+    { name: 'Charlotte', state: 'WA' },
+    { name: 'Luke', state: 'TAS' },
   ];
   const all = [...items, ...items, ...items];
   return (

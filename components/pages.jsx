@@ -155,6 +155,40 @@ const TheProblem = () => {
 };
 
 const TakeAction = () => {
+  const shareUrl = 'https://affordableenergy.org.au';
+  const shareText = "1 in 5 Australians can't afford their power bill. I just signed the petition demanding our leaders put affordability first. Add your name: affordableenergy.org.au";
+  const [friends, setFriends] = React.useState(['', '', '']);
+  const [copied, setCopied] = React.useState(false);
+
+  const shareTo = (platform) => {
+    const u = encodeURIComponent(shareUrl);
+    const t = encodeURIComponent(shareText);
+    const urls = {
+      Facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}&quote=${t}`,
+      X: `https://twitter.com/intent/tweet?text=${t}`,
+      WhatsApp: `https://wa.me/?text=${t}`,
+      LinkedIn: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+    };
+    if (urls[platform]) {
+      window.open(urls[platform], '_blank', 'noopener,noreferrer');
+    } else if (platform === 'Instagram') {
+      navigator.clipboard?.writeText(shareText);
+      window.alert('Text copied — open Instagram and paste it into a post or story.');
+    } else if (platform === 'Copy text') {
+      navigator.clipboard?.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    }
+  };
+
+  const sendInvites = () => {
+    const valid = friends.map(e => e.trim()).filter(e => /\S+@\S+\.\S+/.test(e));
+    if (!valid.length) { window.alert("Add at least one friend's email address first."); return; }
+    const subject = encodeURIComponent('I just signed — could you?');
+    const body = encodeURIComponent(`Hi,\n\nI just signed the Affordable Energy Australia petition. With 1 in 5 Australians now in energy hardship, this is one of the most important issues for households right now.\n\nCould you add your name too? It takes less than a minute: ${shareUrl}\n\nThanks,`);
+    window.location.href = `mailto:${valid.join(',')}?subject=${subject}&body=${body}`;
+  };
+
   return (
     <main data-screen-label="Take Action">
       <section className="page-hero">
@@ -176,15 +210,12 @@ const TakeAction = () => {
               <h3>Spread the campaign</h3>
               <p>Use our pre-written posts — designed to convert. One click copies a tested message you can paste straight into your feed.</p>
               <div className="share-buttons">
-                {['Facebook','X','WhatsApp','Instagram','LinkedIn','Copy text'].map(s => <button key={s}>{s}</button>)}
+                {['Facebook','X','WhatsApp','Instagram','LinkedIn','Copy text'].map(s => (
+                  <button key={s} type="button" onClick={() => shareTo(s)}>{s === 'Copy text' && copied ? 'Copied!' : s}</button>
+                ))}
               </div>
               <div style={{ marginTop: 24, padding: 20, background: 'var(--paper)', fontSize: 14, fontFamily: 'Georgia', fontStyle: 'italic', color: 'var(--ink)' }}>
-                "1 in 5 Australians can't afford their power bill. I just signed the petition demanding our leaders put affordability first. Add your name: affordableenergy.org.au"
-              </div>
-              <p style={{ fontSize: 13, color: 'var(--grey)', marginTop: 16 }}>↓ Or download a square or story-format graphic for your channels:</p>
-              <div className="share-buttons" style={{ marginTop: 8 }}>
-                <button>Square 1080×1080 ↓</button>
-                <button>Story 1080×1920 ↓</button>
+                "{shareText}"
               </div>
             </div>
 
@@ -192,12 +223,12 @@ const TakeAction = () => {
               <span className="num">02 · Recruit</span>
               <h3>Tell three friends</h3>
               <p>The petition grows fastest through trusted networks. Send a personal introduction to three people in one email.</p>
-              {[1,2,3].map(i => (
+              {friends.map((v, i) => (
                 <div className="field" key={i} style={{ marginBottom: 8 }}>
-                  <input type="email" placeholder={`Friend ${i} email`} style={{ width: '100%', padding: '13px 14px', border: '2px solid rgba(13,31,28,.1)', fontSize: 16 }} />
+                  <input type="email" placeholder={`Friend ${i + 1} email`} value={v} onChange={e => { const next = [...friends]; next[i] = e.target.value; setFriends(next); }} style={{ width: '100%', padding: '13px 14px', border: '2px solid rgba(13,31,28,.1)', fontSize: 16 }} />
                 </div>
               ))}
-              <button className="btn btn-teal" style={{ marginTop: 12 }}>Send invites →</button>
+              <button type="button" className="btn btn-teal" style={{ marginTop: 12 }} onClick={sendInvites}>Send invites →</button>
             </div>
           </div>
         </div>

@@ -86,7 +86,6 @@ const Petition = () => {
               <div className="voice-card" key={v.name}>
                 <p className="quote">{v.quote}</p>
                 <div className="who">
-                  <span className="voice-avatar">{v.initials}</span>
                   <div>
                     <strong>{v.name}</strong>
                     <span>{v.loc}</span>
@@ -199,38 +198,12 @@ const Donate = () => {
           <p style={{ fontSize: 22, lineHeight: 1.5, color: 'var(--ink)', marginBottom: 32, fontFamily: 'Barlow Condensed', fontWeight: 700, textTransform: 'uppercase' }}>
             Families and businesses are suffering. We are purpose-built to win this fight — but we cannot do it without you.
           </p>
-          <div className="donate-supporting-grid">
-            <div>
-              <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 18 }}>
-                Affordable Energy Australia takes no money from political organisations. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
-              </p>
-              <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 28 }}>
-                A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.
-              </p>
-              <div className="donate-impact-stats">
-                <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 36, color: 'var(--teal-deep)', lineHeight: 1 }}>47,832</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Signatures collected</div></div>
-                <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 36, color: 'var(--teal-deep)', lineHeight: 1 }}>12,400</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Letters sent to MPs</div></div>
-                <div><div style={{ fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 36, color: 'var(--teal-deep)', lineHeight: 1 }}>151</div><div style={{ fontSize: 13, color: 'var(--grey)', marginTop: 4 }}>Electorates with active supporters</div></div>
-              </div>
-            </div>
-
-            <div className="supporter-list">
-              <h4>Recent supporters</h4>
-              {[
-                ['Margaret K.', 'NSW · 2113', '$50/mo', '2 min ago'],
-                ['Aaron P.', 'VIC · 3220', '$250', '8 min ago'],
-                ['Sun-Mi L.', 'QLD · 4101', '$15/mo', '14 min ago'],
-                ['Daniel R.', 'WA · 6018', '$100', '22 min ago'],
-                ['Emma B.', 'SA · 5067', '$25/mo', '31 min ago'],
-              ].map(([name, loc, amt, when]) => (
-                <div className="row" key={name + when}>
-                  <div><strong>{name}</strong><div style={{ fontSize: 12, color: 'var(--grey)' }}>{loc}</div></div>
-                  <span className="amount">{amt}</span>
-                  <span className="when">{when}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 18 }}>
+            Affordable Energy Australia takes no money from political organisations. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
+          </p>
+          <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 28 }}>
+            A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.
+          </p>
 
           <div className="trust-grid">
             {[
