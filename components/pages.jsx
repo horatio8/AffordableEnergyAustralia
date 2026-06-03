@@ -1,6 +1,8 @@
 /* === The Problem, Take Action, News, About === */
 
 const TheProblem = () => {
+  const content = useContent();
+  const tp = content?.pages?.theProblem || {};
   const [tab, setTab] = React.useState('households');
   const tabs = {
     households: { title: 'Households', body: 'One in five Australian households are now in energy hardship or on the brink. Average energy debt has climbed to $1,367, with 20% of families skipping meals or going days without eating due to financial strain. Renters, parents and pensioners are bearing the heaviest load.', stat: '1 in 5', statLabel: 'households in hardship or on the brink', source: 'Energy Consumers Australia', sourceUrl: 'https://energyconsumersaustralia.com.au/our-work/surveys/consumer-energy-report-card-understanding-measuring-energy-hardship-australia' },
@@ -13,10 +15,10 @@ const TheProblem = () => {
     <main data-screen-label="The Problem">
       <section className="problem-hero">
         <div className="container problem-hero-inner">
-          <span className="eyebrow" style={{ color: 'var(--amber)' }}>The Problem</span>
-          <span className="big-num">220%</span>
-          <h1>Electricity prices for households have risen 220 per cent since 2008.</h1>
-          <p style={{ marginTop: 18, fontSize: 14, fontStyle: 'italic', opacity: 0.7 }}>Source: Australian Bureau of Statistics.</p>
+          <span className="eyebrow" style={{ color: 'var(--amber)' }}>{tp.eyebrow || 'The Problem'}</span>
+          <span className="big-num">{tp.bigNumber || '220%'}</span>
+          <h1>{tp.headline || 'Electricity prices for households have risen 220 per cent since 2008.'}</h1>
+          <p style={{ marginTop: 18, fontSize: 14, fontStyle: 'italic', opacity: 0.7 }}>{tp.sourceFootnote || 'Source: Australian Bureau of Statistics.'}</p>
         </div>
       </section>
 
@@ -155,8 +157,10 @@ const TheProblem = () => {
 };
 
 const TakeAction = () => {
-  const shareUrl = 'https://affordableenergy.org.au';
-  const shareText = "1 in 5 Australians can't afford their power bill. I just signed the petition demanding our leaders put affordability first. Add your name: affordableenergy.org.au";
+  const content = useContent();
+  const ta = content?.pages?.takeAction || {};
+  const shareUrl = ta.shareUrl || 'https://affordableenergy.org.au';
+  const shareText = ta.shareText || "1 in 5 Australians can't afford their power bill. I just signed the petition demanding our leaders put affordability first. Add your name: affordableenergy.org.au";
   const [friends, setFriends] = React.useState(['', '', '']);
   const [copied, setCopied] = React.useState(false);
 
@@ -194,11 +198,11 @@ const TakeAction = () => {
       <section className="page-hero">
         <div className="container-wide page-hero-grid">
           <div>
-            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Take Action</span>
-            <h1>Signing is the start. Here are two ways to amplify it.</h1>
-            <p className="lede">Two minutes of your time, repeated by ten thousand Australians, becomes a movement no government can ignore. Pick one — or do both.</p>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>{ta.eyebrow || 'Take Action'}</span>
+            <h1>{ta.h1 || 'Signing is the start. Here are two ways to amplify it.'}</h1>
+            <p className="lede">{ta.lede || 'Two minutes of your time, repeated by ten thousand Australians, becomes a movement no government can ignore. Pick one — or do both.'}</p>
           </div>
-          <img className="hero-photo" src="assets/hero_take_action.png" alt="An older Australian woman writes a letter to her MP at her kitchen table." />
+          <img className="hero-photo" src={ta.heroImage || 'assets/hero_take_action.png'} alt="An older Australian woman writes a letter to her MP at her kitchen table." />
         </div>
       </section>
 
@@ -280,11 +284,11 @@ const News = () => {
       <section className="page-hero">
         <div className="container-wide page-hero-grid">
           <div>
-            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Newsroom</span>
-            <h1>In the News.</h1>
-            <p className="lede">Coverage from Australia's leading mastheads and our own press releases. Working journalists, please use the contact details below for same-day comment.</p>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>{content?.pages?.news?.eyebrow || 'Newsroom'}</span>
+            <h1>{content?.pages?.news?.h1 || 'In the News.'}</h1>
+            <p className="lede">{content?.pages?.news?.lede || "Coverage from Australia's leading mastheads and our own press releases. Working journalists, please use the contact details below for same-day comment."}</p>
           </div>
-          <img className="hero-photo" src="assets/hero_news.png" alt="A newspaper, notebook and voice recorder on a journalist's desk." />
+          <img className="hero-photo" src={content?.pages?.news?.heroImage || 'assets/hero_news.png'} alt="A newspaper, notebook and voice recorder on a journalist's desk." />
         </div>
       </section>
 
@@ -436,16 +440,19 @@ const NewsStory = ({ slug }) => {
 
 Object.assign(window, { NewsStory });
 
-const About = () => (
+const About = () => {
+  const content = useContent();
+  const ab = content?.pages?.about || {};
+  return (
   <main data-screen-label="About">
     <section className="about-hero">
       <div className="container-wide about-hero-grid">
         <div>
-          <span className="eyebrow" style={{ color: 'var(--teal-dark)' }}>About AEA</span>
-          <h1>A people-powered campaign with one job: <span style={{ color: 'var(--teal-dark)' }}>win.</span></h1>
-          <p className="lede">Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who are concerned about increased energy prices arising from Australia's current plans for the energy transition.</p>
+          <span className="eyebrow" style={{ color: 'var(--teal-dark)' }}>{ab.eyebrow || 'About AEA'}</span>
+          <h1>{ab.h1Main || 'A people-powered campaign with one job:'} <span style={{ color: 'var(--teal-dark)' }}>{ab.h1Accent || 'win.'}</span></h1>
+          <p className="lede">{ab.lede || "Affordable Energy Australia is not a think tank or a passive research group. We are a strategic campaign engine purpose-built to bridge the execution gap and give a voice to the 80% of Australians who are concerned about increased energy prices arising from Australia's current plans for the energy transition."}</p>
         </div>
-        <img className="hero-photo" src="assets/hero_about.png" style={{ border: '1px solid rgba(13,31,28,.1)' }} alt="A diverse group of everyday Australians — a tradie, parents, grandparents and young workers — standing together in a paddock at dusk." />
+        <img className="hero-photo" src={ab.heroImage || 'assets/hero_about.png'} style={{ border: '1px solid rgba(13,31,28,.1)' }} alt="A diverse group of everyday Australians — a tradie, parents, grandparents and young workers — standing together in a paddock at dusk." />
       </div>
     </section>
 
@@ -530,7 +537,8 @@ const About = () => (
       </div>
     </section>
   </main>
-);
+  );
+};
 
 const PrivacyPolicy = () => {
   const content = useContent();

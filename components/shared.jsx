@@ -197,13 +197,15 @@ const PetitionCounter = ({ baseClass = "hero-counter" }) => {
 };
 
 const SocialTicker = () => {
-  const items = [
+  const content = useContent();
+  const fallback = [
     { name: 'Kevin', state: 'NSW' },
     { name: 'Mark', state: 'VIC' },
     { name: 'Nathalia', state: 'NSW' },
     { name: 'Charlotte', state: 'WA' },
     { name: 'Luke', state: 'TAS' },
   ];
+  const items = (content?.ticker?.length ? content.ticker : fallback);
   const all = [...items, ...items, ...items];
   return (
     <div className="social-ticker">

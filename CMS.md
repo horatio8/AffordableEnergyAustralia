@@ -33,14 +33,28 @@ Add the variables to **Production** (and Preview if you want the admin to work t
 
 1. Navigate to `https://<your-domain>/#/admin`.
 2. Sign in with `ADMIN_PASSWORD`.
-3. Edit any tab (Site, Hero, Stats, Voices, News, Team, Milestones).
-4. Use **Preview locally** to see changes in the live site (stored in your browser's localStorage; only you see them).
+3. Edit any tab. Available sections:
+   - **Site** — tagline, ABN, authorisation, copyright, media email/phone, social URLs.
+   - **Home hero** — eyebrow, headline, sub-headline, animated signature count.
+   - **Pillars** — the three "what we're calling for" cards on the homepage.
+   - **Ticker** — the scrolling "X from STATE just signed" strip.
+   - **Stats** — the four-stat strip under the hero.
+   - **Page headers** — eyebrow / headline / lede / hero image for Petition, Take Action, News, About, Donate and The Problem.
+   - **Voices** — petition testimonials.
+   - **News** — articles. The first three appear on the homepage and Take Action news strip; all appear at `/#/news`.
+   - **Team** — About-page team cards.
+   - **Milestones** — campaign milestones.
+4. Use **Preview locally** to see changes only in your browser (localStorage).
 5. Click **Publish to site** to commit `content.json` back to GitHub. Vercel rebuilds in ~30 seconds and the changes go live for everyone.
+
+## Image uploads (no GitHub knowledge needed)
+
+Photo fields (team headshots, page hero images) show an **Upload…** button next to the path field. Pick a file from your computer and it is committed straight into `assets/` via `/api/upload-asset` using the same admin password. JPG/PNG only, ~3.5MB max. The path field auto-fills to point at the new file.
 
 ## Adding new editable content
 
 1. Add the field to `content.json`.
-2. Read it from the relevant component via `useContent()`.
+2. Read it from the relevant component via `useContent()` (with a hardcoded fallback so the site still renders if the key is missing).
 3. Add a form field for it in `components/admin.jsx`.
 
 That's it — no migrations, no DB.

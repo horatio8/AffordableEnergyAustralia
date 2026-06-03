@@ -2,13 +2,73 @@
 
 const SECTIONS = [
   { key: 'site', label: 'Site' },
-  { key: 'hero', label: 'Hero' },
+  { key: 'hero', label: 'Home hero' },
+  { key: 'pillars', label: 'Pillars' },
+  { key: 'ticker', label: 'Ticker' },
   { key: 'stats', label: 'Stats' },
+  { key: 'pages', label: 'Page headers' },
   { key: 'voices', label: 'Voices' },
   { key: 'news', label: 'News' },
   { key: 'team', label: 'Team' },
   { key: 'milestones', label: 'Milestones' },
 ];
+
+const PAGE_KEYS = [
+  { key: 'petition', label: 'Sign the Petition' },
+  { key: 'takeAction', label: 'Take Action' },
+  { key: 'news', label: 'In the News' },
+  { key: 'about', label: 'About' },
+  { key: 'donate', label: 'Donate' },
+  { key: 'theProblem', label: 'The Problem' },
+];
+
+const ImageField = ({ label, value, onChange, auth, hint }) => {
+  const [busy, setBusy] = React.useState(false);
+  const [err, setErr] = React.useState('');
+  const inputRef = React.useRef();
+  const onFile = (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { setErr('Not an image.'); return; }
+    if (file.size > 3_500_000) { setErr('File too large (max ~3.5MB). Resize first.'); return; }
+    setErr(''); setBusy(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const contentBase64 = String(reader.result).split(',', 2)[1];
+      try {
+        const res = await fetch('/api/upload-asset', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${auth}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, contentBase64, contentType: file.type }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) { setErr(data.error || `Upload failed (${res.status})`); setBusy(false); return; }
+        onChange(data.path);
+      } catch (_) { setErr('Network error.'); }
+      finally { setBusy(false); }
+    };
+    reader.onerror = () => { setErr('Could not read file.'); setBusy(false); };
+    reader.readAsDataURL(file);
+  };
+  return (
+    <div className="adm-field">
+      <label>{label}</label>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'stretch' }}>
+        <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder="assets/your-image.jpg" style={{ flex: 1 }} />
+        <button type="button" className="btn btn-outline-teal" style={{ padding: '0 14px', fontSize: 12, whiteSpace: 'nowrap' }} onClick={() => inputRef.current?.click()} disabled={busy || !auth}>
+          {busy ? 'Uploading…' : 'Upload…'}
+        </button>
+        <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onFile} />
+      </div>
+      {value && /^assets\//.test(value) && (
+        <img src={value} alt="" style={{ marginTop: 8, maxHeight: 96, border: '1px solid rgba(13,31,28,.1)', display: 'block' }} />
+      )}
+      {err && <small style={{ color: 'var(--red)' }}>{err}</small>}
+      {hint && <small>{hint}</small>}
+    </div>
+  );
+};
 
 const Field = ({ label, value, onChange, type = 'text', placeholder, hint }) => (
   <div className="adm-field">
@@ -225,6 +285,87 @@ const Admin = ({ content, setContent }) => {
           </div>
         )}
 
+        {tab === 'pillars' && (
+          <div className="adm-section">
+            <p className="adm-help">The three pillars under <em>"What we're calling for"</em> on the homepage. The icon glyphs are styled in code; the editor controls the number, title and description.</p>
+            <ListEditor
+              items={draft.pillars || []}
+              blank={{ num: '04', title: '', desc: '' }}
+              label="pillar"
+              onChange={v => setSection('pillars', v)}
+              render={(it, set) => (
+                <>
+                  <div className="adm-row">
+                    <Field label="Number" value={it.num} onChange={v => set({ ...it, num: v })} placeholder="01" />
+                    <Field label="Title" value={it.title} onChange={v => set({ ...it, title: v })} />
+                  </div>
+                  <Field label="Description" type="textarea" value={it.desc} onChange={v => set({ ...it, desc: v })} />
+                </>
+              )}
+            />
+          </div>
+        )}
+
+        {tab === 'ticker' && (
+          <div className="adm-section">
+            <p className="adm-help">The scrolling "Kevin from NSW just signed" strip on the homepage. Add as many as you like — they loop automatically.</p>
+            <ListEditor
+              items={draft.ticker || []}
+              blank={{ name: '', state: '' }}
+              label="signer"
+              onChange={v => setSection('ticker', v)}
+              render={(it, set) => (
+                <div className="adm-row">
+                  <Field label="First name" value={it.name} onChange={v => set({ ...it, name: v })} />
+                  <Field label="State" value={it.state} onChange={v => set({ ...it, state: v })} placeholder="NSW · VIC · QLD…" />
+                </div>
+              )}
+            />
+          </div>
+        )}
+
+        {tab === 'pages' && (
+          <div className="adm-section">
+            <p className="adm-help">Top-of-page copy and hero image for each subpage. Each page has an eyebrow, headline, lede paragraph and a photo.</p>
+            {PAGE_KEYS.map(pk => {
+              const p = (draft.pages && draft.pages[pk.key]) || {};
+              const setPage = (next) => setSection('pages', { ...(draft.pages || {}), [pk.key]: next });
+              return (
+                <div className="adm-card" key={pk.key}>
+                  <div className="adm-card-head"><strong>{pk.label}</strong></div>
+                  <Field label="Eyebrow" value={p.eyebrow} onChange={v => setPage({ ...p, eyebrow: v })} />
+                  {pk.key === 'about' ? (
+                    <div className="adm-row">
+                      <Field label="Headline (main)" value={p.h1Main} onChange={v => setPage({ ...p, h1Main: v })} />
+                      <Field label="Headline (accent)" value={p.h1Accent} onChange={v => setPage({ ...p, h1Accent: v })} hint="The teal-coloured fragment" />
+                    </div>
+                  ) : pk.key === 'theProblem' ? (
+                    <>
+                      <Field label="Big number" value={p.bigNumber} onChange={v => setPage({ ...p, bigNumber: v })} placeholder="220%" />
+                      <Field label="Headline" type="textarea" value={p.headline} onChange={v => setPage({ ...p, headline: v })} />
+                      <Field label="Source footnote" value={p.sourceFootnote} onChange={v => setPage({ ...p, sourceFootnote: v })} />
+                    </>
+                  ) : (
+                    <Field label="Headline (h1)" type="textarea" value={p.h1} onChange={v => setPage({ ...p, h1: v })} />
+                  )}
+                  {pk.key !== 'theProblem' && (
+                    <Field label="Lede paragraph" type="textarea" value={p.lede} onChange={v => setPage({ ...p, lede: v })} />
+                  )}
+                  {pk.key !== 'theProblem' && (
+                    <ImageField label="Hero image" value={p.heroImage} onChange={v => setPage({ ...p, heroImage: v })} auth={auth} hint="Landscape photo. Click Upload to add a new image." />
+                  )}
+                  {pk.key === 'takeAction' && (
+                    <>
+                      <Field label="Share message" type="textarea" value={p.shareText} onChange={v => setPage({ ...p, shareText: v })} hint="The pre-written social post the share buttons paste." />
+                      <Field label="Share URL" value={p.shareUrl} onChange={v => setPage({ ...p, shareUrl: v })} placeholder="https://affordableenergy.org.au" />
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {tab === 'voices' && (
           <div className="adm-section">
             <ListEditor
@@ -284,7 +425,7 @@ const Admin = ({ content, setContent }) => {
                     <Field label="Name" value={it.name} onChange={v => set({ ...it, name: v })} />
                     <Field label="Role" value={it.role} onChange={v => set({ ...it, role: v })} />
                   </div>
-                  <Field label="Photo path" value={it.photo} onChange={v => set({ ...it, photo: v })} placeholder="assets/team-zoe.jpg" hint="Leave blank for a placeholder icon. Upload the image to assets/ in the repo first." />
+                  <ImageField label="Photo" value={it.photo} onChange={v => set({ ...it, photo: v })} auth={auth} hint="Square headshot works best. Leave blank for a placeholder icon." />
                   <Field label="Bio" type="textarea" value={it.bio} onChange={v => set({ ...it, bio: v })} />
                 </>
               )}

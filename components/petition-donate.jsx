@@ -19,11 +19,11 @@ const Petition = () => {
       <section className="page-hero">
         <div className="container-wide page-hero-grid">
           <div>
-            <span className="eyebrow" style={{ color: 'var(--amber)' }}>The Petition</span>
-            <h1>Sign it. Send a message no politician can ignore.</h1>
-            <p className="lede">Your name joins everyday Australians from every state, every electorate, and every walk of life, demanding leadership that puts affordability first.</p>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>{content?.pages?.petition?.eyebrow || 'The Petition'}</span>
+            <h1>{content?.pages?.petition?.h1 || 'Sign it. Send a message no politician can ignore.'}</h1>
+            <p className="lede">{content?.pages?.petition?.lede || 'Your name joins everyday Australians from every state, every electorate, and every walk of life, demanding leadership that puts affordability first.'}</p>
           </div>
-          <img className="hero-photo" src="assets/hero_petition.png" style={{ objectPosition: 'right center' }} alt="Three generations of an Australian farming family stand together in a paddock at sunset." />
+          <img className="hero-photo" src={content?.pages?.petition?.heroImage || 'assets/hero_petition.png'} style={{ objectPosition: 'right center' }} alt="Three generations of an Australian farming family stand together in a paddock at sunset." />
         </div>
       </section>
       <div className="container-wide">
@@ -130,6 +130,7 @@ const DonateAmountTile = ({ amount, recurring, busy, onClick }) => (
 );
 
 const Donate = () => {
+  const content = useContent();
   const [recurring, setRecurring] = React.useState(false);
   const [busy, setBusy] = React.useState(0);
   const [other, setOther] = React.useState('');
@@ -154,11 +155,11 @@ const Donate = () => {
       <section className="page-hero">
         <div className="container-wide page-hero-grid">
           <div>
-            <span className="eyebrow" style={{ color: 'var(--amber)' }}>Donate</span>
-            <h1>Power the campaign that puts families first.</h1>
-            <p className="lede">Pick an amount. We'll send you straight to our secure Stripe donation page — no card details ever touch this site.</p>
+            <span className="eyebrow" style={{ color: 'var(--amber)' }}>{content?.pages?.donate?.eyebrow || 'Donate'}</span>
+            <h1>{content?.pages?.donate?.h1 || 'Power the campaign that puts families first.'}</h1>
+            <p className="lede">{content?.pages?.donate?.lede || "Pick an amount. We'll send you straight to our secure Stripe donation page — no card details ever touch this site."}</p>
           </div>
-          <img className="hero-photo" src="assets/hero_donate.png" alt="Rolling green Australian farmland at sunset, with a fence line tracing the hills." />
+          <img className="hero-photo" src={content?.pages?.donate?.heroImage || 'assets/hero_donate.png'} alt="Rolling green Australian farmland at sunset, with a fence line tracing the hills." />
         </div>
       </section>
       <div className="container-wide">

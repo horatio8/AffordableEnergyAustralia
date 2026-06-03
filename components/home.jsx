@@ -190,10 +190,10 @@ const Home = () => {
           <h2>One simple principle. Three urgent demands.</h2>
         </div>
         <div className="pillars">
-          {PILLARS.map(p => (
-            <div className="pillar" key={p.num}>
-              <span className="pillar-num">{p.num} ·</span>
-              <div className="pillar-icon">{p.icon}</div>
+          {(content?.pillars?.length ? content.pillars : PILLARS).map((p, i) => (
+            <div className="pillar" key={p.num || i}>
+              <span className="pillar-num">{p.num || PILLARS[i]?.num} ·</span>
+              <div className="pillar-icon">{PILLARS[i]?.icon || PILLARS[0].icon}</div>
               <h3>{p.title}</h3>
               <p>{p.desc}</p>
             </div>
