@@ -13,7 +13,29 @@ const formatPetitionStat = (n, format) => {
 const Petition = () => {
   const content = useContent();
   const petitionStats = (content && content.petitionStats) || [];
-  const submit = (e) => { e.preventDefault(); window.location.hash = '#/thank-you-petition'; };
+  const [form, setForm] = React.useState({ first_name: '', last_name: '', email: '', phone: '', postcode: '', whysigned: '' });
+  const [status, setStatus] = React.useState({ kind: 'idle' });
+  const update = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
+  const submit = async (e) => {
+    e.preventDefault();
+    if (status.kind === 'busy') return;
+    setStatus({ kind: 'busy' });
+    try {
+      const res = await fetch('/api/submit-petition', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setStatus({ kind: 'error', msg: data.error || 'Could not submit. Please try again.' });
+        return;
+      }
+      window.location.hash = '#/thank-you-petition';
+    } catch (_) {
+      setStatus({ kind: 'error', msg: 'Network error. Please try again.' });
+    }
+  };
   return (
     <main data-screen-label="Petition">
       <section className="page-hero">
@@ -59,14 +81,17 @@ const Petition = () => {
             <h3>Add your name</h3>
             <p className="sub">Goal: 100,000 signatures. Less than a minute to sign.</p>
             <div className="field-row">
-              <div className="field"><label>First name <span style={{ color: 'var(--red)' }}>*</span></label><input required defaultValue="" /></div>
-              <div className="field"><label>Last name <span style={{ color: 'var(--red)' }}>*</span></label><input required defaultValue="" /></div>
+              <div className="field"><label>First name <span style={{ color: 'var(--red)' }}>*</span></label><input name="first_name" required value={form.first_name} onChange={update('first_name')} autoComplete="given-name" /></div>
+              <div className="field"><label>Last name <span style={{ color: 'var(--red)' }}>*</span></label><input name="last_name" required value={form.last_name} onChange={update('last_name')} autoComplete="family-name" /></div>
             </div>
-            <div className="field"><label>Email <span style={{ color: 'var(--red)' }}>*</span></label><input type="email" required placeholder="you@email.com" /></div>
-            <div className="field"><label>Postcode</label><input required maxLength="4" placeholder="2000" /></div>
-            <div className="field"><label>Phone</label><input type="tel" placeholder="For SMS campaign updates" /></div>
-            <div className="field"><label>Why I signed (optional)</label><textarea rows="3" placeholder="Share your story. We may feature it to show why this matters — anonymously if you prefer." /></div>
-            <button type="submit" className="btn btn-teal">Sign the Petition →</button>
+            <div className="field"><label>Email <span style={{ color: 'var(--red)' }}>*</span></label><input name="email" type="email" required placeholder="you@email.com" value={form.email} onChange={update('email')} autoComplete="email" /></div>
+            <div className="field"><label>Postcode</label><input name="postcode" maxLength="4" placeholder="2000" value={form.postcode} onChange={update('postcode')} autoComplete="postal-code" /></div>
+            <div className="field"><label>Phone</label><input name="phone" type="tel" placeholder="For SMS campaign updates" value={form.phone} onChange={update('phone')} autoComplete="tel" /></div>
+            <div className="field"><label>Why I signed (optional)</label><textarea name="whysigned" rows="3" placeholder="Share your story. We may feature it to show why this matters — anonymously if you prefer." value={form.whysigned} onChange={update('whysigned')} /></div>
+            {status.kind === 'error' && (
+              <div style={{ padding: 12, marginBottom: 12, background: 'rgba(217,64,64,.08)', borderLeft: '3px solid var(--red)', color: 'var(--red)', fontSize: 14 }}>{status.msg}</div>
+            )}
+            <button type="submit" className="btn btn-teal" disabled={status.kind === 'busy'}>{status.kind === 'busy' ? 'Signing…' : 'Sign the Petition →'}</button>
             <p style={{ fontSize: 12, color: 'var(--grey)', marginTop: 14, textAlign: 'center' }}>
               Authorised by Z. Hilton, Coalition for Conservation, Sydney NSW. Privacy Act compliant.
             </p>
