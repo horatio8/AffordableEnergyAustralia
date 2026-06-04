@@ -686,3 +686,13 @@ section { position: relative; }
   .adm-shell { padding: 16px; }
   .adm-section { padding: 18px; }
 }
+
+/* === MENU-RED-OVERRIDE: delete this whole block to revert nav text to white === */
+.site-nav a,
+.site-nav a:hover,
+.site-nav a.active,
+.mobile-drawer a,
+.mobile-drawer a.active {
+  color: var(--red);
+}
+/* === END MENU-RED-OVERRIDE === */
