@@ -16,7 +16,6 @@ const BillCalculator = () => {
   const [state, setState] = React.useState('NSW');
   const [bill, setBill] = React.useState(2400);
   const [people, setPeople] = React.useState(2);
-  const [email, setEmail] = React.useState('');
   const benchmarks = { NSW: 1640, VIC: 1520, QLD: 1480, SA: 1780, WA: 1560, TAS: 1620, ACT: 1590, NT: 1700 };
   // Reference customer in the AER DMO is a ~2-person household. Scale the
   // benchmark by household size using mid-range factors from the AER
@@ -67,11 +66,6 @@ const BillCalculator = () => {
             <p className="note">Above the {state} pre-2015 benchmark of ${adjBenchmark.toLocaleString()}/year for a {people === 5 ? '5+' : people}-person household.</p>
           </div>
 
-          <label>Email me my full result</label>
-          <div className="calc-email">
-            <input type="email" placeholder="your@email.com" value={email} onChange={e => setEmail(e.target.value)} />
-            <button className="btn btn-teal">Send</button>
-          </div>
         </div>
       </div>
     </section>
