@@ -31,7 +31,7 @@ const Petition = () => {
         setStatus({ kind: 'error', msg: data.error || 'Could not submit. Please try again.' });
         return;
       }
-      window.location.hash = '#/thank-you-petition';
+      window.location.hash = '#/donate';
     } catch (_) {
       setStatus({ kind: 'error', msg: 'Network error. Please try again.' });
     }
