@@ -160,6 +160,17 @@ const Donate = () => {
   const [busy, setBusy] = React.useState(0);
   const [other, setOther] = React.useState('');
   const [showOther, setShowOther] = React.useState(false);
+  const tilesRef = React.useRef(null);
+
+  // Auto-scroll past the hero to the donation tiles when the page loads.
+  React.useEffect(() => {
+    if (!tilesRef.current) return;
+    requestAnimationFrame(() => {
+      const headerOffset = 90;
+      const top = tilesRef.current.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  }, []);
 
   const go = async (amount) => {
     if (busy) return;
@@ -188,7 +199,7 @@ const Donate = () => {
         </div>
       </section>
       <div className="container-wide">
-        <section className="donate-tiles-card">
+        <section className="donate-tiles-card" ref={tilesRef}>
           <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, marginBottom: 24, color: 'var(--ink)' }}>Give to the fight for Aussie families &amp; affordable energy</h2>
           <div className="toggle-row donate-tiles-toggle">
             <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
