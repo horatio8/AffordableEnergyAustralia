@@ -73,7 +73,8 @@
     { "name": "Mark", "state": "VIC" },
     { "name": "Nathalia", "state": "NSW" },
     { "name": "Charlotte", "state": "WA" },
-    { "name": "Luke", "state": "TAS" }
+    { "name": "Luke", "state": "TAS" },
+    { "name": "Ben", "state": "QLD" }
   ],
   "stats": [
     { "num": 5, "format": "1-in-X", "label": "Australian households experiencing energy hardship or on the brink", "source": "Energy Consumers Australia", "sourceUrl": "https://energyconsumersaustralia.com.au/our-work/surveys/consumer-energy-report-card-understanding-measuring-energy-hardship-australia" },
