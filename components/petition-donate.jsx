@@ -247,44 +247,96 @@ const Donate = () => {
   );
 };
 
-const ThankYouPetition = () => (
-  <main data-screen-label="Thank You — Petition" className="container">
-    <div className="thanks-screen">
-      <div className="thanks-illustration">{HERO_ICONS.check}</div>
-      <span className="thanks-num">#47,833</span>
-      <h1>You signed. Now make it count.</h1>
-      <p>Your name is on the record. We'll be in touch with what's next — but the single most powerful thing you can do right now is share this with three Australians who feel the same.</p>
-      <div className="share-mega">
-        {['Facebook','X','WhatsApp','Email','Copy link'].map(s => (
-          <button key={s} className="btn btn-outline-teal">{s}</button>
-        ))}
-      </div>
-      <div className="next-steps">
-        <div className="next-step">
-          <span className="num">01 · Refer</span>
-          <h4>Tell three friends</h4>
-          <p>Trusted networks grow petitions fastest. Personal intros convert at 3× the rate of cold shares.</p>
+const ThankYouPetition = () => {
+  const content = useContent();
+  const shareUrl = content?.pages?.takeAction?.shareUrl || 'https://affordableenergy.org.au';
+  const shareText = "I just signed the petition for affordable, reliable energy for every Australian household. 1 in 5 of us can't afford the power bill. Add your name:";
+  const emailSubject = "I just signed — Australia needs leaders who put affordable energy first";
+  const emailBody = `Hi,\n\nI just signed the Affordable Energy Australia petition — a people-powered campaign calling on Australia's leaders to put affordable and reliable energy first for every household.\n\nThe scale of it is worth knowing:\n  • 1 in 5 Australian households can't afford the power bill\n  • Average household energy debt has reached $1,367\n  • Electricity prices have risen 220% since 2008\n\nThis isn't sustainable, and it isn't fair. If it matters to you too, could you add your name? It takes less than a minute:\n\n${shareUrl}\n\nThe more of us who sign, the harder we are to ignore.\n\nThanks,`;
+  const [copied, setCopied] = React.useState(false);
+  const [recurring, setRecurring] = React.useState(false);
+  const [busy, setBusy] = React.useState(0);
+  const [other, setOther] = React.useState('');
+  const [showOther, setShowOther] = React.useState(false);
+
+  const shareTo = (platform) => {
+    const u = encodeURIComponent(shareUrl);
+    const t = encodeURIComponent(`${shareText} ${shareUrl}`);
+    if (platform === 'Facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`, '_blank', 'noopener,noreferrer');
+    else if (platform === 'X') window.open(`https://twitter.com/intent/tweet?text=${t}`, '_blank', 'noopener,noreferrer');
+    else if (platform === 'WhatsApp') window.open(`https://wa.me/?text=${t}`, '_blank', 'noopener,noreferrer');
+    else if (platform === 'Email') window.location.href = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    else if (platform === 'Copy link') {
+      navigator.clipboard?.writeText(shareUrl);
+      setCopied(true); setTimeout(() => setCopied(false), 1800);
+    }
+  };
+
+  const go = async (amount) => {
+    if (busy) return;
+    setBusy(amount);
+    await startCheckout(amount, recurring);
+    setBusy(0);
+  };
+
+  const submitOther = (e) => {
+    e.preventDefault();
+    const v = parseInt(other, 10);
+    if (!Number.isFinite(v) || v < 1) { window.alert('Please enter a whole-dollar amount of $1 or more.'); return; }
+    go(v);
+  };
+
+  return (
+    <main data-screen-label="Thank You — Petition" className="container">
+      <div className="thanks-screen">
+        <div className="thanks-illustration">{HERO_ICONS.check}</div>
+        <span className="thanks-num">#47,833</span>
+        <h1>You signed. Now make it count.</h1>
+        <p>Your name is on the record. The single most powerful thing you can do right now is share this with other Australians who need to hear it.</p>
+        <div className="share-mega">
+          {['Facebook','X','WhatsApp','Email','Copy link'].map(s => (
+            <button key={s} type="button" className="btn btn-outline-teal" onClick={() => shareTo(s)}>
+              {s === 'Copy link' && copied ? 'Copied!' : s}
+            </button>
+          ))}
         </div>
-        <div className="next-step">
-          <span className="num">02 · Pressure</span>
-          <h4>Write to your MP</h4>
-          <p>Pre-written letter, personalised in 30 seconds, sent direct to your federal representative.</p>
+        <div className="next-steps">
+          <div className="next-step">
+            <span className="num">Share the truth</span>
+            <h4>Other Australians need to hear this.</h4>
+            <p>1 in 5 Australian households can't afford the power bill, and electricity prices have climbed 220% since 2008. Most people don't know the scale of what families are facing — and the people in power are counting on that. Forward this petition to three Australians in your life. Trusted voices in trusted networks are how the truth travels — and how this campaign wins.</p>
+          </div>
         </div>
-        <div className="next-step">
-          <span className="num">03 · Show up</span>
-          <h4>Find an event</h4>
-          <p>Town halls, doorknocks, community meetings. In-person presence is the strongest signal.</p>
+        <div className="upsell-card">
+          <span className="eyebrow" style={{ color: 'var(--amber)' }}>One more thing</span>
+          <h3 style={{ marginTop: 12 }}>Chip in to put this petition in front of more Australians.</h3>
+          <p>Petitions don't fund themselves. A donation today turns your signature into a campaign that reaches the people who need to see it.</p>
+          <div className="toggle-row donate-tiles-toggle" style={{ marginTop: 24, maxWidth: 360 }}>
+            <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
+            <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
+          </div>
+          <div className="donate-tiles-grid" style={{ marginTop: 18 }}>
+            {[35, 65, 135, 265, 550, 1500].map(v => (
+              <DonateAmountTile key={v} amount={v} recurring={recurring} busy={busy === v} onClick={() => go(v)} />
+            ))}
+            {!showOther && (
+              <button type="button" className="donate-tile donate-tile-other" onClick={() => setShowOther(true)}>
+                <span className="donate-tile-amount">Other</span>
+                <span className="donate-tile-cta">Choose amount</span>
+              </button>
+            )}
+          </div>
+          {showOther && (
+            <form className="donate-other-row" onSubmit={submitOther} style={{ marginTop: 12 }}>
+              <input type="number" min="1" step="1" value={other} onChange={e => setOther(e.target.value)} autoFocus placeholder="100" />
+              <button type="submit" className="btn btn-amber">Donate{recurring ? ' monthly' : ''} →</button>
+            </form>
+          )}
         </div>
       </div>
-      <div className="upsell-card">
-        <span className="eyebrow" style={{ color: 'var(--amber)' }}>One more thing</span>
-        <h3 style={{ marginTop: 12 }}>Can you chip in $10 to put this petition in front of 1,000 more Australians?</h3>
-        <p>Petitions don't fund themselves. A small donation today turns your signature into a campaign that reaches the people who need to see it.</p>
-        <a href="#/donate" className="btn btn-amber">Chip in $10 →</a>
-      </div>
-    </div>
-  </main>
-);
+    </main>
+  );
+};
 
 const ThankYouDonation = () => (
   <main data-screen-label="Thank You — Donation" className="container">
