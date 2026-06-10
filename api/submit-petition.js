@@ -37,7 +37,8 @@ export default async function handler(req, res) {
   params.set('email', email);
   if (phone) params.set('phone', phone);
   if (postcode) params.set('postcode', postcode);
-  if (whysigned) params.set('whysigned', whysigned);
+  // Nucleus form handle uses a literal space: "why signed"
+  if (whysigned) params.set('why signed', whysigned);
 
   const url = process.env.NUCLEUS_PETITION_URL || DEFAULT_URL;
 
@@ -47,13 +48,14 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json, text/html;q=0.9, */*;q=0.5',
+        'User-Agent': 'AffordableEnergyAustralia-Site/1.0 (Vercel)',
       },
       body: params.toString(),
       redirect: 'follow',
     });
+    const text = await upstream.text();
     if (!upstream.ok) {
-      const text = await upstream.text();
-      return res.status(502).json({ error: `Form receiver responded ${upstream.status}`, detail: text.slice(0, 300) });
+      return res.status(502).json({ error: `Form receiver responded ${upstream.status}`, detail: text.slice(0, 500) });
     }
     return res.status(200).json({ ok: true });
   } catch (e) {
