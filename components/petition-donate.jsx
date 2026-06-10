@@ -13,7 +13,7 @@ const formatPetitionStat = (n, format) => {
 const Petition = () => {
   const content = useContent();
   const petitionStats = (content && content.petitionStats) || [];
-  const [form, setForm] = React.useState({ first_name: '', last_name: '', email: '', phone: '', postcode: '', whysigned: '' });
+  const [form, setForm] = React.useState({ first_name: '', last_name: '', email: '', phone: '', postcode: '' });
   const [status, setStatus] = React.useState({ kind: 'idle' });
   const update = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
   const submit = async (e) => {
@@ -87,7 +87,6 @@ const Petition = () => {
             <div className="field"><label>Email <span style={{ color: 'var(--red)' }}>*</span></label><input name="email" type="email" required placeholder="you@email.com" value={form.email} onChange={update('email')} autoComplete="email" /></div>
             <div className="field"><label>Postcode</label><input name="postcode" maxLength="4" placeholder="2000" value={form.postcode} onChange={update('postcode')} autoComplete="postal-code" /></div>
             <div className="field"><label>Phone</label><input name="phone" type="tel" placeholder="For SMS campaign updates" value={form.phone} onChange={update('phone')} autoComplete="tel" /></div>
-            <div className="field"><label>Why I signed (optional)</label><textarea name="whysigned" rows="3" placeholder="Share your story. We may feature it to show why this matters — anonymously if you prefer." value={form.whysigned} onChange={update('whysigned')} /></div>
             {status.kind === 'error' && (
               <div style={{ padding: 12, marginBottom: 12, background: 'rgba(217,64,64,.08)', borderLeft: '3px solid var(--red)', color: 'var(--red)', fontSize: 14 }}>{status.msg}</div>
             )}
