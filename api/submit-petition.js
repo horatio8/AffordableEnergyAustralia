@@ -37,8 +37,7 @@ export default async function handler(req, res) {
   params.set('email', email);
   if (phone) params.set('phone', phone);
   if (postcode) params.set('postcode', postcode);
-  // Nucleus form handle uses a literal space: "why signed"
-  if (whysigned) params.set('why signed', whysigned);
+  if (whysigned) params.set('whysigned', whysigned);
 
   const url = process.env.NUCLEUS_PETITION_URL || DEFAULT_URL;
 
