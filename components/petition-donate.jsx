@@ -189,6 +189,7 @@ const Donate = () => {
       </section>
       <div className="container-wide">
         <section className="donate-tiles-card">
+          <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, marginBottom: 24, color: 'var(--ink)' }}>Give to the fight for Aussie families &amp; affordable energy</h2>
           <div className="toggle-row donate-tiles-toggle">
             <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
             <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
