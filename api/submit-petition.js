@@ -1,9 +1,14 @@
 // Vercel serverless function: receives the petition form from the AEA site
 // and forwards it to the Nucleus form receiver as form-encoded data.
 // Avoids the browser CORS limitation of POSTing cross-origin to Nucleus.
+// Also fires (fire-and-forget) an upsert into the Airtable Supporters table.
 //
 // Optional env var:
 //   NUCLEUS_PETITION_URL — overrides the hardcoded receiver URL.
+//   SITE_DOMAIN — tags the Airtable row. Defaults to 'affordableenergy.org.au'.
+//                 Set to 'coalition.affordableenergy.org.au' on the Coalition deploy.
+
+import { upsertSupporter } from '../lib/airtable.js';
 
 const DEFAULT_URL = 'https://c4c.campaignnucleus.com/forms/receiver/3e4ea7b9-1786-42dc-a2fb-53b5d1d54ed8';
 
@@ -56,6 +61,25 @@ export default async function handler(req, res) {
     if (!upstream.ok) {
       return res.status(502).json({ error: `Form receiver responded ${upstream.status}`, detail: text.slice(0, 500) });
     }
+
+    // Fire-and-forget Airtable upsert. Don't block the response if Airtable
+    // hiccups — Nucleus already has the record.
+    const site = process.env.SITE_DOMAIN === 'coalition.affordableenergy.org.au'
+      ? 'coalition.affordableenergy.org.au'
+      : 'affordableenergy.org.au';
+    upsertSupporter({
+      email,
+      firstName: first_name,
+      lastName: last_name,
+      phone,
+      postcode,
+      whySigned: whysigned,
+      site,
+      source: 'petition',
+    }).catch(err => {
+      console.error('[airtable] petition upsert failed', { email, err: String(err && err.message || err) });
+    });
+
     return res.status(200).json({ ok: true });
   } catch (e) {
     return res.status(502).json({ error: 'Could not reach the form receiver.', detail: String(e) });

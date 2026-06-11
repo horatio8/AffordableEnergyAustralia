@@ -101,7 +101,9 @@ const HomeNews = () => {
 const HomeDonate = () => {
   const go = (v) => {
     const opt = (window.DONATION_OPTIONS || []).find(o => o.amount === v);
-    if (opt) window.location.href = opt.oneTimeUrl;
+    if (!opt) return;
+    const url = typeof window.taggedDonate === 'function' ? window.taggedDonate(opt.oneTimeUrl) : opt.oneTimeUrl;
+    window.location.href = url;
   };
   return (
     <section className="donate-strip" data-screen-label="Home / Donate">

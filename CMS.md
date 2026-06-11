@@ -27,6 +27,27 @@ Donate buttons (homepage strip + `/#/donate` tiles) post to `/api/create-checkou
 
 After the donor pays, Stripe redirects to `<origin>/#/thank-you-donation` with a `session_id` query param.
 
+### Supporters sync (Airtable + Stripe webhook)
+
+Every petition signature and every successful Stripe charge upserts into the **Supporters** Airtable table, deduplicated by lowercased email. Petition writes are fire-and-forget (Nucleus is still the source of truth for petition signatures); donation writes go through a verified Stripe webhook so retries are safe (idempotency check on `Last Stripe event ID`).
+
+| Name | Example | Purpose |
+| --- | --- | --- |
+| `AIRTABLE_API_KEY` | `pat...` | Personal access token, scoped to **data.records:read** + **data.records:write** on the AEA Supporters base only. |
+| `AIRTABLE_BASE_ID` | `appSGua6tEPXWuGoT` | The Supporters base. |
+| `AIRTABLE_TABLE_ID` | `tblNqD7z6jHrU4A0C` | The Supporters table. |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Signing secret from **Stripe Dashboard → Developers → Webhooks → your endpoint**. Verifies every webhook call. |
+| `SITE_DOMAIN` | `affordableenergy.org.au` or `coalition.affordableenergy.org.au` | Optional. Tags the **Site** column on rows created by `/api/submit-petition`. Defaults to `affordableenergy.org.au` if unset. |
+
+**Register the Stripe webhook once** in the Stripe Dashboard:
+
+1. **Developers → Webhooks → Add endpoint**.
+2. URL: `https://<your-domain>/api/stripe-webhook`.
+3. Events: `checkout.session.completed` and `invoice.payment_succeeded`.
+4. Copy the signing secret into `STRIPE_WEBHOOK_SECRET` in Vercel and redeploy.
+
+Donate buttons on the site append `?client_reference_id=<hostname>` to every Stripe Payment Link, so the webhook can tag the resulting supporter row with the originating domain.
+
 Add the variables to **Production** (and Preview if you want the admin to work there too) and trigger a redeploy.
 
 ## Usage

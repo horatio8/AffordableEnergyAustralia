@@ -18,11 +18,22 @@ const CUSTOM_DONATION = {
   oneTimeUrl: 'https://donate.stripe.com/14AbJ05Y89il0b2eCI0gw0O',
   monthlyUrl: 'https://donate.stripe.com/cNi00i86g7ad5vm66c0gw0A',
 };
+// Append ?client_reference_id=<site> to a donate URL so the Stripe webhook
+// can tag the resulting supporter row with the originating domain.
+const taggedDonate = (url) => {
+  const host = (typeof window !== 'undefined' && window.location && window.location.hostname) || '';
+  const site = host === 'coalition.affordableenergy.org.au'
+    ? 'coalition.affordableenergy.org.au'
+    : 'affordableenergy.org.au';
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}client_reference_id=${encodeURIComponent(site)}`;
+};
 const goDonate = (oneTimeUrl, monthlyUrl, recurring) => {
-  window.location.href = recurring ? monthlyUrl : oneTimeUrl;
+  window.location.href = taggedDonate(recurring ? monthlyUrl : oneTimeUrl);
 };
 window.DONATION_OPTIONS = DONATION_OPTIONS;
 window.CUSTOM_DONATION = CUSTOM_DONATION;
+window.taggedDonate = taggedDonate;
 window.goDonate = goDonate;
 
 const formatPetitionStat = (n, format) => {
