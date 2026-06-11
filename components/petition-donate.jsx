@@ -239,9 +239,58 @@ const Donate = () => {
               </button>
             )}
           </div>
-          <div className="trust-row donate-tiles-trust">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
-            <span>Secure payments via Stripe · ABN 82 201 923 025 · Receipt emailed</span>
+          <div style={{ marginTop: 20, padding: '12px 16px', background: 'rgba(61,189,168,.08)', borderLeft: '3px solid var(--teal)', fontSize: 14, lineHeight: 1.55, color: 'var(--ink)' }}>
+            ✅ All donations are fully tax-deductible. Claim it at tax time. Receipt emailed instantly.
+          </div>
+
+          <div style={{ marginTop: 32 }}>
+            <h3 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(22px, 2.4vw, 30px)', lineHeight: 1.05, marginBottom: 16, color: 'var(--ink)' }}>
+              Outspent. Not outnumbered. We need you.
+            </h3>
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85, marginBottom: 14 }}>
+              The activist groups and lobby firms behind net zero have had a decade and your tax dollars to build the system you're now paying for. They've spent billions in federal subsidies to get here. We're going to undo it with a few dollars from you, and a few from your mate.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85, marginBottom: 14 }}>
+              You're already paying for the policy. The question is whether you also pay to fix it.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85, marginBottom: 0 }}>
+              A small amount, given by enough Australians, runs an entire campaign. Here's the maths.
+            </p>
+          </div>
+
+          <div style={{ marginTop: 28 }}>
+            <h4 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, textTransform: 'uppercase', fontSize: 18, letterSpacing: '0.05em', marginBottom: 14, color: 'var(--ink)' }}>
+              What you fund
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {[
+                ['$35', 'an SMS blast to 500 Aussies in key communities.'],
+                ['$65', 'reaches 1,300 Australians on Facebook.'],
+                ['$135', '100 personalised letters to the politicians most likely to listen.'],
+                ['$265', 'a radio ad slot in regional Queensland, NSW or WA.'],
+                ['$550', 'reach 10,000 supporters across channels.'],
+                ['$1,500', 'a local newspaper advertisement reaching tens of thousands of Aussies.'],
+              ].map(([amt, desc]) => (
+                <li key={amt} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '10px 0', borderBottom: '1px solid rgba(13,31,28,.06)', fontSize: 15, lineHeight: 1.5 }}>
+                  <strong style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, fontSize: 18, color: 'var(--amber-dark)', minWidth: 64, flexShrink: 0 }}>{amt}</strong>
+                  <span style={{ color: 'var(--ink)', opacity: 0.85 }}>→ {desc}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div style={{ marginTop: 24, padding: '14px 18px', background: 'rgba(245,166,35,.08)', borderLeft: '3px solid var(--amber)' }}>
+            <strong style={{ display: 'block', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, textTransform: 'uppercase', fontSize: 18, marginBottom: 6, color: 'var(--ink)' }}>Monthly is best.</strong>
+            <span style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ink)', opacity: 0.85 }}>
+              A small recurring gift means we can plan, hire, and scale — instead of scrambling between news cycles.
+            </span>
+          </div>
+
+          <div style={{ textAlign: 'center', fontSize: 13, color: 'var(--grey)', marginTop: 24, lineHeight: 1.6 }}>
+            🔒 Secure via Stripe · 📩 Receipt emailed · 🇦🇺 ABN 82 201 923 025
+          </div>
+          <div style={{ textAlign: 'center', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 800, textTransform: 'uppercase', fontSize: 14, letterSpacing: '0.1em', color: 'var(--teal-deep)', marginTop: 8 }}>
+            We're not a think tank. We're a campaign.
           </div>
         </section>
 
