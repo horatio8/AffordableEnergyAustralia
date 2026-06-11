@@ -182,16 +182,15 @@ const startCheckout = async (amount, recurring) => {
 };
 window.startCheckout = startCheckout;
 
-const DonateAmountTile = ({ amount, recurring, onClick }) => (
+const DonateAmountTile = ({ amount, onClick }) => (
   <button type="button" onClick={onClick} className="donate-tile">
     <span className="donate-tile-amount">${amount}</span>
-    <span className="donate-tile-cta">Donate{recurring ? ' monthly' : ''} →</span>
+    <span className="donate-tile-cta">Donate →</span>
   </button>
 );
 
 const Donate = () => {
   const content = useContent();
-  const [recurring, setRecurring] = React.useState(false);
   const tilesRef = React.useRef(null);
 
   // Auto-scroll past the hero to the donation tiles when the page loads.
@@ -219,29 +218,20 @@ const Donate = () => {
       <div className="container-wide">
         <section className="donate-tiles-card" ref={tilesRef}>
           <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 900, textTransform: 'uppercase', fontSize: 'clamp(26px, 3vw, 38px)', lineHeight: 1.05, marginBottom: 24, color: 'var(--ink)' }}>Give to the fight for Aussie families &amp; affordable energy</h2>
-          <div className="toggle-row donate-tiles-toggle">
-            <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
-            <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
-          </div>
           <div className="donate-tiles-grid">
-            {DONATION_OPTIONS.map(({ amount, oneTimeUrl, monthlyUrl }) => (
-              <DonateAmountTile key={amount} amount={amount} recurring={recurring} onClick={() => goDonate(oneTimeUrl, monthlyUrl, recurring)} />
+            {DONATION_OPTIONS.map(({ amount, oneTimeUrl }) => (
+              <DonateAmountTile key={amount} amount={amount} onClick={() => goDonate(oneTimeUrl, oneTimeUrl, false)} />
             ))}
             <button
               type="button"
               className="donate-tile donate-tile-other"
-              onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.monthlyUrl, recurring)}
-              aria-label={recurring ? 'Other amount — opens a quantity selector on the next page where 1 unit equals $1 per month' : 'Other amount — choose any amount on the next page'}
+              onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.oneTimeUrl, false)}
+              aria-label="Other amount — choose any amount on the next page"
             >
               <span className="donate-tile-amount">Other</span>
-              <span className="donate-tile-cta">{recurring ? 'Drag to set $/mo' : 'Choose amount'}</span>
+              <span className="donate-tile-cta">Choose amount</span>
             </button>
           </div>
-          {recurring && (
-            <p style={{ fontSize: 13, color: 'var(--grey)', fontStyle: 'italic', marginTop: 12 }}>
-              For "Other" on monthly, drag the quantity selector on the next page to set your amount — 1 unit = $1/month.
-            </p>
-          )}
           <div className="trust-row donate-tiles-trust">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
             <span>Secure payments via Stripe · ABN 82 201 923 025 · Receipt emailed</span>
@@ -282,7 +272,6 @@ const ThankYouPetition = () => {
   const emailSubject = "I just signed — Australia needs leaders who put affordable energy first";
   const emailBody = `Hi,\n\nI just signed the Affordable Energy Australia petition — a people-powered campaign calling on Australia's leaders to put affordable and reliable energy first for every household.\n\nThe scale of it is worth knowing:\n  • 1 in 5 Australian households can't afford the power bill\n  • Average household energy debt has reached $1,367\n  • Electricity prices have risen 220% since 2008\n\nThis isn't sustainable, and it isn't fair. If it matters to you too, could you add your name? It takes less than a minute:\n\n${shareUrl}\n\nThe more of us who sign, the harder we are to ignore.\n\nThanks,`;
   const [copied, setCopied] = React.useState(false);
-  const [recurring, setRecurring] = React.useState(false);
 
   const shareTo = (platform) => {
     const u = encodeURIComponent(shareUrl);
@@ -322,29 +311,20 @@ const ThankYouPetition = () => {
           <span className="eyebrow" style={{ color: 'var(--amber)' }}>One more thing</span>
           <h3 style={{ marginTop: 12 }}>Chip in to put this petition in front of more Australians.</h3>
           <p>Petitions don't fund themselves. A donation today turns your signature into a campaign that reaches the people who need to see it.</p>
-          <div className="toggle-row donate-tiles-toggle" style={{ marginTop: 24, maxWidth: 360 }}>
-            <button type="button" className={!recurring ? 'active' : ''} onClick={() => setRecurring(false)}>One-time</button>
-            <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
-          </div>
-          <div className="donate-tiles-grid" style={{ marginTop: 18 }}>
-            {DONATION_OPTIONS.map(({ amount, oneTimeUrl, monthlyUrl }) => (
-              <DonateAmountTile key={amount} amount={amount} recurring={recurring} onClick={() => goDonate(oneTimeUrl, monthlyUrl, recurring)} />
+          <div className="donate-tiles-grid" style={{ marginTop: 24 }}>
+            {DONATION_OPTIONS.map(({ amount, oneTimeUrl }) => (
+              <DonateAmountTile key={amount} amount={amount} onClick={() => goDonate(oneTimeUrl, oneTimeUrl, false)} />
             ))}
             <button
               type="button"
               className="donate-tile donate-tile-other"
-              onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.monthlyUrl, recurring)}
-              aria-label={recurring ? 'Other amount — opens a quantity selector on the next page where 1 unit equals $1 per month' : 'Other amount — choose any amount on the next page'}
+              onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.oneTimeUrl, false)}
+              aria-label="Other amount — choose any amount on the next page"
             >
               <span className="donate-tile-amount">Other</span>
-              <span className="donate-tile-cta">{recurring ? 'Drag to set $/mo' : 'Choose amount'}</span>
+              <span className="donate-tile-cta">Choose amount</span>
             </button>
           </div>
-          {recurring && (
-            <p style={{ fontSize: 13, color: 'var(--grey)', fontStyle: 'italic', marginTop: 12 }}>
-              For "Other" on monthly, drag the quantity selector on the next page to set your amount — 1 unit = $1/month.
-            </p>
-          )}
         </div>
       </div>
     </main>
