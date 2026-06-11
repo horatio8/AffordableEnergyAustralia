@@ -1,5 +1,30 @@
 /* === Petition, Donate, Thank You === */
 
+/* === Stripe Payment Link URLs ===
+ * Live links on the Coalition for Conservation Stripe account (acct_1KSyH4B1lSf62lWQ).
+ * All show "Affordable Energy Australia" as the merchant; all priced in AUD.
+ * If any preset button on the donate page ever sends a donor anywhere NOT in this list,
+ * something has been edited that shouldn't have been.
+ */
+const DONATION_OPTIONS = [
+  { amount: 35,   oneTimeUrl: 'https://donate.stripe.com/eVqeVc72c3Y18Hy1PW0gw0B', monthlyUrl: 'https://donate.stripe.com/14A00i0DOeCF2jaams0gw0t' },
+  { amount: 65,   oneTimeUrl: 'https://donate.stripe.com/eVqdR8gCMfGJ9LC1PW0gw0C', monthlyUrl: 'https://donate.stripe.com/9B6cN43Q08ehbTK3Y40gw0u' },
+  { amount: 135,  oneTimeUrl: 'https://donate.stripe.com/eVqcN4euE3Y1ga00LS0gw0D', monthlyUrl: 'https://donate.stripe.com/bJe6oG5Y80LP1f6fGM0gw0v' },
+  { amount: 265,  oneTimeUrl: 'https://donate.stripe.com/5kQ9ASaeogKN0b21PW0gw0E', monthlyUrl: 'https://donate.stripe.com/00w3cu4U4amp7Du9io0gw0w' },
+  { amount: 550,  oneTimeUrl: 'https://donate.stripe.com/28E9AS1HS3Y15vm66c0gw0r', monthlyUrl: 'https://donate.stripe.com/00w9AS3Q0gKN6zq0LS0gw0x' },
+  { amount: 1500, oneTimeUrl: 'https://donate.stripe.com/6oU7sKfyIcux4rigKQ0gw0s', monthlyUrl: 'https://donate.stripe.com/dRmeVc3Q0eCFe1S0LS0gw0y' },
+];
+const CUSTOM_DONATION = {
+  oneTimeUrl: 'https://donate.stripe.com/bJe9AS0DOcux1f67ag0gw0z',
+  monthlyUrl: 'https://donate.stripe.com/cNi00i86g7ad5vm66c0gw0A',
+};
+const goDonate = (oneTimeUrl, monthlyUrl, recurring) => {
+  window.location.href = recurring ? monthlyUrl : oneTimeUrl;
+};
+window.DONATION_OPTIONS = DONATION_OPTIONS;
+window.CUSTOM_DONATION = CUSTOM_DONATION;
+window.goDonate = goDonate;
+
 const formatPetitionStat = (n, format) => {
   switch (format) {
     case '$X': return `$${(+n).toLocaleString()}`;
@@ -146,8 +171,8 @@ const startCheckout = async (amount, recurring) => {
 };
 window.startCheckout = startCheckout;
 
-const DonateAmountTile = ({ amount, recurring, busy, onClick }) => (
-  <button type="button" disabled={busy} onClick={onClick} className="donate-tile">
+const DonateAmountTile = ({ amount, recurring, onClick }) => (
+  <button type="button" onClick={onClick} className="donate-tile">
     <span className="donate-tile-amount">${amount}</span>
     <span className="donate-tile-cta">Donate{recurring ? ' monthly' : ''} →</span>
   </button>
@@ -156,9 +181,6 @@ const DonateAmountTile = ({ amount, recurring, busy, onClick }) => (
 const Donate = () => {
   const content = useContent();
   const [recurring, setRecurring] = React.useState(false);
-  const [busy, setBusy] = React.useState(0);
-  const [other, setOther] = React.useState('');
-  const [showOther, setShowOther] = React.useState(false);
   const tilesRef = React.useRef(null);
 
   // Auto-scroll past the hero to the donation tiles when the page loads.
@@ -170,20 +192,6 @@ const Donate = () => {
       window.scrollTo({ top, behavior: 'smooth' });
     });
   }, []);
-
-  const go = async (amount) => {
-    if (busy) return;
-    setBusy(amount);
-    await startCheckout(amount, recurring);
-    setBusy(0);
-  };
-
-  const submitOther = (e) => {
-    e.preventDefault();
-    const v = parseInt(other, 10);
-    if (!Number.isFinite(v) || v < 1) { window.alert('Please enter a whole-dollar amount of $1 or more.'); return; }
-    go(v);
-  };
 
   return (
     <main data-screen-label="Donate">
@@ -205,25 +213,23 @@ const Donate = () => {
             <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
           </div>
           <div className="donate-tiles-grid">
-            {[35, 65, 135, 265, 550, 1500].map(v => (
-              <DonateAmountTile key={v} amount={v} recurring={recurring} busy={busy === v} onClick={() => go(v)} />
+            {DONATION_OPTIONS.map(({ amount, oneTimeUrl, monthlyUrl }) => (
+              <DonateAmountTile key={amount} amount={amount} recurring={recurring} onClick={() => goDonate(oneTimeUrl, monthlyUrl, recurring)} />
             ))}
-            {!showOther && (
-              <button type="button" className="donate-tile donate-tile-other" onClick={() => setShowOther(true)}>
-                <span className="donate-tile-amount">Other</span>
-                <span className="donate-tile-cta">Choose amount</span>
-              </button>
-            )}
+            <button
+              type="button"
+              className="donate-tile donate-tile-other"
+              onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.monthlyUrl, recurring)}
+              aria-label={recurring ? 'Other amount — opens a quantity selector on the next page where 1 unit equals $1 per month' : 'Other amount — choose any amount on the next page'}
+            >
+              <span className="donate-tile-amount">Other</span>
+              <span className="donate-tile-cta">{recurring ? 'Drag to set $/mo' : 'Choose amount'}</span>
+            </button>
           </div>
-          {showOther && (
-            <form className="donate-other-row" onSubmit={submitOther}>
-              <label>Amount in AUD</label>
-              <div className="donate-other-input">
-                <span>$</span>
-                <input type="number" min="1" step="1" value={other} onChange={e => setOther(e.target.value)} autoFocus placeholder="100" />
-                <button type="submit" className="btn btn-amber">Donate{recurring ? ' monthly' : ''} →</button>
-              </div>
-            </form>
+          {recurring && (
+            <p style={{ fontSize: 13, color: 'var(--grey)', fontStyle: 'italic', marginTop: 12 }}>
+              For "Other" on monthly, drag the quantity selector on the next page to set your amount — 1 unit = $1/month.
+            </p>
           )}
           <div className="trust-row donate-tiles-trust">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
@@ -266,9 +272,6 @@ const ThankYouPetition = () => {
   const emailBody = `Hi,\n\nI just signed the Affordable Energy Australia petition — a people-powered campaign calling on Australia's leaders to put affordable and reliable energy first for every household.\n\nThe scale of it is worth knowing:\n  • 1 in 5 Australian households can't afford the power bill\n  • Average household energy debt has reached $1,367\n  • Electricity prices have risen 220% since 2008\n\nThis isn't sustainable, and it isn't fair. If it matters to you too, could you add your name? It takes less than a minute:\n\n${shareUrl}\n\nThe more of us who sign, the harder we are to ignore.\n\nThanks,`;
   const [copied, setCopied] = React.useState(false);
   const [recurring, setRecurring] = React.useState(false);
-  const [busy, setBusy] = React.useState(0);
-  const [other, setOther] = React.useState('');
-  const [showOther, setShowOther] = React.useState(false);
 
   const shareTo = (platform) => {
     const u = encodeURIComponent(shareUrl);
@@ -281,20 +284,6 @@ const ThankYouPetition = () => {
       navigator.clipboard?.writeText(shareUrl);
       setCopied(true); setTimeout(() => setCopied(false), 1800);
     }
-  };
-
-  const go = async (amount) => {
-    if (busy) return;
-    setBusy(amount);
-    await startCheckout(amount, recurring);
-    setBusy(0);
-  };
-
-  const submitOther = (e) => {
-    e.preventDefault();
-    const v = parseInt(other, 10);
-    if (!Number.isFinite(v) || v < 1) { window.alert('Please enter a whole-dollar amount of $1 or more.'); return; }
-    go(v);
   };
 
   return (
@@ -327,21 +316,23 @@ const ThankYouPetition = () => {
             <button type="button" className={recurring ? 'active' : ''} onClick={() => setRecurring(true)}>Monthly</button>
           </div>
           <div className="donate-tiles-grid" style={{ marginTop: 18 }}>
-            {[35, 65, 135, 265, 550, 1500].map(v => (
-              <DonateAmountTile key={v} amount={v} recurring={recurring} busy={busy === v} onClick={() => go(v)} />
+            {DONATION_OPTIONS.map(({ amount, oneTimeUrl, monthlyUrl }) => (
+              <DonateAmountTile key={amount} amount={amount} recurring={recurring} onClick={() => goDonate(oneTimeUrl, monthlyUrl, recurring)} />
             ))}
-            {!showOther && (
-              <button type="button" className="donate-tile donate-tile-other" onClick={() => setShowOther(true)}>
-                <span className="donate-tile-amount">Other</span>
-                <span className="donate-tile-cta">Choose amount</span>
-              </button>
-            )}
+            <button
+              type="button"
+              className="donate-tile donate-tile-other"
+              onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.monthlyUrl, recurring)}
+              aria-label={recurring ? 'Other amount — opens a quantity selector on the next page where 1 unit equals $1 per month' : 'Other amount — choose any amount on the next page'}
+            >
+              <span className="donate-tile-amount">Other</span>
+              <span className="donate-tile-cta">{recurring ? 'Drag to set $/mo' : 'Choose amount'}</span>
+            </button>
           </div>
-          {showOther && (
-            <form className="donate-other-row" onSubmit={submitOther} style={{ marginTop: 12 }}>
-              <input type="number" min="1" step="1" value={other} onChange={e => setOther(e.target.value)} autoFocus placeholder="100" />
-              <button type="submit" className="btn btn-amber">Donate{recurring ? ' monthly' : ''} →</button>
-            </form>
+          {recurring && (
+            <p style={{ fontSize: 13, color: 'var(--grey)', fontStyle: 'italic', marginTop: 12 }}>
+              For "Other" on monthly, drag the quantity selector on the next page to set your amount — 1 unit = $1/month.
+            </p>
           )}
         </div>
       </div>

@@ -99,12 +99,9 @@ const HomeNews = () => {
 };
 
 const HomeDonate = () => {
-  const [busy, setBusy] = React.useState(0);
-  const go = async (v) => {
-    if (busy) return;
-    setBusy(v);
-    await window.startCheckout(v, false);
-    setBusy(0);
+  const go = (v) => {
+    const opt = (window.DONATION_OPTIONS || []).find(o => o.amount === v);
+    if (opt) window.location.href = opt.oneTimeUrl;
   };
   return (
     <section className="donate-strip" data-screen-label="Home / Donate">
@@ -118,7 +115,7 @@ const HomeDonate = () => {
           <p>Every dollar reaches more Australians, contacts more MPs, and builds the public mandate to put affordability first. Click an amount to donate via Stripe.</p>
           <div className="donate-amounts">
             {[35, 65, 135, 265].map(v => (
-              <button key={v} className="amount-btn" disabled={busy===v} onClick={() => go(v)}>{busy===v ? '…' : `$${v}`}</button>
+              <button key={v} className="amount-btn" type="button" onClick={() => go(v)}>${v}</button>
             ))}
             <a className="amount-btn" href="#/donate">Other</a>
           </div>
