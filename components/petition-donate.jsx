@@ -248,7 +248,7 @@ const Donate = () => {
               Outspent. Not outnumbered. We need you.
             </h3>
             <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85, marginBottom: 14 }}>
-              The activist groups and lobby firms behind net zero have had a decade and your tax dollars to build the system you're now paying for. They've spent billions in federal subsidies to get here. We're going to undo it with a few dollars from you, and a few from your mate.
+              The activist groups and lobby firms behind net zero have had a decade and your tax dollars to build the system you're now paying for. They've spent billions in federal and state subsidies to get here. We're going to undo it with a few dollars from you, and a few from your mate.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--ink)', opacity: 0.85, marginBottom: 14 }}>
               You're already paying for the policy. The question is whether you also pay to fix it.
