@@ -227,6 +227,17 @@ const Donate = () => {
             {DONATION_OPTIONS.map(({ amount, oneTimeUrl, monthlyUrl }) => (
               <DonateAmountTile key={amount} amount={amount} recurring={recurring} onClick={() => goDonate(oneTimeUrl, monthlyUrl, recurring)} />
             ))}
+            {!recurring && (
+              <button
+                type="button"
+                className="donate-tile donate-tile-other"
+                onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.oneTimeUrl, false)}
+                aria-label="Other amount — choose any amount on the next page"
+              >
+                <span className="donate-tile-amount">Other</span>
+                <span className="donate-tile-cta">Choose amount</span>
+              </button>
+            )}
           </div>
           <div className="trust-row donate-tiles-trust">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
@@ -316,6 +327,17 @@ const ThankYouPetition = () => {
             {DONATION_OPTIONS.map(({ amount, oneTimeUrl, monthlyUrl }) => (
               <DonateAmountTile key={amount} amount={amount} recurring={recurring} onClick={() => goDonate(oneTimeUrl, monthlyUrl, recurring)} />
             ))}
+            {!recurring && (
+              <button
+                type="button"
+                className="donate-tile donate-tile-other"
+                onClick={() => goDonate(CUSTOM_DONATION.oneTimeUrl, CUSTOM_DONATION.oneTimeUrl, false)}
+                aria-label="Other amount — choose any amount on the next page"
+              >
+                <span className="donate-tile-amount">Other</span>
+                <span className="donate-tile-cta">Choose amount</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
