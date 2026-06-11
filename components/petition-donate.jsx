@@ -246,7 +246,7 @@ const Donate = () => {
             Affordable Energy Australia takes no money from political organisations. Every dollar we raise comes from Australians like you — and goes directly into reaching households, contacting representatives, and building the public mandate to put affordability first.
           </p>
           <p style={{ fontSize: 18, color: 'var(--ink)', opacity: 0.85, lineHeight: 1.65, marginBottom: 28 }}>
-            A monthly donation, even $15, gives the campaign the predictable runway it needs to plan, hire, and scale through to the 2028 election.
+            Every dollar gives the campaign the runway it needs to plan, hire, and scale through to the 2028 election.
           </p>
 
           <div className="trust-grid">
@@ -360,12 +360,6 @@ const ThankYouDonation = () => (
           <h4>Watch the impact</h4>
           <p>You'll receive a quarterly report showing exactly where your contribution went.</p>
         </div>
-      </div>
-      <div className="upsell-card">
-        <span className="eyebrow" style={{ color: 'var(--amber)' }}>Make it monthly</span>
-        <h3 style={{ marginTop: 12 }}>The campaign needs runway, not just sprints.</h3>
-        <p>A monthly contribution — even $15 — gives us the predictable resources to plan ahead through the 2028 election cycle.</p>
-        <a href="#/donate" className="btn btn-amber">Convert to monthly →</a>
       </div>
     </div>
   </main>
