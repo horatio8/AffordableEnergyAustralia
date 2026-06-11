@@ -15,7 +15,7 @@ const DONATION_OPTIONS = [
   { amount: 1500, oneTimeUrl: 'https://donate.stripe.com/6oU7sKfyIcux4rigKQ0gw0s', monthlyUrl: 'https://donate.stripe.com/dRmeVc3Q0eCFe1S0LS0gw0y' },
 ];
 const CUSTOM_DONATION = {
-  oneTimeUrl: 'https://donate.stripe.com/bJe9AS0DOcux1f67ag0gw0z',
+  oneTimeUrl: 'https://donate.stripe.com/14AbJ05Y89il0b2eCI0gw0O',
   monthlyUrl: 'https://donate.stripe.com/cNi00i86g7ad5vm66c0gw0A',
 };
 const goDonate = (oneTimeUrl, monthlyUrl, recurring) => {
