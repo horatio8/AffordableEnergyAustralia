@@ -24,9 +24,16 @@
 let cache = { value: null, fetchedAt: 0, sourceUrl: null, sourcePath: null };
 let tokenCache = { accessToken: null, expiresAt: 0 };
 
-const TTL_MS = 60_000;
+const TTL_MS = 10_000;
 const NUCLEUS_OAUTH_URL = process.env.NUCLEUS_OAUTH_URL || 'https://oauth.campaignnucleus.com/token';
 const NUCLEUS_API_BASE = process.env.NUCLEUS_API_BASE || 'https://api.campaignnucleus.com';
+
+// Exported so /api/petition-event can invalidate after a new signature.
+// Across instances this only invalidates the instance the webhook hits, but the
+// 10s TTL means other instances catch up within 10s without help.
+export function invalidateCache() {
+  cache.fetchedAt = 0;
+}
 
 async function getToken() {
   const now = Date.now();
@@ -145,7 +152,7 @@ export default async function handler(req, res) {
 
   // Cache hit (fresh)
   if (cache.value != null && now - cache.fetchedAt < TTL_MS) {
-    res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=120');
+    res.setHeader('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=30');
     return res.status(200).json({
       count: cache.value + boost,
       raw_nucleus: cache.value,
@@ -167,7 +174,7 @@ export default async function handler(req, res) {
     cache.fetchedAt = now;
     cache.sourceUrl = sourceUrl;
     cache.sourcePath = sourcePath;
-    res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=120');
+    res.setHeader('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=30');
     return res.status(200).json({
       count: count + boost,
       raw_nucleus: count,

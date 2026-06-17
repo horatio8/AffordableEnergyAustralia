@@ -183,23 +183,57 @@ const StatBand = () => {
   );
 };
 
-// Live petition signature count, refreshed every 60s from /api/petition-count.
-// Falls back silently to the value passed in (typically the CMS hero.petitionCount)
-// if the endpoint is unreachable — count never displays as zero.
+// Live petition signature count.
+//   - Polls /api/petition-count every 5s while the tab is visible.
+//   - Pauses polling when the tab is hidden; resumes (and immediately refetches)
+//     when it becomes visible again, so a counter that's been backgrounded for
+//     an hour shows current state on the very next render.
+//   - Listens for a `petition-count:bump` window event so any submit handler
+//     can optimistically tick the counter the moment the signer hits Submit.
+//   - Falls back silently to the value passed in (typically the CMS
+//     hero.petitionCount) if the endpoint is unreachable — never shows 0.
 function usePetitionCount(fallback) {
   const [count, setCount] = React.useState(fallback);
+
   React.useEffect(() => {
     let alive = true;
+    let intervalId = null;
     const load = () => {
       fetch('/api/petition-count', { cache: 'no-store' })
-        .then(r => r.ok ? r.json() : null)
+        .then(r => (r.ok ? r.json() : null))
         .then(j => { if (alive && j && typeof j.count === 'number' && j.count > 0) setCount(j.count); })
         .catch(() => {});
     };
-    load();
-    const id = setInterval(load, 60_000);
-    return () => { alive = false; clearInterval(id); };
+    const start = () => {
+      if (intervalId) return;
+      load();
+      intervalId = setInterval(load, 5_000);
+    };
+    const stop = () => {
+      if (intervalId) { clearInterval(intervalId); intervalId = null; }
+    };
+    const onVis = () => {
+      if (document.visibilityState === 'visible') start();
+      else stop();
+    };
+    onVis();
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      alive = false;
+      stop();
+      document.removeEventListener('visibilitychange', onVis);
+    };
   }, []);
+
+  React.useEffect(() => {
+    const onBump = (e) => {
+      const minimum = (e && e.detail && e.detail.minimum);
+      setCount(c => Math.max(c, typeof minimum === 'number' ? minimum : c + 1));
+    };
+    window.addEventListener('petition-count:bump', onBump);
+    return () => window.removeEventListener('petition-count:bump', onBump);
+  }, []);
+
   return count;
 }
 

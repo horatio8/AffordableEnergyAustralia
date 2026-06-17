@@ -71,6 +71,10 @@ const Petition = () => {
         setStatus({ kind: 'error', msg: data.error || 'Could not submit. Please try again.' });
         return;
       }
+      // Optimistic counter bump — signer sees +1 the moment they submit,
+      // before the backend webhook propagates. Other visitors see the real
+      // +1 on their next 5s poll.
+      window.dispatchEvent(new CustomEvent('petition-count:bump', { detail: { minimum: liveCount + 1 } }));
       window.location.hash = '#/donate';
     } catch (_) {
       setStatus({ kind: 'error', msg: 'Network error. Please try again.' });
