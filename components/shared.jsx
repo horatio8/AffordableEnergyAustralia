@@ -183,9 +183,30 @@ const StatBand = () => {
   );
 };
 
+// Live petition signature count, refreshed every 60s from /api/petition-count.
+// Falls back silently to the value passed in (typically the CMS hero.petitionCount)
+// if the endpoint is unreachable — count never displays as zero.
+function usePetitionCount(fallback) {
+  const [count, setCount] = React.useState(fallback);
+  React.useEffect(() => {
+    let alive = true;
+    const load = () => {
+      fetch('/api/petition-count', { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(j => { if (alive && j && typeof j.count === 'number' && j.count > 0) setCount(j.count); })
+        .catch(() => {});
+    };
+    load();
+    const id = setInterval(load, 60_000);
+    return () => { alive = false; clearInterval(id); };
+  }, []);
+  return count;
+}
+
 const PetitionCounter = ({ baseClass = "hero-counter" }) => {
   const content = useContent();
-  const target = +(content?.hero?.petitionCount || 47832);
+  const fallback = +(content?.hero?.petitionCount || 47832);
+  const target = usePetitionCount(fallback);
   const [ref, seen] = useInView(0.5);
   const n = useCountUp(target, 2200, seen);
   return (
@@ -223,7 +244,8 @@ const SocialTicker = () => {
 
 const StickyMobileBar = () => {
   const content = useContent();
-  const target = +(content?.hero?.petitionCount || 47832);
+  const fallback = +(content?.hero?.petitionCount || 47832);
+  const target = usePetitionCount(fallback);
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 600 && window.innerWidth < 1024);
@@ -307,4 +329,4 @@ const HeroPlaceholder = ({ icon = 'petition', tag = 'Image' }) => (
   </div>
 );
 
-Object.assign(window, { Logo, Header, Footer, StatBand, PetitionCounter, SocialTicker, StickyMobileBar, useCountUp, useInView, NAV, HeroPlaceholder, HERO_ICONS });
+Object.assign(window, { Logo, Header, Footer, StatBand, PetitionCounter, SocialTicker, StickyMobileBar, useCountUp, useInView, usePetitionCount, NAV, HeroPlaceholder, HERO_ICONS });

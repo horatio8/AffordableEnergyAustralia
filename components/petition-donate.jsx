@@ -49,6 +49,10 @@ const formatPetitionStat = (n, format) => {
 const Petition = () => {
   const content = useContent();
   const petitionStats = (content && content.petitionStats) || [];
+  const fallbackCount = +(content?.hero?.petitionCount || 47832);
+  const liveCount = usePetitionCount(fallbackCount);
+  const petitionGoal = 100000;
+  const progressPct = Math.min(100, Math.max(0, (liveCount / petitionGoal) * 100));
   const [form, setForm] = React.useState({ first_name: '', last_name: '', email: '', phone: '', postcode: '' });
   const [status, setStatus] = React.useState({ kind: 'idle' });
   const update = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
@@ -107,11 +111,11 @@ const Petition = () => {
           <form className="petition-form" onSubmit={submit}>
             <div className="petition-form-counter">
               <div>
-                <div className="num">47,832</div>
+                <div className="num">{liveCount.toLocaleString()}</div>
                 <div className="lbl">Australians have signed</div>
               </div>
               <div style={{ width: 80, height: 6, background: 'rgba(255,255,255,.2)' }}>
-                <div style={{ width: '47%', height: '100%', background: 'var(--amber)' }} />
+                <div style={{ width: `${progressPct}%`, height: '100%', background: 'var(--amber)' }} />
               </div>
             </div>
             <h3>Add your name</h3>

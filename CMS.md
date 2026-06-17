@@ -48,6 +48,20 @@ Every petition signature and every successful Stripe charge upserts into the **S
 
 Donate buttons on the site append `?client_reference_id=<hostname>` to every Stripe Payment Link, so the webhook can tag the resulting supporter row with the originating domain.
 
+### Live petition counter (`/api/petition-count`)
+
+The hero counter (`PetitionCounter`) and the form-side counter both refresh from `/api/petition-count` every 60 seconds. That endpoint authenticates against Campaign Nucleus (OAuth client-credentials), pulls the entry count for the petition form, adds an offline boost, and serves the total. In-memory cache holds the value for 60s; Vercel's edge cache (`s-maxage=30`) protects the Nucleus quota when traffic spikes.
+
+| Name | Example | Purpose |
+| --- | --- | --- |
+| `NUCLEUS_CLIENT_ID` | `nuc_client_…` | OAuth client ID. Generated in Nucleus → Settings → Services → API Clients → Add API Client. |
+| `NUCLEUS_CLIENT_SECRET` | `nuc_secret_…` | OAuth client secret (one-time display when you create the client). |
+| `NUCLEUS_PETITION_FORM_ID` | `3e4ea7b9-1786-42dc-a2fb-53b5d1d54ed8` | UUID of the petition form receiver — same value as the `DEFAULT_URL` tail in `api/submit-petition.js`. |
+| `OFFLINE_SIGNATURE_BOOST` | `500` | Whole-number added to the Nucleus count. Use for offline-collected signatures. Default `0`. |
+| `PETITION_COUNT_FLOOR` | `0` | Emergency value returned on a cold start when Nucleus is unreachable. Default `0`. |
+
+If Nucleus is down, the endpoint serves the last good cached value + boost; if it never had one, it returns `floor + boost` so the site never shows zero.
+
 Add the variables to **Production** (and Preview if you want the admin to work there too) and trigger a redeploy.
 
 ## Usage
