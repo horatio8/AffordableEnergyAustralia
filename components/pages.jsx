@@ -403,7 +403,7 @@ const NewsStory = ({ slug }) => {
         <div className="container-narrow">
           <span className="eyebrow" style={{ color: 'var(--amber)', display: 'block', marginBottom: 14 }}>Now do something about it</span>
           <h2>Stories like this are why we exist. Sign the petition.</h2>
-          <p>The cost of inaction is on every Australian power bill. Adding your name puts you on the record alongside tens of thousands of Australians demanding leaders who put affordability first.</p>
+          <p>The cost of inaction is on every Australian power bill. Adding your name puts you on the record alongside everyday Australians demanding our leaders put affordability first.</p>
           <div className="news-story-cta-actions">
             <a href="#/petition" className="btn btn-amber">Sign the petition →</a>
             <a href="#/donate" className="btn btn-outline-amber">Chip in</a>
