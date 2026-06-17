@@ -89,8 +89,8 @@ const TheProblem = () => {
             <p style={{ fontSize: 14, color: 'var(--grey)', marginBottom: 24, fontStyle: 'italic' }}>
               Australian household electricity and gas price indices, 1990–2026.
             </p>
-            <div style={{ position: 'relative', paddingLeft: 64 }}>
-              <div style={{ position: 'absolute', left: -2, top: '50%', transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'left center', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--grey)', letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Price Index</div>
+            <div className="chart-wrap" style={{ position: 'relative', paddingLeft: 64 }}>
+              <div className="chart-y-label" style={{ position: 'absolute', left: -2, top: '50%', transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'left center', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--grey)', letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Price Index</div>
               <svg viewBox="0 0 820 360" width="100%" preserveAspectRatio="xMidYMid meet" style={{ overflow: 'visible' }}>
                 {(() => {
                   // ABS CPI sub-indices: household electricity and gas, March quarter,
@@ -392,7 +392,7 @@ const NewsStory = ({ slug }) => {
           {bodyParas.map((p, i) => <p key={i}>{p}</p>)}
           {item.url && (
             <p style={{ marginTop: 8 }}>
-              <a href={item.url} target="_blank" rel="noopener noreferrer" className="btn btn-outline-teal">Read the original at {item.src} →</a>
+              <a href={item.url} target="_blank" rel="noopener noreferrer" className="btn btn-outline-teal">Read the original →</a>
             </p>
           )}
           <p className="news-story-byline">First published by <strong>{item.src}</strong>, {item.date}.</p>

@@ -608,6 +608,8 @@ section { position: relative; }
   .affected-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
   .affected-tabs button { flex-shrink: 0; padding: 14px 18px; font-size: 14px; }
   .timeline-chart { padding: 24px; }
+  .timeline-chart .chart-y-label { display: none; }
+  .timeline-chart .chart-wrap { padding-left: 0 !important; }
   .problem-hero { padding: 64px 0; }
   .problem-hero .big-num { font-size: 120px; }
   .amount-grid { grid-template-columns: repeat(3, 1fr); }
