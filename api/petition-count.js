@@ -80,6 +80,8 @@ function pluck(obj, path) {
 
 // Deep-walk fallback: find any number-valued field whose key suggests a total-entries count.
 // Returns the FIRST match in priority order (total_count > total > last_page > entry_count …).
+// Only accepts values > 0 — a 0 here is almost always an unrelated stats field, and a real
+// 0-entry petition still gets the boost / floor path.
 function deepFindCount(obj) {
   if (!obj || typeof obj !== 'object') return null;
   const priority = ['total_count', 'total_entries', 'entries_count', 'submissions_count', 'responses_count', 'entry_count', 'total', 'last_page', 'count'];
@@ -88,7 +90,7 @@ function deepFindCount(obj) {
     while (stack.length) {
       const node = stack.shift();
       if (!node || typeof node !== 'object') continue;
-      if (key in node && typeof node[key] === 'number' && Number.isFinite(node[key]) && node[key] >= 0) {
+      if (key in node && typeof node[key] === 'number' && Number.isFinite(node[key]) && node[key] > 0) {
         return { value: node[key], path: `walk:${key}` };
       }
       for (const k of Object.keys(node)) {
@@ -143,6 +145,37 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // ?debug=1 — bypass cache, hit every candidate URL, dump the full Nucleus
+  // responses verbatim so we can see where the actual entry count lives.
+  // Gated by the admin password so we don't leak Nucleus internals publicly.
+  if (req.query && req.query.debug === '1') {
+    const auth = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
+    if (!process.env.ADMIN_PASSWORD || auth !== process.env.ADMIN_PASSWORD) {
+      return res.status(401).json({ error: 'Unauthorized — debug=1 requires admin bearer token' });
+    }
+    const formId = process.env.NUCLEUS_PETITION_FORM_ID;
+    if (!formId) return res.status(500).json({ error: 'NUCLEUS_PETITION_FORM_ID not set' });
+    try {
+      const token = await getToken();
+      const results = [];
+      for (const { url, paths } of candidateEndpoints(formId)) {
+        try {
+          const r = await fetch(url, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } });
+          const headers = {};
+          for (const [k, v] of r.headers.entries()) headers[k] = v;
+          const text = await r.text();
+          let body = null; try { body = JSON.parse(text); } catch (_) {}
+          results.push({ url, status: r.status, paths_tried: paths, headers, body: body || text.slice(0, 2000) });
+        } catch (e) {
+          results.push({ url, error: String((e && e.message) || e) });
+        }
+      }
+      return res.status(200).json({ debug: true, formId, results });
+    } catch (e) {
+      return res.status(500).json({ debug: true, error: String((e && e.message) || e) });
+    }
   }
 
   const now = Date.now();
