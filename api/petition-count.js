@@ -57,15 +57,39 @@ async function getToken() {
 // returns a total count, so we try in order and pick the first that gives us a number.
 function candidateEndpoints(formId) {
   return [
-    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}/entries?limit=1`, paths: ['meta.total_count', 'meta.total', 'pagination.total', 'total_count', 'total', 'count'] },
-    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}`,                  paths: ['entry_count', 'entries_count', 'total_entries', 'meta.total_count', 'data.entry_count'] },
-    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}/entries/count`,    paths: ['count', 'total', 'value'] },
-    { url: `${NUCLEUS_API_BASE}/v1/form-entries?form_id=${formId}&limit=1`, paths: ['meta.total_count', 'pagination.total', 'total'] },
+    // Laravel API Resource pagination commonly puts the total at meta.total or meta.last_page
+    // when per_page=1. Try per_page=1 first (Laravel default), then limit=1 (some forks).
+    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}/entries?per_page=1`, paths: ['meta.total', 'meta.last_page', 'meta.total_count', 'pagination.total', 'total_count', 'total', 'count', 'data.meta.total'] },
+    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}/entries?limit=1`,    paths: ['meta.total', 'meta.last_page', 'meta.total_count', 'pagination.total', 'total_count', 'total', 'count'] },
+    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}`,                    paths: ['data.entry_count', 'data.entries_count', 'data.submissions_count', 'data.responses_count', 'data.meta.entries', 'entry_count', 'entries_count', 'total_entries'] },
+    { url: `${NUCLEUS_API_BASE}/v1/forms/${formId}/entries/count`,      paths: ['count', 'total', 'value'] },
+    { url: `${NUCLEUS_API_BASE}/v1/form-entries?form_id=${formId}&per_page=1`, paths: ['meta.total', 'meta.last_page', 'pagination.total', 'total'] },
   ];
 }
 
 function pluck(obj, path) {
   return path.split('.').reduce((acc, k) => (acc == null ? acc : acc[k]), obj);
+}
+
+// Deep-walk fallback: find any number-valued field whose key suggests a total-entries count.
+// Returns the FIRST match in priority order (total_count > total > last_page > entry_count …).
+function deepFindCount(obj) {
+  if (!obj || typeof obj !== 'object') return null;
+  const priority = ['total_count', 'total_entries', 'entries_count', 'submissions_count', 'responses_count', 'entry_count', 'total', 'last_page', 'count'];
+  for (const key of priority) {
+    const stack = [obj];
+    while (stack.length) {
+      const node = stack.shift();
+      if (!node || typeof node !== 'object') continue;
+      if (key in node && typeof node[key] === 'number' && Number.isFinite(node[key]) && node[key] >= 0) {
+        return { value: node[key], path: `walk:${key}` };
+      }
+      for (const k of Object.keys(node)) {
+        if (node[k] && typeof node[k] === 'object') stack.push(node[k]);
+      }
+    }
+  }
+  return null;
 }
 
 async function fetchEntryCount(token, formId) {
@@ -85,14 +109,20 @@ async function fetchEntryCount(token, formId) {
         return { count: headerTotal, sourceUrl: url, sourcePath: 'header:x-total-count', tried };
       }
       if (r.ok && body) {
+        // Exact path lookup
         for (const path of paths) {
           const v = pluck(body, path);
           if (typeof v === 'number' && Number.isFinite(v) && v >= 0) {
             return { count: v, sourceUrl: url, sourcePath: path, tried };
           }
         }
+        // Deep-walk fallback: search for any priority-ordered key (total_count > total > last_page …)
+        const found = deepFindCount(body);
+        if (found) {
+          return { count: found.value, sourceUrl: url, sourcePath: found.path, tried };
+        }
       }
-      tried.push({ url, status, sample: bodyText ? bodyText.slice(0, 200) : null });
+      tried.push({ url, status, sample: bodyText ? bodyText.slice(0, 800) : null });
     } catch (e) {
       tried.push({ url, error: String((e && e.message) || e) });
     }
