@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/give",
+      "destination": "/#/donate",
+      "permanent": false
+    },
+    {
+      "source": "/give/",
+      "destination": "/#/donate",
+      "permanent": false
+    }
+  ]
+}
