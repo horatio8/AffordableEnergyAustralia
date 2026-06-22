@@ -18,15 +18,25 @@ const CUSTOM_DONATION = {
   oneTimeUrl: 'https://donate.stripe.com/14AbJ05Y89il0b2eCI0gw0O',
   monthlyUrl: 'https://donate.stripe.com/cNi00i86g7ad5vm66c0gw0A',
 };
-// Append ?client_reference_id=<site> to a donate URL so the Stripe webhook
-// can tag the resulting supporter row with the originating domain.
-const taggedDonate = (url) => {
-  const host = (typeof window !== 'undefined' && window.location && window.location.hostname) || '';
-  const site = host === 'coalition.affordableenergy.org.au'
-    ? 'coalition.affordableenergy.org.au'
-    : 'affordableenergy.org.au';
+// Append ?client_reference_id=<petition_slug> to a donate URL so the Stripe webhook
+// can tag the donation with the petition the donor came from. The slug is
+// preferred; the hostname is the fallback when no petition context is known.
+const taggedDonate = (url, explicitSlug) => {
+  let slug = explicitSlug || null;
+  if (!slug) {
+    try {
+      const stored = localStorage.getItem('aea_last_petition_url');
+      // Heuristic: take the trailing /<slug> from a /take-action/<slug> path if present,
+      // else fall back to 'aea-main' for the single-petition site.
+      if (stored) {
+        const m = stored.match(/take-action\/([^/?#]+)/);
+        if (m) slug = decodeURIComponent(m[1]);
+      }
+    } catch (_) {}
+  }
+  if (!slug) slug = 'aea-main';
   const sep = url.includes('?') ? '&' : '?';
-  return `${url}${sep}client_reference_id=${encodeURIComponent(site)}`;
+  return `${url}${sep}client_reference_id=${encodeURIComponent(slug)}`;
 };
 const goDonate = (oneTimeUrl, monthlyUrl, recurring) => {
   window.location.href = taggedDonate(recurring ? monthlyUrl : oneTimeUrl);
@@ -60,17 +70,51 @@ const Petition = () => {
     e.preventDefault();
     if (status.kind === 'busy') return;
     setStatus({ kind: 'busy' });
+
+    // Read attribution captured on page load (ref, fbclid, utm_*, fbp, landing_url)
+    let attribution = {};
+    try { attribution = JSON.parse(sessionStorage.getItem('aea_attribution') || '{}'); } catch (_) {}
+
+    const body = {
+      ...form,
+      mobile: form.phone,           // tracking schema names it mobile
+      petition_slug: 'aea-main',    // single-petition site for now; future slugs land here
+      ref: attribution.ref || undefined,
+      fbclid: attribution.fbclid || undefined,
+      fbp: attribution._fbp || undefined,
+      utm_source: attribution.utm_source || undefined,
+      utm_medium: attribution.utm_medium || undefined,
+      utm_campaign: attribution.utm_campaign || undefined,
+      utm_content: attribution.utm_content || undefined,
+      utm_term: attribution.utm_term || undefined,
+      source_url: typeof window !== 'undefined' ? window.location.href : undefined,
+    };
+
     try {
-      const res = await fetch('/api/submit-petition', {
+      const res = await fetch('/api/petition-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(body),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setStatus({ kind: 'error', msg: data.error || 'Could not submit. Please try again.' });
         return;
       }
+      // Persist referral state so /share has it without polling.
+      try {
+        if (data.referral_code) localStorage.setItem('aea_referral_code', data.referral_code);
+        if (data.contact_id) localStorage.setItem('aea_contact_id', data.contact_id);
+        if (form.first_name) localStorage.setItem('aea_first_name', form.first_name);
+        // Remember which petition the signer is on so a future donate click can derive the slug
+        localStorage.setItem('aea_last_petition_url', window.location.origin + '/#/petition');
+      } catch (_) {}
+
+      // Browser Pixel Lead with shared event_id for CAPI dedup.
+      if (typeof window.fbq === 'function' && data.meta_event_id) {
+        try { window.fbq('track', 'Lead', {}, { eventID: data.meta_event_id }); } catch (_) {}
+      }
+
       // Optimistic counter bump — signer sees +1 the moment they submit,
       // before the backend webhook propagates. Other visitors see the real
       // +1 on their next 5s poll.

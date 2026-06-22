@@ -74,6 +74,61 @@ Signers also see an *optimistic* `+1` the moment their submit succeeds, via a `p
 
 If Nucleus is down, the count endpoint serves the last good cached value + boost; if it never had one, it returns `floor + boost` so the site never shows zero.
 
+### Petition / donation / referral tracking (new Airtable schema)
+
+This is the first-party tracking system per `CLAUDE_CODE_BRIEF_petition_tracking.md`. It runs **in parallel** with the existing Supporters table (which keeps feeding old dashboards) and the Nucleus petition counter (which keeps reporting live signature counts).
+
+**Airtable schema** — four tables in the same base. Create them manually before first deploy. Names default to the column "Default name" below; override via env vars if you renamed them.
+
+| Default name | Required fields | Notes |
+| --- | --- | --- |
+| `Contacts` | `contact_id` (primary text), `first_name`, `last_name`, `email`, `mobile`, `postcode`, `fbclid`, `fbp`, `referral_code`, `referred_by` (self-link to Contacts), `first_source_channel` (singleSelect: Facebook, Organic, Referral, Direct, Other, Share, Stripe), `status` (singleSelect: Signatory Only, Donor Only, Signatory + Donor, Inactive), `date_first_seen`, `last_updated` | Source of truth. One row per person. |
+| `Events` | `event_id` (primary text), `contact` (link → Contacts), `event_type` (singleSelect — auto-grows with typecast), `timestamp`, `payload` (long text), `fbclid`, `referral_code_used`, `source_channel`, `meta_event_id`, `fanout_status` (singleSelect: Fanned Out, No Typed Table, Failed), `fanout_error` | Append-only log. Holds raw payloads. |
+| `Petition Signatures` | `signature_id` (primary text), `contact` (link → Contacts), `event` (link → Events), `first_name`, `last_name`, `email`, `mobile`, `postcode`, `country`, `campaign`, `consent` (checkbox), `fbclid`, `fbp`, `ref_used`, `utm_*`, `timestamp`, `payload` | Typed projection of Petition Signed events. |
+| `Donations` | `donation_id` (primary text), `contact` (link → Contacts), `event` (link → Events), `amount_cents` (number), `amount` (currency AUD), `currency`, `stripe_object_type` (singleSelect: checkout.session, invoice, payment_intent, charge), `stripe_object_id`, `stripe_payment_intent`, `email`, `name`, `phone`, `postcode`, `country`, `content_name`, `source_url`, `fbclid`, `fbp`, `petition_slug`, `timestamp`, `payload` | Typed projection of Donation events. |
+
+> Create the link-target tables (Contacts, Events) **before** the link fields point at them, otherwise Airtable rejects the link config.
+
+**Env vars** (Production + Preview, redeploy after saving):
+
+| Name | Example | Purpose |
+| --- | --- | --- |
+| `AIRTABLE_API_KEY` | `pat...` | Same PAT used by the legacy Supporters table will do — just make sure it has access to the new tables too. Scopes: `data.records:read`, `data.records:write`. |
+| `AIRTABLE_BASE_ID` | `appXXXX...` | Base containing the four tables. Can be the same base that holds Supporters, or a fresh one. |
+| `AIRTABLE_CONTACTS_TABLE` | `Contacts` | Optional override. |
+| `AIRTABLE_EVENTS_TABLE` | `Events` | Optional override. |
+| `AIRTABLE_PETITION_SIGNATURES_TABLE` | `Petition Signatures` | Optional override. |
+| `AIRTABLE_DONATIONS_TABLE` | `Donations` | Optional override. |
+| `META_PIXEL_ID` | `1234567890` | Pixel ID from Events Manager. Required for both browser pixel and server CAPI. |
+| `META_CAPI_TOKEN` | `EAAB…` | Conversions API access token. Required for server-side events. |
+| `META_TEST_EVENT_CODE` | `TEST12345` | Optional. Set while testing in Events Manager → Test events. Remove before launch. |
+
+Stripe vars (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`) are already set for the Supporters webhook — the same endpoint now writes to both schemas.
+
+**API endpoints**
+
+| Endpoint | Purpose |
+| --- | --- |
+| `POST /api/petition-signup` | Primary petition handler. Matches/creates Contact, logs Petition Signed event, fans out to Petition Signatures, fires Meta CAPI Lead. Also posts to Nucleus for the live counter. |
+| `POST /api/event-log` | Generic event logger for surveys, registrations, etc. |
+| `POST /api/share-signup` | Identity capture on the /share page when no session_id and no localStorage. |
+| `POST /api/share-issued` | Logged when a sharer clicks a share button on /share. |
+| `POST /api/share-click` | Beacon fired by every page load with `?ref=` in the URL. Logs Share Click on the referrer's contact. |
+| `GET /api/share-context` | Resolves a donor from `?session_id=cs_…` or `?email=…` so the /share page can render with the right referral_code and petition_slug. |
+| `POST /api/stripe-webhook` | Now also writes Donation events + fan-out to Donations, plus Meta CAPI Purchase. Legacy Supporters write still happens for backwards compat. |
+
+**Stripe Payment Link success_url**
+
+For each of the 14 Payment Links, set the success URL to:
+```
+https://www.affordableenergy.org.au/#/share?session_id={CHECKOUT_SESSION_ID}
+```
+The literal `{CHECKOUT_SESSION_ID}` is Stripe's placeholder; substituted at redirect.
+
+**Per-petition tagging**
+
+The `taggedDonate(url)` helper now appends `?client_reference_id=<petition_slug>` (was: `<hostname>`). Default slug is `aea-main`. When you add multi-petition support, pass an explicit slug per donate button.
+
 Add the variables to **Production** (and Preview if you want the admin to work there too) and trigger a redeploy.
 
 ## Usage

@@ -39,6 +39,63 @@ const useContentLoader = () => {
 
 window.useContent = useContent;
 
+// ─── Attribution capture: every page mount, persist URL + cookie params to sessionStorage,
+//     and fire the Share Click beacon when ?ref= is present (once per ref per session).
+const ATTRIBUTION_KEYS = [
+  'utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+  'fbclid','gclid','ttclid','li_fat_id','msclkid','twclid','sccid',
+  'ad_id','adset_id','campaign_id','placement','ref',
+];
+function readCookie(name) {
+  if (typeof document === 'undefined') return null;
+  const m = document.cookie.match(new RegExp('(^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+  return m ? decodeURIComponent(m[2]) : null;
+}
+function useAttributionCapture() {
+  React.useEffect(() => {
+    try {
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams(url.search);
+      // Hash params also matter for SPAs that put query after the #/route
+      const hashIdx = window.location.hash.indexOf('?');
+      const hashParams = hashIdx >= 0 ? new URLSearchParams(window.location.hash.slice(hashIdx + 1)) : null;
+
+      const current = {};
+      try { Object.assign(current, JSON.parse(sessionStorage.getItem('aea_attribution') || '{}')); } catch (_) {}
+
+      for (const k of ATTRIBUTION_KEYS) {
+        const v = params.get(k) || (hashParams && hashParams.get(k)) || null;
+        if (v && !current[k]) current[k] = v;
+      }
+      const fbp = readCookie('_fbp');
+      if (fbp && !current._fbp) current._fbp = fbp;
+      if (!current.landing_url) current.landing_url = window.location.href;
+      if (!current.landing_referrer) current.landing_referrer = document.referrer || null;
+      if (!current.landing_at) current.landing_at = new Date().toISOString();
+      sessionStorage.setItem('aea_attribution', JSON.stringify(current));
+
+      // Share Click beacon — once per ref per session.
+      if (current.ref) {
+        const flagKey = `aea_ref_click_fired_${current.ref}`;
+        if (!sessionStorage.getItem(flagKey)) {
+          sessionStorage.setItem(flagKey, '1');
+          fetch('/api/share-click', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ref: current.ref,
+              source_url: window.location.href,
+              fbclid: current.fbclid || null,
+            }),
+            keepalive: true,
+          }).catch(() => {});
+        }
+      }
+    } catch (_) { /* never break the page on attribution issues */ }
+  }, []);
+}
+window.useAttributionCapture = useAttributionCapture;
+
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "primary": "#3DBDA8",
   "primaryDeep": "#1A6B5E",
@@ -57,6 +114,7 @@ const App = () => {
   const route = useRoute();
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [content, setContent] = useContentLoader();
+  useAttributionCapture();
 
   React.useEffect(() => {
     document.documentElement.style.setProperty('--teal', tweaks.primary);
@@ -99,6 +157,7 @@ const App = () => {
       case '/donate': page = <Donate />; break;
       case '/thank-you-petition': page = <ThankYouPetition />; break;
       case '/thank-you-donation': page = <ThankYouDonation />; break;
+      case '/share': page = <SharePage />; break;
       default: page = <Home />;
     }
   }

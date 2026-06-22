@@ -5,7 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Affordable Energy Australia — Put families first.</title>
   <meta name="description" content="A people-powered campaign for affordable and reliable energy for every Australian household. Sign the petition." />
+
+  <!-- OpenGraph / Twitter — defaults; per-page overrides can be added later. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Affordable Energy Australia — Put families first." />
+  <meta property="og:description" content="A people-powered campaign for affordable and reliable energy for every Australian household. Sign the petition." />
+  <meta property="og:image" content="https://www.affordableenergy.org.au/assets/hero-image.jpg" />
+  <meta property="og:url" content="https://www.affordableenergy.org.au/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.affordableenergy.org.au/assets/hero-image.jpg" />
+
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Meta Pixel — fires only if window.META_PIXEL_ID is set (injected at build time
+       or by the Vercel env-var-to-window pattern). Server-side CAPI events share
+       the same event_id with the Pixel for Events Manager dedup. -->
+  <script>
+    (function(){
+      // The pixel id can be set by a downstream snippet that reads from a meta tag
+      // or window global. Without it, the pixel snippet still loads but does nothing.
+      var pid = window.META_PIXEL_ID || (document.querySelector('meta[name="meta-pixel-id"]') || {}).content;
+      if (!pid) return;
+      !function(f,b,e,v,n,t,s){
+        if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+        t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
+      }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      window.fbq('init', pid);
+      window.fbq('track', 'PageView');
+    })();
+  </script>
 </head>
 <body>
   <div id="root"></div>
@@ -20,6 +49,7 @@
   <script type="text/babel" src="components/petition-donate.jsx"></script>
   <script type="text/babel" src="components/pages.jsx"></script>
   <script type="text/babel" src="components/admin.jsx"></script>
+  <script type="text/babel" src="components/share.jsx"></script>
   <script type="text/babel" src="components/app.jsx"></script>
 </body>
 </html>
