@@ -9,6 +9,16 @@
       "source": "/give/",
       "destination": "/#/donate",
       "permanent": false
+    },
+    {
+      "source": "/petition",
+      "destination": "/#/petition?form",
+      "permanent": false
+    },
+    {
+      "source": "/petition/",
+      "destination": "/#/petition?form",
+      "permanent": false
     }
   ]
 }

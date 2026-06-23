@@ -124,6 +124,21 @@ const Petition = () => {
       setStatus({ kind: 'error', msg: 'Network error. Please try again.' });
     }
   };
+
+  // Auto-scroll past the hero to the petition form when the hash carries the
+  // ?form marker (set by the /petition redirect). Direct nav to /#/petition
+  // (e.g. from the header link) shows the hero first.
+  const formRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!window.location.hash.includes('?form')) return;
+    if (!formRef.current) return;
+    requestAnimationFrame(() => {
+      const headerOffset = 90;
+      const top = formRef.current.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  }, []);
+
   return (
     <main data-screen-label="Petition">
       <section className="page-hero">
@@ -156,7 +171,7 @@ const Petition = () => {
               ))}
             </div>
           </div>
-          <form className="petition-form" onSubmit={submit}>
+          <form className="petition-form" ref={formRef} onSubmit={submit}>
             <div className="petition-form-counter">
               <div>
                 <div className="num">{liveCount.toLocaleString()}</div>

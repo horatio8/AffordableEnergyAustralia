@@ -1,10 +1,17 @@
 /* === App: router + tweaks + content === */
 
+// Strip query/fragment markers from the hash route so /#/petition?form matches
+// the same case as /#/petition. Components that want to react to the marker
+// (e.g. Petition's auto-scroll to form) read window.location.hash directly.
+const cleanRoute = () => {
+  const raw = window.location.hash.replace('#', '') || '/';
+  return raw.split('?')[0] || '/';
+};
 const useRoute = () => {
-  const [route, setRoute] = React.useState(window.location.hash.replace('#','') || '/');
+  const [route, setRoute] = React.useState(cleanRoute());
   React.useEffect(() => {
     const onHash = () => {
-      setRoute(window.location.hash.replace('#','') || '/');
+      setRoute(cleanRoute());
       window.scrollTo({ top: 0, behavior: 'instant' });
     };
     window.addEventListener('hashchange', onHash);
