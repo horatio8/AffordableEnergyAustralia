@@ -354,7 +354,7 @@ const Donate = () => {
           </div>
 
           <div style={{ textAlign: 'center', fontSize: 13, color: 'var(--grey)', marginTop: 24, lineHeight: 1.6 }}>
-            🔒 Secure via Stripe · 📩 Receipt emailed · 🇦🇺 ABN 82 201 923 025
+            🔒 Secure via Stripe · 📩 Receipt emailed · 🇦🇺 ABN 42 645 336 534
           </div>
           <div style={{ textAlign: 'center', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 800, textTransform: 'uppercase', fontSize: 14, letterSpacing: '0.1em', color: 'var(--teal-deep)', marginTop: 8 }}>
             We're not a think tank. We're a campaign.
@@ -377,7 +377,7 @@ const Donate = () => {
               ['Stripe-secured', 'Bank-grade encryption', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="s"><path d="M12 2 L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>],
               ['Tax-receipted', 'Auto-emailed receipt', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="r"><path d="M5 3v18l3-2 3 2 3-2 3 2 3-2V3z M9 8h6 M9 12h6 M9 16h4"/></svg>],
               ['No middlemen', '100% to campaign', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="n"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>],
-              ['ABN registered', '82 201 923 025', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
+              ['ABN registered', '42 645 336 534', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" key="a"><path d="M3 21V8l9-5 9 5v13 M9 21v-8h6v8"/></svg>],
             ].map(([t, sub, ic]) => (
               <div className="trust-badge" key={t}>{ic}<strong>{t}</strong>{sub}</div>
             ))}

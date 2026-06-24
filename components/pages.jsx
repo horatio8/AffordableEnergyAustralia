@@ -531,7 +531,7 @@ const About = () => {
           ))}
         </div>
         <div style={{ marginTop: 48, padding: 32, background: 'var(--ink)', color: 'var(--white)' }}>
-          <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22, color: 'var(--amber)' }}>ABN 82 201 923 025</div>
+          <div style={{ fontFamily: 'Barlow Condensed', fontWeight: 800, textTransform: 'uppercase', fontSize: 22, color: 'var(--amber)' }}>ABN 42 645 336 534</div>
           <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Coalition for Conservation · Sydney NSW · Authorised by Z. Hilton</div>
         </div>
       </div>
@@ -558,7 +558,7 @@ const PrivacyPolicy = () => {
       <section className="section-pad section-paper">
         <div className="container-narrow news-story-body">
           <h3>Who we are</h3>
-          <p>Affordable Energy Australia is a campaign of the Coalition for Conservation (ABN 82 201 923 025). In this policy, "we", "us" and "our" refer to that organisation.</p>
+          <p>Affordable Energy Australia is a campaign of the Coalition for Conservation (ABN 42 645 336 534). In this policy, "we", "us" and "our" refer to that organisation.</p>
 
           <h3>What we collect</h3>
           <p>We only collect personal information that you choose to give us. Depending on how you engage with the site, this may include your name, email address, postcode, phone number, and any story or comment you submit when signing the petition. If you make a donation, your payment is processed by our payment provider — we do not collect or store your card details on this site.</p>
