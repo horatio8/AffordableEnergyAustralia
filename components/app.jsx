@@ -174,7 +174,7 @@ const App = () => {
       <Header route={route} />
       {page}
       <Footer />
-      <StickyMobileBar />
+      {route !== '/donate' && <StickyMobileBar />}
       <TweaksPanel title="Campaign Tweaks">
         <TweakSection title="Brand Colours">
           <TweakColor label="Primary teal" value={tweaks.primary} onChange={v => setTweak('primary', v)} options={['#3DBDA8','#2E86AB','#0F6E5F','#175C7C']} />
